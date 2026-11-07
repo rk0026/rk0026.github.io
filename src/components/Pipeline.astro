@@ -23,7 +23,7 @@ const leader = '·'.repeat(180);
 ---
 
 <section id="pipeline" class="pipeline">
-  <div class="wrap grid">
+  <div class="container grid">
     <div class="intro-col">
       <h2 class="heading" data-reveal>{d.pipeline.heading}</h2>
       <p class="intro" data-reveal style="--i:1">{d.pipeline.intro}</p>
@@ -41,33 +41,35 @@ const leader = '·'.repeat(180);
 
     <div class="slips">
       {d.pipeline.projects.map((p, i) => (
-        <article
-          class="slip"
-          data-slip={p.id}
-          hidden={i !== 0}
-          style={`clip-path: polygon(${zigzag})`}
-        >
-          <h3 class="slip-title">{p.name}</h3>
-          {p.groups.map((g) => (
-            <div class="group">
-              <p class="group-name">{g.name}</p>
-              <dl class="rows">
-                {g.rows.map((r) => (
-                  <div class="row">
-                    <dt class="stage">{r.stage}</dt>
-                    <span class="leader" aria-hidden="true">{leader}</span>
-                    <dd class="value">{r.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          ))}
-          <p class="row result">
-            <span class="stage">{p.result.stage}</span>
-            <span class="leader" aria-hidden="true">{leader}</span>
-            <span class="value">{p.result.value}</span>
-          </p>
-        </article>
+        <div class="slip-frame" data-reveal style="--i:2">
+          <article
+            class="slip"
+            data-slip={p.id}
+            hidden={i !== 0}
+            style={`clip-path: polygon(${zigzag})`}
+          >
+            <h3 class="slip-title">{p.name}</h3>
+            {p.groups.map((g) => (
+              <div class="group">
+                <p class="group-name">{g.name}</p>
+                <dl class="rows">
+                  {g.rows.map((r) => (
+                    <div class="row">
+                      <dt class="stage">{r.stage}</dt>
+                      <span class="leader" aria-hidden="true">{leader}</span>
+                      <dd class="value">{r.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ))}
+            <p class="row result">
+              <span class="stage">{p.result.stage}</span>
+              <span class="leader" aria-hidden="true">{leader}</span>
+              <span class="value">{p.result.value}</span>
+            </p>
+          </article>
+        </div>
       ))}
     </div>
   </div>
@@ -99,7 +101,7 @@ const leader = '·'.repeat(180);
 
 <style>
   .pipeline {
-    background: var(--surface);
+    background: var(--bg);
     padding-block: var(--section-gap);
   }
 
@@ -115,16 +117,18 @@ const leader = '·'.repeat(180);
   }
 
   .heading {
-    font-size: clamp(32px, 3.2vw, 48px);
-    line-height: 0.95;
+    font-size: var(--step-head);
+    font-weight: 500;
+    line-height: 1;
     letter-spacing: -0.025em;
   }
 
   .intro {
     margin-top: clamp(20px, 2.4vw, 32px);
-    max-width: 30ch;
+    max-width: 34ch;
     font-size: var(--step-body);
     line-height: 1.5;
+    color: var(--muted);
   }
 
   .picker {
@@ -136,15 +140,20 @@ const leader = '·'.repeat(180);
 
   .pick {
     border: 0;
-    border-radius: 999px;
-    background: var(--field-1);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
     color: var(--ink);
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1.2;
-    padding: 0.6em 1.2em;
+    padding: 0.65em 1.2em;
     cursor: pointer;
-    transition: background-color 160ms var(--ease), color 160ms var(--ease);
+    transition: background-color 160ms var(--ease), color 160ms var(--ease),
+      transform 160ms var(--ease);
+  }
+
+  .pick:hover {
+    transform: translateY(-1px);
   }
 
   .pick[aria-pressed='true'] {
@@ -157,12 +166,19 @@ const leader = '·'.repeat(180);
     justify-self: start;
   }
 
+  /* The shadow lives on the frame: the slip clips its own box, so a box-shadow
+     would be cut off; drop-shadow follows the serrated edge instead. */
+  .slip-frame {
+    filter: drop-shadow(0 16px 34px rgba(70, 60, 180, 0.22))
+      drop-shadow(0 0 10px rgba(120, 110, 255, 0.12));
+  }
+
   .slip {
     --slip-pad: clamp(22px, 2.4vw, 34px);
     width: clamp(420px, 34vw, 480px);
     max-width: 100%;
-    background: var(--field-2);
-    color: var(--field-2-ink);
+    background: var(--bg);
+    color: var(--ink);
     padding: var(--slip-pad) var(--slip-pad) 24px;
   }
 
@@ -183,14 +199,14 @@ const leader = '·'.repeat(180);
 
   .slip-title {
     font-size: clamp(20px, 1.6vw, 24px);
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.15;
   }
 
   .group-name {
     margin-top: 28px;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.2;
   }
 
@@ -222,24 +238,27 @@ const leader = '·'.repeat(180);
     overflow: hidden;
     white-space: nowrap;
     letter-spacing: 0.08em;
+    color: var(--muted);
   }
 
   .value {
     flex: 0 0 auto;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .result {
     margin: 30px calc(-1 * var(--slip-pad)) 0;
     padding: 16px var(--slip-pad);
-    background: var(--field-2-ink);
-    color: var(--field-2);
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 500;
   }
 
+  .result .leader,
   .result .value {
-    color: var(--field-2);
+    color: var(--accent-ink);
   }
 
   @media (max-width: 1000px) {
@@ -266,6 +285,10 @@ const leader = '·'.repeat(180);
   @media (max-width: 480px) {
     .slip {
       --slip-pad: 20px;
+    }
+
+    .row {
+      font-size: 0.9375rem;
     }
   }
 </style>

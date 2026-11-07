@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import NotesHeader from './NotesHeader.astro';
 import { getCollection } from 'astro:content';
 import { t, href, type Lang, type Category } from '../i18n';
 
@@ -12,155 +11,139 @@ const countIn = (slug: Category) => entries.filter((e) => e.id.startsWith(`${slu
 ---
 <Base
   lang={lang}
+  current="notes"
   title={`${d.notes.title} — ${d.footer.rights}`}
   description={d.notes.intro}
 >
-  <NotesHeader lang={lang} />
-
   <main class="notes">
-    <div class="wrap head">
-      <div class="lead-block">
-        <h1 data-reveal>{d.notes.title}</h1>
-        <p class="intro" data-reveal style="--i:1">{d.notes.intro}</p>
-      </div>
+    <div class="container page-head">
+      <h1 data-reveal>{d.notes.title}</h1>
+      <p data-reveal style="--i:1">{d.notes.intro}</p>
+    </div>
+
+    <div class="container">
       <figure class="shot" data-reveal style="--i:2">
         <img
           src="/img/marine-field-telephone-switchboard-operator-guadalcanal-circ.jpg"
           width="1920"
           height="1453"
           alt={d.notes.photoAlt}
-          loading="lazy"
+          decoding="async"
         />
       </figure>
-    </div>
 
-    <section class="cats" aria-labelledby="cats-heading">
-      <h2 id="cats-heading" class="visually-hidden">{d.notes.title}</h2>
-      {d.knowledge.items.map((item, i) => {
-        const n = countIn(item.slug);
-        return (
-          <a
-            class="cat"
-            href={href(lang, `/notes/${item.slug}/`)}
-            data-reveal
-            style={`--i:${i + 1}`}
-          >
-            <span class="label">{item.label}</span>
-            <span class="side">
-              <span class="desc">{d.notes.descriptions[item.slug]}</span>
-              <span class="count">{n ? d.knowledge.count(n) : d.knowledge.empty}</span>
-            </span>
-          </a>
-        );
-      })}
-    </section>
+      <section class="cats" aria-labelledby="cats-heading">
+        <h2 id="cats-heading" class="visually-hidden">{d.notes.title}</h2>
+        {d.knowledge.items.map((item, i) => {
+          const n = countIn(item.slug);
+          return (
+            <a
+              class="card cat"
+              href={href(lang, `/notes/${item.slug}/`)}
+              data-reveal
+              style={`--i:${i + 3}`}
+            >
+              <span class="cat-label">
+                {item.label}
+                <span class="cat-arrow" aria-hidden="true">↗</span>
+              </span>
+              <span class="cat-desc">{d.notes.descriptions[item.slug]}</span>
+              <span class="cat-count">{n ? d.knowledge.count(n) : d.knowledge.empty}</span>
+            </a>
+          );
+        })}
+      </section>
+    </div>
   </main>
 </Base>
 
 <style>
   .notes {
-    padding-bottom: clamp(64px, 10vw, 160px);
+    padding-bottom: clamp(48px, 8vw, 120px);
   }
 
-  .head {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    gap: clamp(24px, 4vw, 64px);
-    align-items: end;
-    padding-top: clamp(40px, 7vw, 96px);
-  }
-
-  h1 {
-    font-size: clamp(56px, 8vw, 120px);
-    font-weight: 300;
-    line-height: 0.82;
-    letter-spacing: -0.02em;
-    margin-bottom: clamp(20px, 3vw, 40px);
-  }
-
-  .intro {
-    font-size: var(--step-lead);
-    line-height: 1.3;
-    color: var(--muted);
-    max-width: 30ch;
+  .shot {
+    margin: 0;
+    padding: 10px;
+    border-radius: var(--radius-card);
+    background: var(--bg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
   }
 
   .shot img {
     width: 100%;
-    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: calc(var(--radius-card) - 10px);
   }
 
   .cats {
-    margin-top: clamp(48px, 8vw, 120px);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 24px);
+    margin-top: clamp(32px, 5vw, 72px);
   }
 
   .cat {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 34ch);
-    gap: 12px clamp(20px, 3vw, 48px);
-    align-items: end;
-    padding: clamp(28px, 4vw, 56px) var(--margin);
-    text-decoration: none;
-    transition: background-color 220ms var(--ease);
-  }
-
-  .cat:nth-of-type(even) {
-    background: var(--surface);
-  }
-
-  .label {
-    font-size: clamp(40px, 5.6vw, 92px);
-    font-weight: 300;
-    line-height: 0.85;
-    letter-spacing: -0.02em;
-    transition: color 200ms var(--ease), transform 260ms var(--ease);
-  }
-
-  .cat:hover .label,
-  .cat:focus-visible .label {
-    color: var(--accent);
-    transform: translateX(8px);
-  }
-
-  .side {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
     gap: 10px;
-    text-align: right;
+    text-decoration: none;
+    transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
   }
 
-  .desc {
+  .cat:hover,
+  .cat:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-float);
+  }
+
+  .cat-label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .cat-arrow {
+    font-size: 0.6em;
     color: var(--muted);
-    font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
-    line-height: 1.45;
-    max-width: 40ch;
+    transition: transform 200ms var(--ease), color 200ms var(--ease);
   }
 
-  .count {
-    font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  .cat:hover .cat-arrow {
+    color: var(--accent);
+    transform: translate(2px, -2px);
+  }
+
+  .cat-desc {
+    flex: 1;
+    color: var(--muted);
+    font-size: clamp(1rem, 0.95rem + 0.15vw, 1.0625rem);
+    line-height: 1.5;
+  }
+
+  .cat-count {
+    align-self: flex-start;
+    margin-top: 6px;
+    padding: 5px 14px;
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: var(--step-small);
     font-variant-numeric: tabular-nums;
   }
 
   @media (max-width: 860px) {
-    .head {
+    .cats {
       grid-template-columns: minmax(0, 1fr);
     }
-    .shot {
-      margin: 0;
-    }
-  }
-
-  @media (max-width: 760px) {
-    .cat {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .count {
-      order: -1;
-    }
-    .side {
-      align-items: flex-start;
-      text-align: left;
+    .shot img {
+      aspect-ratio: 4 / 3;
     }
   }
 </style>

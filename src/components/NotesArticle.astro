@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import NotesHeader from './NotesHeader.astro';
 import { render, type CollectionEntry } from 'astro:content';
 import { t, href, type Lang } from '../i18n';
 
@@ -20,36 +19,52 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
   day: 'numeric',
 });
 ---
-<Base lang={lang} title={`${entry.data.title} — ${d.footer.rights}`} description={entry.data.summary}>
-  <NotesHeader lang={lang} />
+<Base
+  lang={lang}
+  current="notes"
+  title={`${entry.data.title} — ${d.footer.rights}`}
+  description={entry.data.summary}
+>
+  <main class="article-page">
+    <div class="container">
+      <div class="article-col">
+        <a class="back" href={href(lang, `/notes/${category}/`)}>{d.notes.back}</a>
 
-  <main class="wrap article">
-    <a class="back" href={href(lang, `/notes/${category}/`)}>{d.notes.back}</a>
+        <article>
+          <header class="head">
+            <h1 data-reveal>{entry.data.title}</h1>
+            <p class="meta" data-reveal style="--i:1">
+              <span>
+                {d.notes.published}{' '}
+                <time datetime={entry.data.date.toISOString()}>
+                  {dateFormat.format(entry.data.date)}
+                </time>
+              </span>
+              {entry.data.tags.length > 0 && <span class="tags">{entry.data.tags.join(' · ')}</span>}
+            </p>
+          </header>
 
-    <article>
-      <header class="head">
-        <h1 data-reveal>{entry.data.title}</h1>
-        <p class="meta" data-reveal style="--i:1">
-          <span>{d.notes.published} <time datetime={entry.data.date.toISOString()}>{dateFormat.format(entry.data.date)}</time></span>
-          {entry.data.tags.length > 0 && <span class="tags">{entry.data.tags.join(' · ')}</span>}
-        </p>
-      </header>
-
-      <div class="prose" data-reveal style="--i:2">
-        <Content />
+          <div class="prose" data-reveal style="--i:2">
+            <Content />
+          </div>
+        </article>
       </div>
-    </article>
+    </div>
   </main>
 </Base>
 
 <style>
-  .article {
-    padding-bottom: clamp(64px, 10vw, 160px);
+  .article-page {
+    padding-block: clamp(120px, 14vw, 180px) clamp(48px, 8vw, 120px);
+  }
+
+  .article-col {
+    max-width: 68ch;
+    margin-inline: auto;
   }
 
   .back {
     display: inline-block;
-    margin-top: clamp(8px, 1.6vw, 20px);
     font-size: var(--step-small);
     color: var(--muted);
     text-decoration: none;
@@ -60,13 +75,12 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
   }
 
   .head {
-    margin-top: clamp(24px, 4vw, 56px);
+    margin-top: clamp(20px, 3vw, 32px);
   }
 
   h1 {
-    font-size: clamp(2.25rem, 1.5rem + 3.4vw, 4.5rem);
-    max-width: 24ch;
-    line-height: 0.98;
+    font-size: clamp(2.25rem, 1.5rem + 3.4vw, 4.25rem);
+    line-height: 1.02;
   }
 
   .meta {
@@ -80,7 +94,6 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
   }
 
   .prose {
-    max-width: 68ch;
     margin-top: clamp(32px, 4vw, 56px);
     font-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
     line-height: 1.7;
@@ -91,15 +104,15 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
   }
 
   .prose :global(h2) {
-    font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.6rem);
+    font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.25rem);
     margin: 2.2em 0 0.6em;
-    line-height: 1.05;
+    line-height: 1.1;
   }
 
   .prose :global(h3) {
-    font-size: clamp(1.3rem, 1.15rem + 0.7vw, 1.7rem);
+    font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
     margin: 1.8em 0 0.5em;
-    line-height: 1.1;
+    line-height: 1.15;
   }
 
   .prose :global(h2:first-child),
@@ -122,7 +135,7 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
   }
 
   .prose :global(strong) {
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .prose :global(a) {
@@ -137,6 +150,7 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
   .prose :global(blockquote) {
     margin: 1.6em 0;
     padding: 1.1em 1.4em;
+    border-radius: 20px;
     background: var(--surface);
   }
 
@@ -165,18 +179,20 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
     text-align: left;
     vertical-align: top;
     padding: 0.55em 0.8em;
-    border-bottom: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+    border-bottom: 1px solid var(--line);
     overflow-wrap: anywhere;
   }
 
   .prose :global(th) {
-    font-weight: 500;
+    font-weight: 600;
   }
 
+  /* Shiki (github-dark) paints its own dark background inline; only the shape is ours. */
   .prose :global(pre) {
     margin: 1.6em 0;
-    padding: 1.1em 1.2em;
-    background: var(--surface) !important;
+    padding: 1.1em 1.25em;
+    border-radius: 20px;
+    background: #24292e;
     overflow-x: auto;
     font-size: 0.875rem;
     line-height: 1.65;
@@ -193,12 +209,14 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
     font-size: 0.88em;
     background: var(--surface);
     padding: 0.1em 0.35em;
+    border-radius: 6px;
   }
 
   .prose :global(img) {
     width: 100%;
     height: auto;
     margin: 1.8em 0;
+    border-radius: 20px;
   }
 
   .prose :global(hr) {

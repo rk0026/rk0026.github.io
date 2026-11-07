@@ -2,7 +2,6 @@ import zh from './zh';
 import en from './en';
 
 export type Lang = 'zh' | 'en';
-export type Tone = 'accent' | 'plum' | 'paper';
 export type Discipline = 'fe' | 'be' | 'infra' | 'ai' | 'sec';
 export type Category = 'dsa' | 'troubleshooting' | 'patterns';
 export type Row = { stage: string; value: string };
@@ -35,8 +34,7 @@ export type Dict = {
   stackPage: { title: string; intro: string; groups: Array<{ name: string; items: string[] }> };
   projectsPage: { title: string; intro: string };
   contactPage: { title: string; intro: string };
-  hero: { word: string; h1: string; sentence: string; cta: string; ctaHref: string };
-  about: { heading: string; parts: Array<string | { text: string; tone: Tone }>; closing: string };
+  hero: { word: string; cta: string; ctaHref: string };
   pipeline: {
     heading: string;
     intro: string;

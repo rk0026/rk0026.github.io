@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import NotesHeader from './NotesHeader.astro';
 import { getCollection } from 'astro:content';
 import { t, href, type Lang, type Category } from '../i18n';
 
@@ -22,24 +21,23 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
 ---
 <Base
   lang={lang}
+  current="notes"
   title={`${label} — ${d.notes.title}`}
   description={d.notes.descriptions[category]}
 >
-  <NotesHeader lang={lang} />
-
   <main class="category">
-    <div class="wrap">
-      <header class="head">
-        <h1 data-reveal>{label}</h1>
-        <p class="desc" data-reveal style="--i:1">{d.notes.descriptions[category]}</p>
-      </header>
+    <div class="container page-head">
+      <h1 data-reveal>{label}</h1>
+      <p data-reveal style="--i:1">{d.notes.descriptions[category]}</p>
+    </div>
 
+    <div class="container">
       {entries.length > 0 ? (
         <section class="list" aria-labelledby="list-heading">
           <h2 id="list-heading" class="visually-hidden">{label}</h2>
           {entries.map((entry, i) => (
             <a
-              class="entry"
+              class="card entry"
               href={href(lang, `/notes/${entry.id}/`)}
               data-reveal
               style={`--i:${i + 2}`}
@@ -53,30 +51,91 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
                 {entry.data.tags.length > 0 && (
                   <span class="entry-tags">{entry.data.tags.join(' · ')}</span>
                 )}
+                <span class="entry-arrow" aria-hidden="true">↗</span>
               </span>
             </a>
           ))}
+          <a class="back" href={href(lang, '/notes/')}>{d.notes.back}</a>
         </section>
       ) : (
-        <section class="empty" aria-labelledby="empty-heading">
+        <section class="card empty" aria-labelledby="empty-heading">
           <h2 id="empty-heading" class="visually-hidden">{label}</h2>
           <p class="empty-line" data-reveal style="--i:2">{d.notes.empty}</p>
+          <a class="btn btn--ghost" href={href(lang, '/notes/')} data-reveal style="--i:3">
+            {d.notes.back}
+          </a>
         </section>
       )}
-
-      <a class="back" href={href(lang, '/notes/')}>{d.notes.back}</a>
     </div>
   </main>
 </Base>
 
 <style>
   .category {
-    padding-bottom: clamp(64px, 10vw, 160px);
+    padding-bottom: clamp(48px, 8vw, 120px);
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 2vw, 24px);
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px clamp(20px, 3vw, 40px);
+    align-items: start;
+    text-decoration: none;
+    transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
+  }
+
+  .entry:hover,
+  .entry:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-float);
+  }
+
+  .entry-title {
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  .entry-summary {
+    grid-column: 1;
+    color: var(--muted);
+    font-size: var(--step-body);
+    line-height: 1.55;
+    max-width: 62ch;
+  }
+
+  .entry-meta {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    text-align: right;
+    font-size: var(--step-small);
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .entry-arrow {
+    transition: transform 200ms var(--ease), color 200ms var(--ease);
+  }
+
+  .entry:hover .entry-arrow {
+    color: var(--accent);
+    transform: translate(2px, -2px);
   }
 
   .back {
-    display: inline-block;
-    margin-top: clamp(40px, 6vw, 80px);
+    align-self: flex-start;
+    margin-top: clamp(16px, 2vw, 24px);
     font-size: var(--step-small);
     color: var(--muted);
     text-decoration: none;
@@ -86,89 +145,21 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
     color: var(--ink);
   }
 
-  .head {
-    margin-top: clamp(24px, 4vw, 56px);
-    display: grid;
-    gap: clamp(16px, 2vw, 28px);
-  }
-
-  h1 {
-    font-size: clamp(48px, 6.5vw, 100px);
-    font-weight: 300;
-    line-height: 0.84;
-    letter-spacing: -0.02em;
-  }
-
-  .desc {
-    font-size: var(--step-lead);
-    line-height: 1.35;
-    color: var(--muted);
-    max-width: 44ch;
-  }
-
-  .list {
-    margin-top: clamp(32px, 5vw, 72px);
-  }
-
-  .entry {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 26ch);
-    gap: 8px clamp(24px, 4vw, 64px);
-    align-items: baseline;
-    padding-block: clamp(20px, 3vw, 36px);
-    text-decoration: none;
-  }
-
-  .entry-title {
-    grid-column: 1;
-    font-size: clamp(1.75rem, 1.2rem + 2.2vw, 3.25rem);
-    font-weight: 300;
-    line-height: 1.02;
-    letter-spacing: -0.015em;
-    transition: color 200ms var(--ease), transform 260ms var(--ease);
-  }
-
-  .entry:hover .entry-title,
-  .entry:focus-visible .entry-title {
-    color: var(--accent);
-    transform: translateX(6px);
-  }
-
-  .entry-summary {
-    grid-column: 1;
-    color: var(--muted);
-    font-size: var(--step-body);
-    line-height: 1.5;
-    max-width: 56ch;
-  }
-
-  .entry-meta {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    justify-self: end;
-    align-self: start;
+  .empty {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    text-align: right;
-    font-size: var(--step-small);
-    color: var(--muted);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .empty {
-    margin-top: clamp(40px, 8vw, 120px);
-    min-height: clamp(300px, 44vh, 520px);
-    display: flex;
+    max-width: 720px;
+    margin-inline: auto;
     align-items: center;
+    gap: clamp(20px, 3vw, 32px);
+    padding-block: clamp(48px, 7vw, 96px);
+    text-align: center;
   }
 
   .empty-line {
-    font-size: clamp(24px, 4.6vw, 68px);
-    font-weight: 300;
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    max-width: 16ch;
+    font-size: var(--step-lead);
+    font-weight: 500;
+    max-width: 28ch;
   }
 
   @media (max-width: 760px) {
@@ -178,8 +169,13 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
     .entry-meta {
       grid-column: 1;
       grid-row: auto;
-      justify-self: start;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
       text-align: left;
+    }
+    .back {
+      align-self: center;
     }
   }
 </style>

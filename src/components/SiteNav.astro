@@ -64,8 +64,9 @@ const switchHref = lang === 'zh' ? `/en${bare}` : bare;
   .switch:hover { background: rgba(255, 255, 255, 0.92); }
 
   @media (max-width: 760px) {
-    .site-nav { inset: auto 0 12px; gap: 6px; }
-    .pill { padding: 4px; max-width: calc(100vw - 2 * var(--margin) - 56px); overflow-x: auto; scrollbar-width: none; }
-    a { padding: 8px 11px; font-size: 0.875rem; }
+    .site-nav { inset: auto 0 12px; gap: 4px; padding-inline: 8px; }
+    .pill { padding: 3px; max-width: calc(100vw - 64px); overflow-x: auto; scrollbar-width: none; }
+    a { padding: 8px 6px; font-size: 0.78rem; }
+    .switch { padding: 3px; }
   }
 </style>

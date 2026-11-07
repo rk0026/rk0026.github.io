@@ -1,10 +1,126 @@
 ---
-// Placeholder owned by a subagent; replaced by the real page.
 import Base from '../layouts/Base.astro';
 import { t, type Lang } from '../i18n';
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
+const c = d.contactPage;
+const rows = d.contact.rows;
+const mailto = `mailto:abc751202@gmail.com?subject=${encodeURIComponent(d.contact.mailSubject)}`;
 ---
-<Base lang={lang} current="contact">
-  <main class="container page-head"><h1>{d.contactPage.title}</h1></main>
+<Base lang={lang} current="contact" title={`${c.title} — ${d.footer.rights}`}>
+  <main>
+    <header class="container page-head">
+      <h1>{c.title}</h1>
+      <p>{c.intro}</p>
+    </header>
+
+    <section class="container" aria-label={d.contact.heading}>
+      <div class="card box" data-reveal>
+        <ul class="rows">
+          {rows.map((row) => (
+            <li>
+              {row.href ? (
+                <a
+                  class="row"
+                  href={row.href}
+                  rel={row.href.startsWith('http') ? 'noopener' : undefined}
+                  target={row.href.startsWith('http') ? '_blank' : undefined}
+                >
+                  <span class="label">{row.text}</span>
+                  <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              ) : (
+                <span class="row row--plain">
+                  <span class="label">{row.text}</span>
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="ctas" data-reveal style="--i:1">
+        <a class="btn" href={mailto}>
+          {d.contact.greeting}
+          <span aria-hidden="true">→</span>
+        </a>
+        <a class="btn btn--ghost" href={d.hero.ctaHref} download>{d.hero.cta}</a>
+      </div>
+    </section>
+  </main>
 </Base>
+
+<style>
+  .box {
+    padding: clamp(20px, 3vw, 40px) clamp(20px, 4vw, 56px);
+  }
+
+  .rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .rows li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: clamp(10px, 1.6vw, 20px);
+    font-size: clamp(1.375rem, 1rem + 2.2vw, var(--step-head));
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.6;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .label {
+    min-width: 0;
+  }
+
+  .arrow {
+    flex: none;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 180ms var(--ease), transform 180ms var(--ease);
+  }
+
+  a.row:hover .label,
+  a.row:focus-visible .label {
+    color: var(--accent);
+  }
+
+  a.row:hover .arrow,
+  a.row:focus-visible .arrow {
+    opacity: 1;
+    transform: none;
+  }
+
+  .row--plain {
+    color: var(--muted);
+  }
+
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: clamp(28px, 4vw, 48px);
+  }
+
+  @media (max-width: 760px) {
+    .row {
+      align-items: flex-start;
+    }
+
+    .arrow {
+      display: none;
+    }
+  }
+</style>

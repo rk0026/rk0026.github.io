@@ -1,10 +1,97 @@
 ---
-// Placeholder owned by a subagent; replaced by the real page.
 import Base from '../layouts/Base.astro';
 import { t, type Lang } from '../i18n';
+
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
+
+// Same palette as the hero shapes, cycled per group.
+const dots = ['#ff4f00', '#5fd4e0', '#a98bff', '#c6e85a', '#4d8dff', '#ffc23d'];
 ---
 <Base lang={lang} current="stack">
-  <main class="container page-head"><h1>{d.stackPage.title}</h1></main>
+  <main class="container">
+    <header class="page-head">
+      <h1>{d.stackPage.title}</h1>
+      <p>{d.stackPage.intro}</p>
+    </header>
+
+    <section class="stack" aria-label={d.stackPage.title}>
+      {d.stackPage.groups.map((group, i) => (
+        <div class="reveal" data-reveal style={`--i:${i}`}>
+          <article class="card group" style={`--dot:${dots[i % dots.length]}`}>
+            <h2><span class="dot" aria-hidden="true"></span>{group.name}</h2>
+            <ul class="chips">
+              {group.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+        </div>
+      ))}
+    </section>
+  </main>
 </Base>
+
+<style>
+  .stack {
+    columns: 1;
+    column-gap: clamp(16px, 2vw, 28px);
+    padding-bottom: clamp(24px, 5vw, 56px);
+  }
+
+  /* Keep each card whole inside a column. */
+  .reveal {
+    break-inside: avoid;
+    margin-bottom: clamp(16px, 2vw, 28px);
+  }
+
+  .group {
+    padding: clamp(22px, 2.6vw, 32px);
+    transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+  }
+
+  .group:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 26px 60px -22px rgba(70, 60, 180, 0.3), 0 0 0 8px rgba(120, 110, 255, 0.06);
+  }
+
+  .group h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--step-lead);
+    font-weight: 700;
+  }
+
+  .dot {
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--dot);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chips li {
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  @media (min-width: 700px) {
+    .stack { columns: 2; }
+  }
+
+  @media (min-width: 1100px) {
+    .stack { columns: 3; }
+  }
+</style>

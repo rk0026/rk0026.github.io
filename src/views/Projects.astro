@@ -1,10 +1,22 @@
 ---
-// Placeholder owned by a subagent; replaced by the real page.
 import Base from '../layouts/Base.astro';
+import Pipeline from '../components/Pipeline.astro';
+import Stats from '../components/Stats.astro';
+import Work from '../components/Work.astro';
 import { t, type Lang } from '../i18n';
+
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
 ---
 <Base lang={lang} current="projects">
-  <main class="container page-head"><h1>{d.projectsPage.title}</h1></main>
+  <main>
+    <header class="container page-head">
+      <h1 data-reveal>{d.projectsPage.title}</h1>
+      <p data-reveal style="--i:1">{d.projectsPage.intro}</p>
+    </header>
+
+    <Pipeline lang={lang} />
+    <Stats lang={lang} />
+    <Work lang={lang} />
+  </main>
 </Base>

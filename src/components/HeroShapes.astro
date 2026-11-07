@@ -1,0 +1,218 @@
+---
+// Decorative glossy primitives behind the home hero (see docs/DESIGN.md §Hero three.js shapes).
+// Everything is client-side; the hero is complete without it.
+---
+<div id="hero-three" aria-hidden="true"></div>
+
+<style>
+  #hero-three {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  #hero-three :global(canvas) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script>
+  const host = document.getElementById('hero-three');
+
+  const COLORS = {
+    orange: 0xff7a2f,
+    cyan: 0x5fd4e0,
+    violet: 0xa98bff,
+    lime: 0xc6e85a,
+    blue: 0x4d8dff,
+    amber: 0xffc23d,
+  };
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const narrow = window.matchMedia('(max-width: 760px)');
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  const idle = (fn) =>
+    'requestIdleCallback' in window ? requestIdleCallback(fn, { timeout: 2500 }) : setTimeout(fn, 300);
+
+  async function start() {
+    if (!host || host.dataset.ready) return;
+    try {
+      const probe = document.createElement('canvas');
+      if (!probe.getContext('webgl2') && !probe.getContext('webgl')) return;
+    } catch {
+      return;
+    }
+
+    const THREE = await import('three');
+    let RoundedBoxGeometry = null;
+    try {
+      ({ RoundedBoxGeometry } = await import('three/addons/geometries/RoundedBoxGeometry.js'));
+    } catch {
+      /* plain box is a fine fallback */
+    }
+
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+    } catch {
+      return;
+    }
+    host.dataset.ready = '1';
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setClearAlpha(0);
+    renderer.toneMapping = THREE.NeutralToneMapping;
+    host.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    camera.position.set(0, 0, 10);
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0xc9c4ff, 2.2));
+    const sun = new THREE.DirectionalLight(0xffffff, 2.6);
+    sun.position.set(5, 6, 8);
+    scene.add(sun);
+
+    const glossy = (color: number) =>
+      new THREE.MeshPhysicalMaterial({
+        color,
+        roughness: 0.18,
+        metalness: 0.02,
+        clearcoat: 1,
+        clearcoatRoughness: 0.12,
+      });
+
+    // Two upper, two mid (crossing the marquee), two lower — kept off the centre column.
+    const shapes = [
+      { geo: new THREE.ConeGeometry(0.95, 1.45, 4), color: COLORS.orange, fx: -0.82, fy: 0.6, spin: 0.35, bob: 0.7 },
+      { geo: new THREE.TorusKnotGeometry(0.52, 0.17, 64, 8, 2, 3), color: COLORS.cyan, fx: 0.82, fy: 0.63, spin: 0.4, bob: 0.9 },
+      { geo: new THREE.SphereGeometry(0.72, 40, 28), color: COLORS.violet, fx: -0.85, fy: 0, spin: 0.25, bob: 0.55 },
+      { geo: RoundedBoxGeometry ? new RoundedBoxGeometry(1.15, 1.15, 1.15, 4, 0.26) : new THREE.BoxGeometry(1, 1, 1), color: COLORS.lime, fx: 0.85, fy: -0.02, spin: 0.3, bob: 0.8 },
+      { geo: new THREE.CylinderGeometry(0.58, 0.58, 1.15, 40), color: COLORS.blue, fx: -0.82, fy: -0.66, spin: 0.32, bob: 0.65 },
+      { geo: new THREE.IcosahedronGeometry(0.76, 0), color: COLORS.amber, fx: 0.82, fy: -0.7, spin: 0.36, bob: 0.75 },
+    ];
+
+    const root = new THREE.Group();
+    scene.add(root);
+    const meshes = shapes.map((s) => {
+      const mesh = new THREE.Mesh(s.geo, glossy(s.color));
+      mesh.userData = { ...s, phase: Math.random() * Math.PI * 2, baseY: 0 };
+      root.add(mesh);
+      return mesh;
+    });
+
+    let halfW = 1;
+    let halfH = 1;
+
+    function resize() {
+      const w = host.clientWidth || 1;
+      const h = host.clientHeight || 1;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      halfH = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+      halfW = halfH * camera.aspect;
+
+      const phone = narrow.matches;
+      const scale = Math.min(halfW * (phone ? 0.26 : 0.135), phone ? 0.55 : 0.8);
+      meshes.forEach((mesh, i) => {
+        const s = mesh.userData;
+        const keep = i === 0 || i === 1 || i === 4 || i === 5;
+        mesh.visible = !phone || keep;
+        const fx = phone ? Math.sign(s.fx) * 0.8 : s.fx;
+        const fy = phone ? Math.sign(s.fy) * (s.fy > 0 ? 0.76 : 0.68) : s.fy;
+        s.baseY = fy * halfH;
+        mesh.position.set(fx * halfW, s.baseY, 0);
+        mesh.scale.setScalar(scale);
+      });
+    }
+
+    const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+    if (fine.matches) {
+      window.addEventListener(
+        'pointermove',
+        (e) => {
+          pointer.tx = (e.clientX / window.innerWidth) * 2 - 1;
+          pointer.ty = (e.clientY / window.innerHeight) * 2 - 1;
+        },
+        { passive: true },
+      );
+    }
+
+    const timer = new THREE.Timer();
+    timer.connect(document);
+
+    function frame() {
+      timer.update();
+      const dt = Math.min(timer.getDelta(), 0.05);
+      const t = timer.getElapsed();
+      const ease = Math.min(dt * 2.4, 1);
+      pointer.x += (pointer.tx - pointer.x) * ease;
+      pointer.y += (pointer.ty - pointer.y) * ease;
+      const parallax = fine.matches ? 1 : 0;
+      root.position.x = pointer.x * 0.45 * parallax;
+      root.position.y = -pointer.y * 0.3 * parallax;
+
+      for (const mesh of meshes) {
+        if (!mesh.visible) continue;
+        const s = mesh.userData;
+        mesh.position.y = s.baseY + Math.sin(t * s.bob + s.phase) * 0.14;
+        mesh.rotation.y += dt * s.spin;
+        mesh.rotation.x += dt * s.spin * 0.45;
+      }
+      renderer.render(scene, camera);
+    }
+
+    let onScreen = true;
+    function sync() {
+      const run = onScreen && !document.hidden && !reduced.matches;
+      renderer.setAnimationLoop(run ? frame : null);
+      if (!run && !document.hidden) renderer.render(scene, camera);
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        onScreen = entries[0].isIntersecting;
+        sync();
+      },
+      { threshold: 0.01 },
+    );
+    io.observe(host);
+
+    document.addEventListener('visibilitychange', sync);
+    reduced.addEventListener('change', sync);
+    narrow.addEventListener('change', resize);
+
+    let pending = 0;
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(pending);
+      pending = requestAnimationFrame(() => {
+        resize();
+        renderer.render(scene, camera);
+      });
+    });
+
+    resize();
+    renderer.render(scene, camera);
+    sync();
+
+    window.addEventListener('pagehide', (event) => {
+      if (event.persisted) return;
+      renderer.setAnimationLoop(null);
+      io.disconnect();
+      for (const mesh of meshes) {
+        mesh.geometry.dispose();
+        mesh.material.dispose();
+      }
+      renderer.dispose();
+      renderer.domElement.remove();
+    });
+  }
+
+  if (host) {
+    if (document.readyState === 'complete') idle(start);
+    else window.addEventListener('load', () => idle(start), { once: true });
+  }
+</script>

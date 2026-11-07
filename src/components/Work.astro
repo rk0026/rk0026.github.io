@@ -7,7 +7,7 @@ const items = d.work.items;
 const first = items[0];
 ---
 <section class="work" id="work">
-  <div class="wrap">
+  <div class="container">
     <header class="head">
       <h2 data-reveal>{d.work.heading}</h2>
       <p class="note" data-reveal style="--i:1">{d.work.note}</p>
@@ -31,21 +31,23 @@ const first = items[0];
       ))}
     </div>
 
-    <p class="detail" aria-live="polite" aria-atomic="true" data-reveal>
+    <p class="detail card" aria-live="polite" aria-atomic="true" data-reveal>
       <span class="detail-name">{first.name}</span>{' '}<span class="detail-text">{first.detail}</span>
     </p>
   </div>
 
-  <img
-    class="photo"
-    src="/img/kate-shelley-high-bridge-construction-center-facing.jpg"
-    width="1800"
-    height="1215"
-    alt={d.work.photoAlt}
-    loading="lazy"
-    decoding="async"
-    data-reveal
-  />
+  <div class="container photo-wrap">
+    <img
+      class="photo"
+      src="/img/kate-shelley-high-bridge-construction-center-facing.jpg"
+      width="1800"
+      height="1215"
+      alt={d.work.photoAlt}
+      loading="lazy"
+      decoding="async"
+      data-reveal
+    />
+  </div>
 </section>
 
 <script>
@@ -74,11 +76,13 @@ const first = items[0];
     gap: 4px 18px;
   }
   .head h2 {
-    font-size: 28px;
-    line-height: 1.1;
+    font-size: var(--step-head);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
   }
   .note {
-    font-size: 15px;
+    font-size: var(--step-body);
     line-height: 1.4;
     color: var(--muted);
   }
@@ -86,91 +90,97 @@ const first = items[0];
   .shelf {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-block-start: clamp(32px, 4vw, 56px);
+    gap: 10px;
+    margin-block-start: clamp(28px, 3.4vw, 44px);
   }
 
   .spine {
-    flex: 0 0 32px;
-    width: 32px;
-    height: 420px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 18px 0;
+    gap: 8px;
+    padding: 8px 8px 8px 16px;
     border: 0;
-    border-radius: 0;
-    background: var(--surface);
+    border-radius: var(--radius-pill);
+    background: var(--bg);
     color: var(--ink);
-    writing-mode: vertical-rl;
-    text-align: start;
+    box-shadow: var(--shadow-float);
     cursor: pointer;
-    transition: background-color 160ms var(--ease), color 160ms var(--ease);
+    transition: transform 160ms var(--ease), box-shadow 160ms var(--ease);
   }
 
   .spine-name {
-    font-size: 18px;
-    line-height: 1;
-    letter-spacing: 0.01em;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
     transition: color 160ms var(--ease);
   }
 
+  .spine:hover {
+    transform: translateY(-2px);
+  }
+
+  .spine[aria-pressed='true'] {
+    box-shadow: 0 0 0 2px var(--accent), var(--shadow-float);
+  }
+
+  .shelf:has(.spine:hover) .spine:not(:hover):not([aria-pressed='true']) .spine-name {
+    color: var(--muted);
+  }
+
   .tag {
-    font-size: 13px;
-    line-height: 1.1;
-    letter-spacing: 0.02em;
-    padding: 6px 4px;
-    border-radius: 0;
+    flex: 0 0 auto;
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
   }
   .tag-fe {
     background: var(--accent);
     color: var(--accent-ink);
   }
   .tag-be {
-    background: var(--field-2);
-    color: var(--field-2-ink);
+    background: #4d8dff;
+    color: var(--ink);
   }
   .tag-infra {
-    background: var(--field-1);
+    background: #a98bff;
     color: var(--ink);
   }
   .tag-ai {
-    background: var(--surface);
+    background: #c6e85a;
     color: var(--ink);
   }
   .tag-sec {
-    background: var(--muted);
-    color: var(--bg);
-  }
-
-  .spine:hover,
-  .spine:focus-visible,
-  .spine[aria-pressed='true'] {
-    background: var(--field-1);
-  }
-  .shelf:has(.spine:hover) .spine:not(:hover):not([aria-pressed='true']) .spine-name {
-    color: var(--muted);
+    background: #ffc23d;
+    color: var(--ink);
   }
 
   .detail {
     margin-block-start: clamp(24px, 3vw, 40px);
-    max-inline-size: 68ch;
+    max-inline-size: 78ch;
     font-size: var(--step-lead);
-    line-height: 1.35;
+    line-height: 1.4;
     color: var(--muted);
   }
   .detail-name {
     margin-inline-end: 0.35em;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--ink);
   }
 
+  .photo-wrap {
+    margin-block-start: var(--section-gap);
+  }
   .photo {
     inline-size: 100%;
     block-size: auto;
     aspect-ratio: 16 / 7;
     object-fit: cover;
-    margin-block-start: var(--section-gap);
+    border-radius: var(--radius-card);
   }
 
   @media (max-width: 700px) {
@@ -180,31 +190,11 @@ const first = items[0];
     .note {
       margin-block-start: 8px;
     }
-  }
-
-  /* Horizontal chips at every width: vertical spines were unreadable. */
-  .shelf {
-    gap: 10px;
-    margin-block-start: 28px;
-  }
-  .spine {
-    flex: 0 0 auto;
-    width: auto;
-    height: auto;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    border-radius: 999px;
-    writing-mode: horizontal-tb;
-  }
-  .spine-name {
-    font-size: 17px;
-  }
-  .tag {
-    padding: 2px 7px;
-  }
-  .detail {
-    margin-block-start: 28px;
+    .detail {
+      margin-block-start: 24px;
+    }
+    .photo {
+      aspect-ratio: 4 / 3;
+    }
   }
 </style>
