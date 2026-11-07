@@ -9,6 +9,13 @@ const d = t(lang);
 // import.meta.url points into the build output at build time, so resolve from the project root.
 const hasPortrait = fs.existsSync(`${process.cwd()}/public/img/me.jpg`);
 const repeats = [0, 1, 2];
+// One archival picture per destination page (credited in the footer).
+const tileImg = {
+  about: { src: '/img/marine-field-telephone-switchboard-operator-guadalcanal-circ.jpg', w: 1920, h: 1453, alt: d.notes.photoAlt },
+  stack: { src: '/img/1940s-n935-telephone-exchange.jpg', w: 1920, h: 1801, alt: d.stats.photoAlt },
+  projects: { src: '/img/kate-shelley-high-bridge-construction-center-facing.jpg', w: 1800, h: 1215, alt: d.work.photoAlt },
+  notes: { src: '/img/wac-telephone-switchboard-operators.jpg', w: 1920, h: 1476, alt: d.knowledge.photoAlt },
+};
 ---
 <Base lang={lang} current="home">
   <main>
@@ -57,6 +64,7 @@ const repeats = [0, 1, 2];
     <section class="container tiles">
       {d.home.tiles.map((tile, i) => (
         <a class="card tile" href={href(lang, `/${tile.page}/`)} data-reveal style={`--i:${i}`}>
+          <img class="tile-img" src={tileImg[tile.page].src} width={tileImg[tile.page].w} height={tileImg[tile.page].h} alt={tileImg[tile.page].alt} loading="lazy" decoding="async" />
           <h2>{tile.title}</h2>
           <span class="arrow" aria-hidden="true">→</span>
           <p>{tile.text}</p>
@@ -108,7 +116,7 @@ const repeats = [0, 1, 2];
   .marquee-group { display: flex; flex: none; }
   .marquee span {
     padding-right: 0.12em;
-    font-size: 18vw;
+    font-size: 11vw;
     font-weight: 900;
     line-height: 0.82;
     letter-spacing: -0.04em;
@@ -183,6 +191,18 @@ const repeats = [0, 1, 2];
     transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
   }
   .tile h2 { font-size: var(--step-lead); font-weight: 600; letter-spacing: -0.02em; }
+  .tile-img {
+    grid-column: 1 / -1;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: calc(var(--radius-card) - 12px);
+    margin-bottom: 8px;
+    filter: grayscale(1);
+    transition: filter 300ms var(--ease), transform 400ms var(--ease);
+  }
+  .tile:hover .tile-img,
+  .tile:focus-visible .tile-img { filter: none; }
   .tile .arrow { font-size: 1.35rem; line-height: 1; }
   .tile p { grid-column: 1 / -1; color: var(--muted); }
   .tile:hover,
