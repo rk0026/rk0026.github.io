@@ -6,7 +6,8 @@ import { t, href, type Lang } from '../i18n';
 
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
-const hasPortrait = fs.existsSync(new URL('../../public/img/me.jpg', import.meta.url));
+// import.meta.url points into the build output at build time, so resolve from the project root.
+const hasPortrait = fs.existsSync(`${process.cwd()}/public/img/me.jpg`);
 const repeats = [0, 1, 2];
 ---
 <Base lang={lang} current="home">
