@@ -1,9 +1,11 @@
 ---
 import '../styles/global.css';
+import SiteNav, { type Page } from '../components/SiteNav.astro';
+import Footer from '../components/Footer.astro';
 import { t, type Lang } from '../i18n';
 
-interface Props { lang: Lang; title?: string; description?: string }
-const { lang, title, description } = Astro.props;
+interface Props { lang: Lang; current?: Page; title?: string; description?: string }
+const { lang, current, title, description } = Astro.props;
 const d = t(lang);
 const alt = lang === 'zh' ? { lang: 'en', path: '/en' } : { lang: 'zh-Hant-TW', path: '' };
 const bare = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
@@ -19,16 +21,15 @@ const bare = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
     <link rel="alternate" hreflang={alt.lang} href={new URL(alt.path + bare, Astro.site)} />
     <meta property="og:title" content={title ?? d.meta.title} />
     <meta property="og:description" content={description ?? d.meta.description} />
-    <link rel="preconnect" href="https://api.fontshare.com" />
-    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://api.fontshare.com/v2/css?f[]=sentient@300,400,500&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;900&family=PT+Serif:ital,wght@1,700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet" />
     <script is:inline>document.documentElement.classList.add('js-reveal');</script>
   </head>
   <body>
+    <SiteNav lang={lang} current={current} />
     <slot />
+    <Footer lang={lang} />
     <script>
       const io = new IntersectionObserver((entries) => {
         for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }

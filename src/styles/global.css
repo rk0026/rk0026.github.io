@@ -1,23 +1,35 @@
 :root {
-  --bg: #0d060b;
-  --surface: #1b0e17;
-  --ink: #ffffff;
-  --muted: #9a8f97;
-  --accent: #ff488b;
-  --accent-ink: #0d060b;
-  --field-1: #470c35;
+  /* Cohesion-style light theme. Legacy names (--field-*) kept so existing components map onto it. */
+  --bg: #ffffff;
+  --surface: #f4f4f7;
+  --ink: #0b0b0f;
+  --muted: #5b5b66;
+  --accent: #ff4f00;
+  --accent-ink: #ffffff;
+  --field-1: #0b0b0f;
   --field-1-ink: #ffffff;
   --field-2: #ffffff;
-  --field-2-ink: #101421;
+  --field-2-ink: #0b0b0f;
+  --line: #e7e7ee;
+
+  --radius-card: 28px;
+  --radius-pill: 999px;
+  --shadow-card: 0 18px 50px -20px rgba(70, 60, 180, 0.22), 0 0 0 8px rgba(120, 110, 255, 0.06);
+  --shadow-float: 0 10px 30px -10px rgba(20, 20, 40, 0.18);
+
   --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
-  --step-body: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
-  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
-  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
-  --margin: clamp(16px, 2vw, 28px);
-  --section-gap: clamp(96px, 12vw, 200px);
-  --font: "Sentient", "Noto Serif TC", Georgia, serif;
+  --step-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-lead: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  --step-head: clamp(2rem, 1.4rem + 2.6vw, 3.5rem);
+  --step-display: clamp(2.75rem, 1.6rem + 5vw, 5.5rem);
+  --margin: clamp(16px, 3vw, 40px);
+  --section-gap: clamp(80px, 10vw, 160px);
+  --content: 1160px;
+
+  --font: "Public Sans", "Noto Sans TC", system-ui, sans-serif;
+  --font-serif: "PT Serif", "Noto Serif TC", Georgia, serif;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -28,44 +40,55 @@ body {
   color: var(--ink);
   font-family: var(--font);
   font-size: var(--step-body);
-  font-weight: 400;
-  line-height: 1.55;
-  font-variant-numeric: lining-nums;
+  line-height: 1.6;
   text-rendering: optimizeLegibility;
 }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
-h1, h2, h3 { font-weight: 300; letter-spacing: -0.015em; line-height: 1; margin: 0; text-wrap: balance; }
+h1, h2, h3 { font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; margin: 0; text-wrap: balance; }
 p { margin: 0; text-wrap: pretty; }
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 ::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* The serif italic accent used for names, as in “Hi, I'm <em class="serif">Hsuan-Te</em>”. */
+.serif { font-family: var(--font-serif); font-style: italic; font-weight: 700; }
 
 .visually-hidden {
   position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 .wrap { padding-inline: var(--margin); }
+/* Centred content column used by every page. */
+.container { width: min(100% - 2 * var(--margin), var(--content)); margin-inline: auto; }
 
-/* One button shape for the whole site: fully round, flat accent fill. */
-.btn {
-  display: inline-flex; align-items: center; gap: 0.5em;
-  padding: 0.7em 1.4em; border: 0; border-radius: 999px;
-  background: var(--accent); color: var(--accent-ink);
-  font-size: var(--step-body); font-weight: 500; text-decoration: none; cursor: pointer;
-  transition: transform 160ms var(--ease), background-color 160ms var(--ease);
+/* Page title block shared by inner pages. */
+.page-head { padding-block: clamp(140px, 16vw, 200px) clamp(40px, 6vw, 72px); text-align: center; }
+.page-head h1 { font-size: var(--step-display); }
+.page-head p { margin: 16px auto 0; max-width: 56ch; color: var(--muted); font-size: var(--step-lead); }
+
+/* Soft white card with the lavender halo. */
+.card {
+  background: var(--bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: clamp(24px, 3vw, 40px);
 }
-.btn:hover { transform: translateY(-2px); }
-.btn:active { transform: translateY(0) scale(0.97); }
 
-/* Entrance: content is visible by default; JS adds .js-reveal to <html>, then .in per element. */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5em;
+  padding: 0.85em 1.6em; border: 0; border-radius: var(--radius-pill);
+  background: var(--accent); color: var(--accent-ink);
+  font-size: var(--step-body); font-weight: 600; text-decoration: none; cursor: pointer;
+  transition: transform 160ms var(--ease), box-shadow 160ms var(--ease);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-float); }
+.btn:active { transform: translateY(0) scale(0.97); }
+/* Big white pill with halo, Cohesion's “Let's Work Together!”. */
+.btn--ghost { background: var(--bg); color: var(--ink); box-shadow: var(--shadow-card); font-size: var(--step-lead); font-weight: 700; padding: 0.8em 1.8em; }
+
 .js-reveal [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 600ms var(--ease), transform 600ms var(--ease); transition-delay: calc(var(--i, 0) * 75ms); }
 .js-reveal [data-reveal].in { opacity: 1; transform: none; }
-/* Signature move: the footer wordmark grows 0.94 → 1 as it scrolls in. Static where unsupported. */
-@supports (animation-timeline: view()) {
-  .footer-word { transform-origin: left bottom; animation: wordmark-in linear both; animation-timeline: view(); animation-range: entry 0% cover 45%; }
-  @keyframes wordmark-in { from { scale: 0.94; } to { scale: 1; } }
-}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js-reveal [data-reveal] { opacity: 1; transform: none; transition: none; }

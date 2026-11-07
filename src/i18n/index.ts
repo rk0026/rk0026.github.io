@@ -10,7 +10,31 @@ export type Row = { stage: string; value: string };
 export type Dict = {
   htmlLang: string;
   meta: { title: string; description: string };
-  nav: { about: string; work: string; notes: string; menu: string; switchLabel: string; switchHref: string };
+  nav: { home: string; about: string; stack: string; projects: string; notes: string; contact: string; menu: string; switchLabel: string };
+  home: {
+    greeting: string;
+    name: string;
+    role: string;
+    marquee: string;
+    photoAlt: string;
+    cta: string;
+    facts: Array<{ value: string; label: string }>;
+    tiles: Array<{ page: 'about' | 'stack' | 'projects' | 'notes'; title: string; text: string }>;
+  };
+  aboutPage: {
+    title: string;
+    intro: string;
+    paragraphs: string[];
+    timelineHeading: string;
+    timeline: Array<{ period: string; org: string; role: string; points: string[] }>;
+    awardHeading: string;
+    award: string;
+    educationHeading: string;
+    education: string;
+  };
+  stackPage: { title: string; intro: string; groups: Array<{ name: string; items: string[] }> };
+  projectsPage: { title: string; intro: string };
+  contactPage: { title: string; intro: string };
   hero: { word: string; h1: string; sentence: string; cta: string; ctaHref: string };
   about: { heading: string; parts: Array<string | { text: string; tone: Tone }>; closing: string };
   pipeline: {

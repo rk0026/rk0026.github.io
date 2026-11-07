@@ -1,0 +1,10 @@
+---
+// Placeholder owned by a subagent; replaced by the real page.
+import Base from '../layouts/Base.astro';
+import { t, type Lang } from '../i18n';
+const { lang } = Astro.props as { lang: Lang };
+const d = t(lang);
+---
+<Base lang={lang} current="about">
+  <main class="container page-head"><h1>{d.aboutPage.title}</h1></main>
+</Base>
