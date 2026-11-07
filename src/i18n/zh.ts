@@ -110,7 +110,7 @@ const zh: Dict = {
   },
   work: {
     heading: '做過的事',
-    note: '點一本書脊，看那件事的細節。',
+    note: '點一個項目，看那件事的細節。',
     disciplines: { fe: '前端與 App', be: '後端', infra: '基礎設施', ai: 'AI 與資料', sec: '資安' },
     items: [
       { name: '企業 LMS App', disc: 'fe', detail: 'React Native 單一 App 多租戶架構，四年 1,650+ 次提交的兩位主要開發者之一。' },

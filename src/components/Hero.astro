@@ -43,7 +43,7 @@ const altLang = lang === 'zh' ? 'en' : 'zh-Hant-TW';
 
 <style>
   .hero {
-    --word-size: clamp(360px, 46vw, 760px);
+    --word-size: clamp(240px, 30vw, 480px);
     --reserve: calc(var(--word-size) * 0.84);
     position: relative;
     height: 100svh;
@@ -148,7 +148,7 @@ const altLang = lang === 'zh' ? 'en' : 'zh-Hant-TW';
   /* Portrait tablets: a larger crop fills the height, and the sentence stays with the h1. */
   @media (min-width: 701px) and (max-aspect-ratio: 1 / 1) {
     .hero {
-      --word-size: clamp(360px, max(46vw, 55svh), 760px);
+      --word-size: clamp(240px, max(30vw, 36svh), 480px);
     }
 
     .foot {
@@ -159,7 +159,7 @@ const altLang = lang === 'zh' ? 'en' : 'zh-Hant-TW';
   /* Short viewports: keep the word from eating the whole composition. */
   @media (min-width: 701px) and (max-height: 700px) {
     .hero {
-      --word-size: clamp(280px, 62svh, 760px);
+      --word-size: clamp(200px, 42svh, 480px);
     }
   }
 
@@ -236,7 +236,7 @@ const altLang = lang === 'zh' ? 'en' : 'zh-Hant-TW';
       bottom: auto;
       left: auto;
       writing-mode: vertical-rl;
-      font-size: clamp(88px, 24vw, 190px);
+      font-size: clamp(64px, 16vw, 130px);
       letter-spacing: -0.02em;
       transform: none;
     }

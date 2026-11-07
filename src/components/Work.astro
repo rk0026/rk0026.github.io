@@ -180,32 +180,31 @@ const first = items[0];
     .note {
       margin-block-start: 8px;
     }
+  }
 
-    /* No rotation on the phone: the shelf becomes a wrap of name + tag chips. */
-    .shelf {
-      gap: 10px;
-      margin-block-start: 28px;
-    }
-    .spine {
-      flex: 0 0 auto;
-      width: auto;
-      height: auto;
-      flex-direction: row;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      writing-mode: horizontal-tb;
-    }
-    .spine-name {
-      font-size: 17px;
-    }
-    .tag {
-      padding: 2px 7px;
-    }
-
-    .detail {
-      margin-block-start: 28px;
-    }
+  /* Horizontal chips at every width: vertical spines were unreadable. */
+  .shelf {
+    gap: 10px;
+    margin-block-start: 28px;
+  }
+  .spine {
+    flex: 0 0 auto;
+    width: auto;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    writing-mode: horizontal-tb;
+  }
+  .spine-name {
+    font-size: 17px;
+  }
+  .tag {
+    padding: 2px 7px;
+  }
+  .detail {
+    margin-block-start: 28px;
   }
 </style>

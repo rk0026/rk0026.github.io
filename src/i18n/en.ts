@@ -110,7 +110,7 @@ const en: Dict = {
   },
   work: {
     heading: 'Things I built',
-    note: 'Pick a spine to read what it was.',
+    note: 'Pick one to read what it was.',
     disciplines: { fe: 'Front end & mobile', be: 'Back end', infra: 'Infrastructure', ai: 'AI & data', sec: 'Security' },
     items: [
       { name: 'Enterprise LMS app', disc: 'fe', detail: 'Single-app, multi-tenant React Native; one of two lead contributors, 1,650+ commits over four years.' },
