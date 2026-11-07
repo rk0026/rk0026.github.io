@@ -1,0 +1,166 @@
+---
+import Base from '../layouts/Base.astro';
+import NotesHeader from './NotesHeader.astro';
+import { getCollection } from 'astro:content';
+import { t, href, type Lang, type Category } from '../i18n';
+
+const { lang } = Astro.props as { lang: Lang };
+const d = t(lang);
+
+const entries = await getCollection('notes');
+const countIn = (slug: Category) => entries.filter((e) => e.id.startsWith(`${slug}/`)).length;
+---
+<Base
+  lang={lang}
+  title={`${d.notes.title} — ${d.footer.rights}`}
+  description={d.notes.intro}
+>
+  <NotesHeader lang={lang} />
+
+  <main class="notes">
+    <div class="wrap head">
+      <div class="lead-block">
+        <h1 data-reveal>{d.notes.title}</h1>
+        <p class="intro" data-reveal style="--i:1">{d.notes.intro}</p>
+      </div>
+      <figure class="shot" data-reveal style="--i:2">
+        <img
+          src="/img/marine-field-telephone-switchboard-operator-guadalcanal-circ.jpg"
+          width="1920"
+          height="1453"
+          alt={d.notes.photoAlt}
+          loading="lazy"
+        />
+      </figure>
+    </div>
+
+    <section class="cats" aria-labelledby="cats-heading">
+      <h2 id="cats-heading" class="visually-hidden">{d.notes.title}</h2>
+      {d.knowledge.items.map((item, i) => {
+        const n = countIn(item.slug);
+        return (
+          <a
+            class="cat"
+            href={href(lang, `/notes/${item.slug}/`)}
+            data-reveal
+            style={`--i:${i + 1}`}
+          >
+            <span class="label">{item.label}</span>
+            <span class="side">
+              <span class="desc">{d.notes.descriptions[item.slug]}</span>
+              <span class="count">{n ? d.knowledge.count(n) : d.knowledge.empty}</span>
+            </span>
+          </a>
+        );
+      })}
+    </section>
+  </main>
+</Base>
+
+<style>
+  .notes {
+    padding-bottom: clamp(64px, 10vw, 160px);
+  }
+
+  .head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 64px);
+    align-items: end;
+    padding-top: clamp(40px, 7vw, 96px);
+  }
+
+  h1 {
+    font-size: clamp(72px, 12vw, 180px);
+    font-weight: 300;
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+    margin-bottom: clamp(20px, 3vw, 40px);
+  }
+
+  .intro {
+    font-size: var(--step-lead);
+    line-height: 1.3;
+    color: var(--muted);
+    max-width: 30ch;
+  }
+
+  .shot img {
+    width: 100%;
+    height: auto;
+  }
+
+  .cats {
+    margin-top: clamp(48px, 8vw, 120px);
+  }
+
+  .cat {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 34ch);
+    gap: 12px clamp(20px, 3vw, 48px);
+    align-items: end;
+    padding: clamp(28px, 4vw, 56px) var(--margin);
+    text-decoration: none;
+    transition: background-color 220ms var(--ease);
+  }
+
+  .cat:nth-of-type(even) {
+    background: var(--surface);
+  }
+
+  .label {
+    font-size: clamp(48px, 8.4vw, 140px);
+    font-weight: 300;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    transition: color 200ms var(--ease), transform 260ms var(--ease);
+  }
+
+  .cat:hover .label,
+  .cat:focus-visible .label {
+    color: var(--accent);
+    transform: translateX(8px);
+  }
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    text-align: right;
+  }
+
+  .desc {
+    color: var(--muted);
+    font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+    line-height: 1.45;
+    max-width: 40ch;
+  }
+
+  .count {
+    font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 860px) {
+    .head {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .shot {
+      margin: 0;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .cat {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .count {
+      order: -1;
+    }
+    .side {
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+</style>

@@ -25,6 +25,7 @@ export type Dict = {
     note: string;
     disciplines: Record<Discipline, string>;
     items: Array<{ name: string; disc: Discipline; detail: string }>;
+    photoAlt: string;
   };
   knowledge: { heading: string; empty: string; count: (n: number) => string; items: Array<{ slug: Category; label: string }>; photoAlt: string };
   notes: {

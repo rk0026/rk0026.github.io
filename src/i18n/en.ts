@@ -141,6 +141,7 @@ const en: Dict = {
       { name: 'CIS Benchmark', disc: 'sec', detail: 'Hardened IIS against the CIS Benchmark and ran Nessus scans.' },
       { name: 'Cloudflare API security', disc: 'sec', detail: 'Strengthened Cloudflare API Security controls.' },
     ],
+    photoAlt: 'A steel railway high bridge under construction, towers and girders receding into the distance',
   },
   knowledge: {
     heading: 'Notes',

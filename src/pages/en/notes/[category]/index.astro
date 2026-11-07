@@ -1,0 +1,8 @@
+---
+import NotesCategory from '../../../../components/NotesCategory.astro';
+
+export function getStaticPaths() {
+  return ['dsa', 'troubleshooting', 'patterns'].map((category) => ({ params: { category } }));
+}
+---
+<NotesCategory lang="en" />

@@ -1,7 +1,271 @@
 ---
-// Placeholder owned by a subagent; replaced by the real section.
 import { t, type Lang } from '../i18n';
+
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
+
+/* Zigzag serrated bottom edge: 24 teeth across the slip width, 12px deep.
+   Percentages keep the teeth even at any slip width; the depth stays 12px. */
+const SEGMENTS = 48;
+const step = 100 / SEGMENTS;
+const zigzag = [
+  '0 0',
+  '100% 0',
+  '100% calc(100% - 12px)',
+  ...Array.from({ length: SEGMENTS }, (_, i) => {
+    const x = 100 - (i + 1) * step;
+    return `${x.toFixed(4)}% ${i % 2 === 0 ? '100%' : 'calc(100% - 12px)'}`;
+  }),
+].join(', ');
+
+/* Leader filler: repeated middots, clipped by the flex container. No rules, no gradients. */
+const leader = '·'.repeat(180);
 ---
-<section id="pipeline"><h2>{d.pipeline.heading}</h2></section>
+
+<section id="pipeline" class="pipeline">
+  <div class="wrap grid">
+    <div class="intro-col">
+      <h2 class="heading" data-reveal>{d.pipeline.heading}</h2>
+      <p class="intro" data-reveal style="--i:1">{d.pipeline.intro}</p>
+      <div class="picker" role="group" aria-label={d.pipeline.pickLabel} data-reveal style="--i:2">
+        {d.pipeline.projects.map((p, i) => (
+          <button
+            type="button"
+            class="pick"
+            data-target={p.id}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+          >{p.name}</button>
+        ))}
+      </div>
+    </div>
+
+    <div class="slips">
+      {d.pipeline.projects.map((p, i) => (
+        <article
+          class="slip"
+          data-slip={p.id}
+          hidden={i !== 0}
+          style={`clip-path: polygon(${zigzag})`}
+        >
+          <h3 class="slip-title">{p.name}</h3>
+          {p.groups.map((g) => (
+            <div class="group">
+              <p class="group-name">{g.name}</p>
+              <dl class="rows">
+                {g.rows.map((r) => (
+                  <div class="row">
+                    <dt class="stage">{r.stage}</dt>
+                    <span class="leader" aria-hidden="true">{leader}</span>
+                    <dd class="value">{r.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          ))}
+          <p class="row result">
+            <span class="stage">{p.result.stage}</span>
+            <span class="leader" aria-hidden="true">{leader}</span>
+            <span class="value">{p.result.value}</span>
+          </p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById('pipeline');
+  if (section) {
+    const buttons = Array.from(section.querySelectorAll<HTMLButtonElement>('.pick'));
+    const slips = Array.from(section.querySelectorAll<HTMLElement>('[data-slip]'));
+
+    for (const button of buttons) {
+      button.addEventListener('click', () => {
+        const id = button.dataset.target;
+        for (const b of buttons) b.setAttribute('aria-pressed', String(b === button));
+        for (const slip of slips) {
+          const active = slip.dataset.slip === id;
+          slip.hidden = !active;
+          slip.classList.remove('swap');
+          if (active) {
+            void slip.offsetWidth;
+            slip.classList.add('swap');
+          }
+        }
+      });
+    }
+  }
+</script>
+
+<style>
+  .pipeline {
+    background: var(--surface);
+    padding-block: var(--section-gap);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(24px, 3vw, 48px);
+    align-items: start;
+  }
+
+  .intro-col {
+    grid-column: 1 / span 5;
+  }
+
+  .heading {
+    font-size: clamp(40px, 4.4vw, 68px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+
+  .intro {
+    margin-top: clamp(20px, 2.4vw, 32px);
+    max-width: 30ch;
+    font-size: var(--step-body);
+    line-height: 1.5;
+  }
+
+  .picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: clamp(28px, 3.4vw, 44px);
+  }
+
+  .pick {
+    border: 0;
+    border-radius: 999px;
+    background: var(--field-1);
+    color: var(--ink);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.2;
+    padding: 0.6em 1.2em;
+    cursor: pointer;
+    transition: background-color 160ms var(--ease), color 160ms var(--ease);
+  }
+
+  .pick[aria-pressed='true'] {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .slips {
+    grid-column: 7 / span 5;
+    justify-self: start;
+  }
+
+  .slip {
+    --slip-pad: clamp(22px, 2.4vw, 34px);
+    width: clamp(420px, 34vw, 480px);
+    max-width: 100%;
+    background: var(--field-2);
+    color: var(--field-2-ink);
+    padding: var(--slip-pad) var(--slip-pad) 24px;
+  }
+
+  .slip[hidden] {
+    display: none;
+  }
+
+  .slip.swap {
+    animation: slip-in 320ms var(--ease);
+  }
+
+  @keyframes slip-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  .slip-title {
+    font-size: clamp(20px, 1.6vw, 24px);
+    font-weight: 500;
+    line-height: 1.15;
+  }
+
+  .group-name {
+    margin-top: 28px;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .rows {
+    margin: 8px 0 0;
+  }
+
+  .row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .stage {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  dd.value {
+    margin: 0;
+  }
+
+  .leader {
+    flex: 1 1 16px;
+    min-width: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    letter-spacing: 0.08em;
+  }
+
+  .value {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+
+  .result {
+    margin: 30px calc(-1 * var(--slip-pad)) 0;
+    padding: 16px var(--slip-pad);
+    background: var(--field-2-ink);
+    color: var(--field-2);
+  }
+
+  .result .value {
+    color: var(--field-2);
+  }
+
+  @media (max-width: 1000px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: clamp(36px, 6vw, 56px);
+    }
+
+    .intro-col,
+    .slips {
+      grid-column: 1;
+    }
+
+    .slips {
+      justify-self: stretch;
+    }
+
+    .slip {
+      width: 100%;
+      max-width: 480px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .slip {
+      --slip-pad: 20px;
+    }
+  }
+</style>

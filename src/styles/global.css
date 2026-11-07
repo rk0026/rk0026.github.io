@@ -61,6 +61,11 @@ button { font: inherit; color: inherit; }
 /* Entrance: content is visible by default; JS adds .js-reveal to <html>, then .in per element. */
 .js-reveal [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 600ms var(--ease), transform 600ms var(--ease); transition-delay: calc(var(--i, 0) * 75ms); }
 .js-reveal [data-reveal].in { opacity: 1; transform: none; }
+/* Signature move: the footer wordmark grows 0.94 → 1 as it scrolls in. Static where unsupported. */
+@supports (animation-timeline: view()) {
+  .footer-word { transform-origin: left bottom; animation: wordmark-in linear both; animation-timeline: view(); animation-range: entry 0% cover 45%; }
+  @keyframes wordmark-in { from { scale: 0.94; } to { scale: 1; } }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js-reveal [data-reveal] { opacity: 1; transform: none; transition: none; }

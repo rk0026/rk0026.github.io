@@ -141,6 +141,7 @@ const zh: Dict = {
       { name: 'CIS Benchmark', disc: 'sec', detail: '依 CIS Benchmark 強化 IIS，並執行 Nessus 掃描。' },
       { name: 'Cloudflare API 防護', disc: 'sec', detail: '加強 Cloudflare API Security 控管。' },
     ],
+    photoAlt: '施工中的鋼構鐵路高架橋，橋墩與鋼樑一路延伸',
   },
   knowledge: {
     heading: '知識庫',

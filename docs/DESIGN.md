@@ -68,6 +68,13 @@ Collection `notes` (`src/content.config.ts`, glob loader `src/content/notes/**/*
 Routes (both locales; entries are shown in both, with their own language): `/notes/` (three categories), `/notes/<category>/` (list, newest first, empty state copy), `/notes/<category>/<slug>/` (article; prose styles for headings, lists, tables, `pre code` with a dark theme via Astro's built-in Shiki `github-dark`).
 No sample articles. Empty state must still look designed.
 
+## Hero three.js background (later, separate prompt)
+
+Slot: `#hero-three` in `Hero.astro`, absolutely filling the hero, `z-index:0`, `pointer-events:none`, below all text.
+Decision (owner): pure background, tech-startup feel; not tied to the pipeline theme.
+Constraints for the future prompt: palette colours only (`--bg`, `--field-1`, `--accent` sparingly, `--ink`); must never reduce h1/sentence contrast below 4.5:1; lazy-load three.js after first paint (dynamic `import()`), no layout shift; pause when the hero is off-screen or the tab is hidden; `prefers-reduced-motion` → one static frame; cap DPR at 2; phone keeps 60fps or drops to static.
+Skills: `.claude/skills/threejs-{fundamentals,geometry,shaders,performance}` (CloudAI-X/threejs-skills, targets three@0.186, vanilla `WebGLRenderer`). Not R3F: the site is plain Astro.
+
 ## Motion (integration step, after sections)
 
 Signature: footer wordmark scales .94 → 1 as it enters (CSS `animation-timeline: view()`, static fallback). Section entrances: heading → text → picture, 60–90ms stagger, 16–32px rise, IntersectionObserver adds `.in`; content visible without JS. Controls: hover/press/focus states. One moving picture: slow scale on the stats photo.

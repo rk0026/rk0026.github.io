@@ -1,7 +1,70 @@
 ---
-// Placeholder owned by a subagent; replaced by the real section.
+import credits from '../data/credits.json';
 import { t, type Lang } from '../i18n';
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
+const year = new Date().getFullYear();
 ---
-<section id="footer"><h2>{d.footer.rights}</h2></section>
+<footer class="footer">
+  <h2 class="visually-hidden">{d.footer.rights}</h2>
+
+  <div class="footer-word" aria-hidden="true">{d.hero.word}</div>
+
+  <div class="wrap">
+    <p class="credits">
+      <span class="credits-label">{d.footer.creditsLabel}</span>
+      {credits.map((c, i) => (
+        <span class="credit">
+          “<a href={c.page}>{c.title}</a>” by {c.creator},{' '}
+          <a href={c.licenseUrl}>{c.license}</a>, via {c.via}{i < credits.length - 1 ? '; ' : ''}
+        </span>
+      ))}
+    </p>
+    <p class="rights">© {year} {d.footer.rights}</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: calc(var(--section-gap) * 0.5) var(--margin);
+    overflow: clip;
+  }
+
+  .footer-word {
+    font-size: 22vw;
+    font-weight: 300;
+    line-height: 0.8;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    text-align: center;
+    margin-bottom: clamp(28px, 4vw, 56px);
+  }
+
+  .credits {
+    max-width: 92ch;
+    font-size: var(--step-body);
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .credits-label {
+    color: var(--muted);
+  }
+
+  .credit a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .rights {
+    margin-top: 16px;
+    font-size: 1rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 700px) {
+    .footer-word {
+      font-size: 21vw;
+    }
+  }
+</style>
