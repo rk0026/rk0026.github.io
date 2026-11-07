@@ -1,0 +1,269 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "rk0026.github.io 個人網站架構",
+  "output": ".archify/architecture-portfolio-20261107-134547/portfolio.html",
+  "quality_profile": "showcase",
+  "locale": "zh-CN"
+ },
+ "components": [
+  {
+   "id": "dev",
+   "type": "external",
+   "label": "開發者",
+   "sublabel": "git push main",
+   "pos": [
+    40,
+    300
+   ],
+   "size": [
+    130,
+    64
+   ]
+  },
+  {
+   "id": "repo",
+   "type": "cloud",
+   "label": "GitHub repo",
+   "sublabel": "rk0026.github.io",
+   "pos": [
+    260,
+    300
+   ],
+   "size": [
+    130,
+    64
+   ]
+  },
+  {
+   "id": "actions",
+   "type": "backend",
+   "label": "GitHub Actions",
+   "sublabel": "withastro/action",
+   "pos": [
+    520,
+    300
+   ],
+   "size": [
+    130,
+    64
+   ]
+  },
+  {
+   "id": "astro",
+   "type": "frontend",
+   "label": "Astro build",
+   "sublabel": "SSG → dist/",
+   "pos": [
+    780,
+    300
+   ],
+   "size": [
+    130,
+    64
+   ]
+  },
+  {
+   "id": "pages",
+   "type": "cloud",
+   "label": "GitHub Pages",
+   "sublabel": "CDN · HTTPS",
+   "pos": [
+    1040,
+    300
+   ],
+   "size": [
+    130,
+    64
+   ]
+  },
+  {
+   "id": "visitor",
+   "type": "external",
+   "label": "訪客",
+   "sublabel": "瀏覽器 / 手機",
+   "pos": [
+    1270,
+    300
+   ],
+   "size": [
+    130,
+    64
+   ]
+  },
+  {
+   "id": "i18n",
+   "type": "database",
+   "label": "i18n 文案",
+   "sublabel": "zh.ts · en.ts",
+   "pos": [
+    670,
+    120
+   ],
+   "size": [
+    130,
+    64
+   ]
+  },
+  {
+   "id": "notes",
+   "type": "database",
+   "label": "notes 集合",
+   "sublabel": "Markdown 文章",
+   "pos": [
+    890,
+    120
+   ],
+   "size": [
+    130,
+    64
+   ]
+  },
+  {
+   "id": "sections",
+   "type": "frontend",
+   "label": "首頁 7 區塊",
+   "sublabel": "Astro 元件",
+   "pos": [
+    670,
+    480
+   ],
+   "size": [
+    130,
+    64
+   ]
+  },
+  {
+   "id": "assets",
+   "type": "database",
+   "label": "public/",
+   "sublabel": "img · cv.pdf",
+   "pos": [
+    890,
+    480
+   ],
+   "size": [
+    130,
+    64
+   ]
+  }
+ ],
+ "boundaries": [
+  {
+   "kind": "region",
+   "label": "GitHub · rk0026",
+   "wraps": [
+    "repo",
+    "actions",
+    "astro",
+    "pages",
+    "i18n",
+    "notes",
+    "sections",
+    "assets"
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "push",
+   "from": "dev",
+   "to": "repo",
+   "label": "git push",
+   "variant": "emphasis"
+  },
+  {
+   "id": "trigger",
+   "from": "repo",
+   "to": "actions",
+   "label": "on push"
+  },
+  {
+   "id": "build",
+   "from": "actions",
+   "to": "astro",
+   "label": "npm run build"
+  },
+  {
+   "id": "deploy",
+   "from": "astro",
+   "to": "pages",
+   "label": "上傳 artifact",
+   "variant": "emphasis"
+  },
+  {
+   "id": "visit",
+   "from": "visitor",
+   "to": "pages",
+   "label": "HTTPS",
+   "fromSide": "left",
+   "toSide": "right"
+  },
+  {
+   "id": "copy",
+   "from": "i18n",
+   "to": "astro",
+   "label": "文案",
+   "fromSide": "bottom",
+   "toSide": "top"
+  },
+  {
+   "id": "coll",
+   "from": "notes",
+   "to": "astro",
+   "label": "getCollection",
+   "fromSide": "bottom",
+   "toSide": "top"
+  },
+  {
+   "id": "comp",
+   "from": "sections",
+   "to": "astro",
+   "label": "元件",
+   "fromSide": "top",
+   "toSide": "bottom"
+  },
+  {
+   "id": "static",
+   "from": "assets",
+   "to": "astro",
+   "label": "靜態檔",
+   "fromSide": "top",
+   "toSide": "bottom",
+   "variant": "dashed"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "路由",
+   "items": [
+    "/ 中文首頁 · /en/ 英文首頁",
+    "/notes/<分類>/ 文章列表",
+    "/notes/<分類>/<slug>/ 文章頁",
+    "分類：dsa · troubleshooting · patterns"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Subagent 分工",
+   "items": [
+    "W1 Hero · About · Contact · Footer",
+    "W2 Pipeline 收據（互動）· Stats",
+    "W3 作品書脊 · 知識庫海報列",
+    "W4 notes 列表頁與文章頁"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "共用合約（主線先做）",
+   "items": [
+    "global.css 色彩與字級 tokens",
+    "i18n 文案型別 zh / en",
+    "content.config.ts notes schema",
+    "Base layout · Pages workflow"
+   ]
+  }
+ ]
+}

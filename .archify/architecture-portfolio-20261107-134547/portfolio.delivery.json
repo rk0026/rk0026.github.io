@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "81b44700-ae52-49d5-9ec4-073f6f228554",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\Users\\abc75\\portfolio\\.archify\\architecture-portfolio-20261107-134547\\candidate.json",
+  "output": "C:\\Users\\abc75\\portfolio\\.archify\\architecture-portfolio-20261107-134547\\portfolio.html",
+  "specification": {
+    "sha256": "2e1f88e1da72ee8d107817e7f645c9033caceb9c76fddb259b72adb237eb6a0e",
+    "bytes": 4414
+  },
+  "artifact": {
+    "sha256": "0e3a7dddb3cb44919c2565b5302bebf997029735523df18b7c037375164248c0",
+    "bytes": 763018
+  }
+}

@@ -1,0 +1,39 @@
+---
+import '../styles/global.css';
+import { t, type Lang } from '../i18n';
+
+interface Props { lang: Lang; title?: string; description?: string }
+const { lang, title, description } = Astro.props;
+const d = t(lang);
+const alt = lang === 'zh' ? { lang: 'en', path: '/en' } : { lang: 'zh-Hant-TW', path: '' };
+const bare = Astro.url.pathname.replace(/^\/en(?=\/)/, '');
+---
+<!doctype html>
+<html lang={d.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title ?? d.meta.title}</title>
+    <meta name="description" content={description ?? d.meta.description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="alternate" hreflang={alt.lang} href={new URL(alt.path + bare, Astro.site)} />
+    <meta property="og:title" content={title ?? d.meta.title} />
+    <meta property="og:description" content={description ?? d.meta.description} />
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://api.fontshare.com/v2/css?f[]=sentient@300,400,500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&display=swap" rel="stylesheet" />
+    <script is:inline>document.documentElement.classList.add('js-reveal');</script>
+  </head>
+  <body>
+    <slot />
+    <script>
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }, { rootMargin: '0px 0px -10% 0px' });
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

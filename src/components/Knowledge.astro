@@ -1,0 +1,7 @@
+---
+// Placeholder owned by a subagent; replaced by the real section.
+import { t, type Lang } from '../i18n';
+const { lang } = Astro.props as { lang: Lang };
+const d = t(lang);
+---
+<section id="knowledge"><h2>{d.knowledge.heading}</h2></section>

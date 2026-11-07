@@ -1,0 +1,185 @@
+import type { Dict } from './index';
+
+const en: Dict = {
+  htmlLang: 'en',
+  meta: {
+    title: 'Hsuan-Te Lin — Full-cycle engineer',
+    description: 'Full-cycle engineer with eight years of experience: builds web and mobile apps, ships them, and runs the 15 Kubernetes clusters they live on.',
+  },
+  nav: { about: 'About', work: 'Work', notes: 'Notes', menu: 'Menu', switchLabel: '中文', switchHref: '/' },
+  hero: {
+    word: 'Hsuan-Te',
+    h1: 'Hsuan-Te Lin, full-cycle engineer',
+    sentence: 'From the first line of code to the cluster at 3 a.m., I have walked the whole path.',
+    cta: 'Download résumé',
+    ctaHref: '/cv.pdf',
+  },
+  about: {
+    heading: 'About',
+    parts: [
+      'Hsuan-Te Lin is an engineer from ',
+      { text: 'Taiwan', tone: 'paper' },
+      ' with eight years in software. He started on React front ends at Aurora, then joined ',
+      { text: 'Delta Electronics', tone: 'plum' },
+      ' in 2020 and grew with one enterprise learning platform: shipping its apps, owning its services, and now running ',
+      { text: '15 Kubernetes clusters', tone: 'accent' },
+      '. He has 1,650+ commits on its React Native app and cut its AWS compute bill by ',
+      { text: 'about 40%', tone: 'paper' },
+      '. His master’s at National Taiwan University built drought early-warning systems; the same curiosity now goes into AI, using ',
+      { text: 'SHAP and LLMs', tone: 'plum' },
+      ' to find the root cause of data-centre anomalies, work that won an honourable mention at the ',
+      { text: 'AI Smart Innovation Award', tone: 'paper' },
+      '. The layer matters less to him than whether someone owns the whole path.',
+    ],
+    closing: 'Want to talk? Write to me.',
+  },
+  pipeline: {
+    heading: 'One person, whole pipeline',
+    intro: 'A project starts with code and ends only when people use it and someone is there when it breaks at night. Pick one and read the path it actually took.',
+    pickLabel: 'Choose a project',
+    projects: [
+      {
+        id: 'lms',
+        name: 'Enterprise LMS',
+        groups: [
+          { name: 'Build', rows: [
+            { stage: 'React Native multi-tenant app', value: '1,650+ commits' },
+            { stage: 'Next.js 14 platform & admin', value: '900+ commits' },
+          ] },
+          { name: 'Ship', rows: [
+            { stage: 'macOS GitLab build runners', value: 'CI/CD' },
+            { stage: 'App Store & Google Play', value: 'Released' },
+            { stage: 'CodePush OTA', value: 'Hot updates' },
+            { stage: 'SonarQube & Fortify', value: 'Scanned' },
+          ] },
+          { name: 'Operate', rows: [
+            { stage: 'Kubernetes clusters', value: '15' },
+            { stage: 'Peak concurrent users', value: '3,000' },
+            { stage: 'ArgoCD GitOps', value: 'Deployed' },
+          ] },
+        ],
+        result: { stage: 'Registered accounts', value: '250,000+' },
+      },
+      {
+        id: 'social',
+        name: 'Social platform',
+        groups: [
+          { name: 'Build', rows: [
+            { stage: 'Next.js 15 / React 19', value: '193 API routes' },
+            { stage: 'PostgreSQL schema', value: '87 tables' },
+            { stage: 'Service layer', value: '67 modules' },
+          ] },
+          { name: 'Ship', rows: [
+            { stage: 'GitHub Actions CI', value: 'Vitest, Playwright' },
+            { stage: 'Zod boundary validation', value: 'Every request' },
+          ] },
+          { name: 'Operate', rows: [
+            { stage: 'SSE realtime', value: 'Live' },
+            { stage: 'Scheduled jobs', value: 'Timed' },
+            { stage: 'Two-stage moderation', value: 'Automatic' },
+          ] },
+        ],
+        result: { stage: 'Empty repo to production', value: 'Solo' },
+      },
+      {
+        id: 'aces',
+        name: 'ACES anomaly detection',
+        groups: [
+          { name: 'Build', rows: [
+            { stage: 'Telemetry anomaly detection', value: 'Python' },
+            { stage: 'Per-row SHAP attribution', value: 'Explainable' },
+            { stage: 'LLM root-cause analysis', value: 'RCA' },
+          ] },
+          { name: 'Ship', rows: [
+            { stage: 'Results written back over REST', value: 'Monitoring' },
+            { stage: '3D visualisation demo', value: 'React Three Fiber' },
+          ] },
+          { name: 'Operate', rows: [
+            { stage: 'Data-centre monitoring', value: 'Delta Research' },
+          ] },
+        ],
+        result: { stage: 'AI Smart Innovation Award', value: 'Hon. mention' },
+      },
+    ],
+  },
+  stats: {
+    heading: 'Production clusters I run',
+    figure: '15',
+    caption: 'Across AWS EKS, Azure AKS, Alibaba Cloud and on-premises, five environments, serving 250,000+ registered accounts. Since 2022, zero-downtime upgrades spanning 10 Kubernetes versions.',
+    photoAlt: 'A 1940s telephone exchange cabinet, rows of relays and wiring',
+  },
+  work: {
+    heading: 'Things I built',
+    note: 'Pick a spine to read what it was.',
+    disciplines: { fe: 'Front end & mobile', be: 'Back end', infra: 'Infrastructure', ai: 'AI & data', sec: 'Security' },
+    items: [
+      { name: 'Enterprise LMS app', disc: 'fe', detail: 'Single-app, multi-tenant React Native; one of two lead contributors, 1,650+ commits over four years.' },
+      { name: 'Next.js LMS platform', disc: 'fe', detail: 'Next.js 14 platform and admin: course studio, learner management, reporting, explore and commerce.' },
+      { name: 'App release pipeline', disc: 'fe', detail: 'App Store, Google Play, CodePush OTA, APNs and FCM push, and the macOS build runners behind them.' },
+      { name: 'Consumer lending app', disc: 'fe', detail: 'Regulated fintech app from zero to store: biometric login, KYC capture, three languages, Detox E2E.' },
+      { name: 'ACES 3D demo', disc: 'fe', detail: 'A 3D data-centre visualisation built with React Three Fiber.' },
+      { name: 'Aurora web front ends', disc: 'fe', detail: 'React web front ends at Aurora Technology, 2018–2020.' },
+      { name: 'Aurora mobile apps', disc: 'fe', detail: 'Cross-platform iOS and Android apps in React Native.' },
+      { name: 'Lambda media pipeline', disc: 'be', detail: 'Primary author of an AWS Lambda media-processing pipeline.' },
+      { name: 'WebSocket realtime hub', disc: 'be', detail: 'Owns the LMS WebSocket hub, notification and AI-assistant services.' },
+      { name: 'Seat race condition', disc: 'be', detail: 'Fixed a top-priority race that dropped learners from seats mid-session at capacity.' },
+      { name: 'AMQP study records', disc: 'be', detail: 'Hardened study-record delivery with AMQP so records stop going missing.' },
+      { name: 'Account lifecycle', disc: 'be', detail: 'Soft deletion and reactivation that keep the UID and the audit history.' },
+      { name: 'Social platform API', disc: 'be', detail: '193 routes, 87 tables, OAuth + JWT, transactional writes, cursor pagination, rate limits.' },
+      { name: 'Java features', disc: 'be', detail: 'Ramped up on an unfamiliar Java production codebase and shipped features.' },
+      { name: '15 Kubernetes clusters', disc: 'infra', detail: 'EKS, AKS, Alibaba Cloud and on-prem across five environments; one cluster hosts 15+ business units.' },
+      { name: 'AWS Spot migration', disc: 'infra', detail: 'Moved compute to Spot and cut its cost by about 40%.' },
+      { name: 'GitOps delivery path', disc: 'infra', detail: 'GitLab CI/CD, ArgoCD, Dockerfiles and Harbor, owned end to end.' },
+      { name: 'Zero-downtime upgrades', disc: 'infra', detail: 'Cluster upgrades without downtime across 10 Kubernetes versions.' },
+      { name: 'etcd recovery', disc: 'infra', detail: 'Led incident response including etcd control-plane recovery and CoreDNS.' },
+      { name: 'Data layer', disc: 'infra', detail: 'PostgreSQL, MongoDB, Redis, RabbitMQ, OpenSearch and MinIO with automated failover.' },
+      { name: 'Thailand EV platform', disc: 'infra', detail: 'Bootstrapped a greenfield Kubernetes platform and workflow for Delta Thailand’s EV app.' },
+      { name: 'ACES anomaly pipeline', disc: 'ai', detail: 'Solo Python pipeline: telemetry → anomaly detection → SHAP → LLM root-cause analysis.' },
+      { name: 'Multi-agent ops', disc: 'ai', detail: 'Six agents for monitoring, incidents and development, restricted to branch-only commits.' },
+      { name: 'Drought early warning', disc: 'ai', detail: 'Water-supply-risk warning and decision support for Formosa Plastics and UMC; EGU 2016.' },
+      { name: 'Brute-force login fix', disc: 'sec', detail: 'Fixed a pen-test finding across back end, front end and infrastructure.' },
+      { name: 'CIS Benchmark', disc: 'sec', detail: 'Hardened IIS against the CIS Benchmark and ran Nessus scans.' },
+      { name: 'Cloudflare API security', disc: 'sec', detail: 'Strengthened Cloudflare API Security controls.' },
+    ],
+  },
+  knowledge: {
+    heading: 'Notes',
+    empty: 'In progress',
+    count: (n) => `${n} ${n === 1 ? 'entry' : 'entries'}`,
+    items: [
+      { slug: 'dsa', label: 'algorithms' },
+      { slug: 'troubleshooting', label: 'troubleshooting' },
+      { slug: 'patterns', label: 'patterns' },
+    ],
+    photoAlt: 'Second World War telephone switchboard operators',
+  },
+  notes: {
+    title: 'Notes',
+    intro: 'What I actually used and actually tripped over at work, written down.',
+    descriptions: {
+      dsa: 'Data structures and algorithms, with where they turned up in real systems.',
+      troubleshooting: 'Production incidents and how they were debugged: symptom, hypothesis, evidence, fix.',
+      patterns: 'Design-pattern trade-offs: when to reach for one and when not to.',
+    },
+    empty: 'In progress. The first entry is on its way.',
+    back: 'Back to notes',
+    backHome: 'Back home',
+    published: 'Published',
+    photoAlt: 'A field telephone switchboard operator, 1942',
+  },
+  contact: {
+    heading: 'Contact',
+    greeting: 'Hello',
+    mailSubject: 'Hello Hsuan-Te',
+    rows: [
+      { text: 'abc751202@gmail.com', href: 'mailto:abc751202@gmail.com' },
+      { text: '+886 983-526-503', href: 'tel:+886983526503' },
+      { text: 'linkedin.com/in/hsuante-lin', href: 'https://www.linkedin.com/in/hsuante-lin' },
+      { text: 'github.com/rk0026', href: 'https://github.com/rk0026' },
+      { text: 'Taiwan' },
+    ],
+  },
+  footer: { creditsLabel: 'Pictures', rights: 'Hsuan-Te Lin' },
+};
+
+export default en;

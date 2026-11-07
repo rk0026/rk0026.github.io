@@ -1,0 +1,185 @@
+import type { Dict } from './index';
+
+const zh: Dict = {
+  htmlLang: 'zh-Hant-TW',
+  meta: {
+    title: '林軒德 — Full-cycle 工程師',
+    description: '八年經驗的 full-cycle 工程師：寫 Web 與 App、把它們上架，再維運它們所在的 15 座 Kubernetes 叢集。',
+  },
+  nav: { about: '關於', work: '作品', notes: '知識庫', menu: '選單', switchLabel: 'English', switchHref: '/en/' },
+  hero: {
+    word: 'Hsuan-Te',
+    h1: '林軒德，full-cycle 工程師',
+    sentence: '從第一行程式到凌晨三點的叢集，整條路我都自己走過。',
+    cta: '下載履歷',
+    ctaHref: '/cv.pdf',
+  },
+  about: {
+    heading: '關於我',
+    parts: [
+      '林軒德，',
+      { text: '台灣', tone: 'paper' },
+      '的工程師，做軟體做了八年。從 Aurora 寫 React 前端開始，2020 年進入',
+      { text: '台達電子', tone: 'plum' },
+      '，在同一套企業學習平台上一路從 App 上架、後端服務，做到維運',
+      { text: '15 座 Kubernetes 叢集', tone: 'accent' },
+      '。我寫過一千六百多次提交的 React Native App，也把 AWS 運算成本砍掉',
+      { text: '約 40%', tone: 'paper' },
+      '。研究所在台大做乾旱預警系統，後來把同樣的好奇心帶進 AI：用 ',
+      { text: 'SHAP 與 LLM', tone: 'plum' },
+      ' 找出資料中心異常的根因，拿下經濟部',
+      { text: 'AI 智能創新大賞', tone: 'paper' },
+      '佳作。我在意的不是哪一層，而是整條路有沒有人負責。',
+    ],
+    closing: '想聊聊的話，寫信給我。',
+  },
+  pipeline: {
+    heading: '一個人，整條管線',
+    intro: '每個專案都從寫程式開始，到有人真的在用、半夜出事有人接住才算結束。挑一個專案，看它實際走過的路。',
+    pickLabel: '選擇專案',
+    projects: [
+      {
+        id: 'lms',
+        name: '企業學習平台',
+        groups: [
+          { name: '建置', rows: [
+            { stage: 'React Native 多租戶 App', value: '1,650+ 次提交' },
+            { stage: 'Next.js 14 平台與後台', value: '900+ 次提交' },
+          ] },
+          { name: '交付', rows: [
+            { stage: 'macOS GitLab Runner 打包', value: 'CI/CD' },
+            { stage: 'App Store 與 Google Play', value: '上架' },
+            { stage: 'CodePush OTA', value: '熱更新' },
+            { stage: 'SonarQube 與 Fortify', value: '弱點掃描' },
+          ] },
+          { name: '維運', rows: [
+            { stage: 'Kubernetes 叢集', value: '15 座' },
+            { stage: '尖峰同時在線', value: '3,000 人' },
+            { stage: 'ArgoCD GitOps', value: '部署' },
+          ] },
+        ],
+        result: { stage: '註冊帳號', value: '250,000+' },
+      },
+      {
+        id: 'social',
+        name: '社群平台',
+        groups: [
+          { name: '建置', rows: [
+            { stage: 'Next.js 15 / React 19', value: '193 支 API' },
+            { stage: 'PostgreSQL schema', value: '87 張表' },
+            { stage: 'Service layer', value: '67 個模組' },
+          ] },
+          { name: '交付', rows: [
+            { stage: 'GitHub Actions CI', value: 'Vitest、Playwright' },
+            { stage: 'Zod 邊界驗證', value: '每個請求' },
+          ] },
+          { name: '維運', rows: [
+            { stage: 'SSE 即時推播', value: '即時' },
+            { stage: '排程任務', value: '定時' },
+            { stage: '兩階段內容審核', value: '自動' },
+          ] },
+        ],
+        result: { stage: '從空 repo 到上線', value: '一人完成' },
+      },
+      {
+        id: 'aces',
+        name: 'ACES 異常偵測',
+        groups: [
+          { name: '建置', rows: [
+            { stage: '遙測資料異常偵測', value: 'Python' },
+            { stage: 'SHAP 逐列歸因', value: '可解釋' },
+            { stage: 'LLM 根因分析', value: 'RCA' },
+          ] },
+          { name: '交付', rows: [
+            { stage: '結果以 REST 寫回', value: '監控平台' },
+            { stage: '3D 視覺化展示', value: 'React Three Fiber' },
+          ] },
+          { name: '維運', rows: [
+            { stage: '資料中心監控', value: '台達研究院' },
+          ] },
+        ],
+        result: { stage: '經濟部 AI 智能創新大賞', value: '佳作' },
+      },
+    ],
+  },
+  stats: {
+    heading: '我維運的生產叢集',
+    figure: '15',
+    caption: '橫跨 AWS EKS、Azure AKS、阿里雲與地端機房，五個環境，承載 25 萬以上註冊帳號。2022 年至今，零停機升級跨越 10 個 Kubernetes 版本。',
+    photoAlt: '1940 年代的電話交換機機櫃，成排的繼電器與線路',
+  },
+  work: {
+    heading: '做過的事',
+    note: '點一本書脊，看那件事的細節。',
+    disciplines: { fe: '前端與 App', be: '後端', infra: '基礎設施', ai: 'AI 與資料', sec: '資安' },
+    items: [
+      { name: '企業 LMS App', disc: 'fe', detail: 'React Native 單一 App 多租戶架構，四年 1,650+ 次提交的兩位主要開發者之一。' },
+      { name: 'Next.js 學習平台', disc: 'fe', detail: 'Next.js 14 平台與管理後台：課程編輯、學員管理、報表、前台探索與購課。' },
+      { name: 'App 上架流水線', disc: 'fe', detail: 'App Store、Google Play、CodePush OTA、APNs 與 FCM 推播，以及背後的 macOS 打包機。' },
+      { name: '消費貸款 App', disc: 'fe', detail: '受監管的金融 App 從零到上架：生物辨識登入、KYC 證件拍攝、三語系、Detox E2E。' },
+      { name: 'ACES 3D 展示', disc: 'fe', detail: '以 React Three Fiber 打造資料中心的 3D 視覺化展示。' },
+      { name: 'Aurora React 前端', disc: 'fe', detail: '2018–2020 年在 Aurora Technology 開發 React 網頁前端。' },
+      { name: 'Aurora 跨平台 App', disc: 'fe', detail: '以 React Native 開發 iOS 與 Android 跨平台 App。' },
+      { name: 'Lambda 媒體管線', disc: 'be', detail: 'AWS Lambda 媒體處理管線的主要作者。' },
+      { name: 'WebSocket 即時中樞', disc: 'be', detail: '負責 LMS 的 WebSocket 即時服務、通知與 AI 助理服務。' },
+      { name: '座位搶占競態修復', disc: 'be', detail: '修掉最高優先的並發競態：額滿時學員上課到一半被踢出座位。' },
+      { name: 'AMQP 學習紀錄', disc: 'be', detail: '用 AMQP 強化學習紀錄投遞，不再遺失。' },
+      { name: '帳號生命週期', disc: 'be', detail: '支援軟刪除與重新啟用，同時保留 UID 與稽核紀錄。' },
+      { name: '社群平台後端', disc: 'be', detail: '193 支 API、87 張表，OAuth + JWT、交易寫入、游標分頁、限流。' },
+      { name: 'Java 功能交付', disc: 'be', detail: '接手不熟悉的 Java 生產程式碼並交付新功能。' },
+      { name: '15 座 K8s 叢集', disc: 'infra', detail: 'EKS、AKS、阿里雲與地端，五個環境；一座多租戶叢集承載 15 個以上事業單位。' },
+      { name: 'AWS Spot 遷移', disc: 'infra', detail: '把運算移到 Spot，成本降低約 40%。' },
+      { name: 'GitOps 部署路徑', disc: 'infra', detail: 'GitLab CI/CD、ArgoCD、Dockerfile 與 Harbor，整條部署路徑自己負責。' },
+      { name: '零停機升級', disc: 'infra', detail: '叢集零停機升級，跨越 10 個 Kubernetes 版本。' },
+      { name: 'etcd 控制平面救援', disc: 'infra', detail: '主導生產事故處理，包括 etcd 控制平面復原與 CoreDNS 問題。' },
+      { name: '資料層維運', disc: 'infra', detail: 'PostgreSQL、MongoDB、Redis、RabbitMQ、OpenSearch、MinIO，含自動容錯切換。' },
+      { name: '泰國 EV 平台', disc: 'infra', detail: '為台達泰國新 EV App 從零建置 Kubernetes 平台與工程流程。' },
+      { name: 'ACES 異常偵測', disc: 'ai', detail: '獨力完成遙測 → 異常偵測 → SHAP 歸因 → LLM 根因分析的 Python 管線。' },
+      { name: '多代理維運平台', disc: 'ai', detail: '六個代理協作監控、事故處理與開發，限定只能提交到分支。' },
+      { name: '乾旱預警系統', disc: 'ai', detail: '為台塑與聯電打造的缺水風險預警與決策支援系統，發表於 EGU 2016。' },
+      { name: '暴力登入修補', disc: 'sec', detail: '依滲透測試結果，橫跨前端、後端與基礎設施修補暴力登入弱點。' },
+      { name: 'CIS Benchmark', disc: 'sec', detail: '依 CIS Benchmark 強化 IIS，並執行 Nessus 掃描。' },
+      { name: 'Cloudflare API 防護', disc: 'sec', detail: '加強 Cloudflare API Security 控管。' },
+    ],
+  },
+  knowledge: {
+    heading: '知識庫',
+    empty: '整理中',
+    count: (n) => `${n} 篇`,
+    items: [
+      { slug: 'dsa', label: '演算法' },
+      { slug: 'troubleshooting', label: '除錯實錄' },
+      { slug: 'patterns', label: '設計模式' },
+    ],
+    photoAlt: '二戰時期的電話總機接線員',
+  },
+  notes: {
+    title: '知識庫',
+    intro: '工作中真正用到、真正踩過的東西，寫下來。',
+    descriptions: {
+      dsa: '資料結構與演算法，附上在實際系統裡遇到它的地方。',
+      troubleshooting: '生產環境的事故與除錯過程：症狀、假設、證據、修正。',
+      patterns: '設計模式的取捨，什麼時候該用，什麼時候別用。',
+    },
+    empty: '整理中，第一篇很快就到。',
+    back: '回知識庫',
+    backHome: '回首頁',
+    published: '發佈於',
+    photoAlt: '1942 年野戰電話總機前的接線員',
+  },
+  contact: {
+    heading: '聯絡方式',
+    greeting: '你好',
+    mailSubject: '你好，林軒德',
+    rows: [
+      { text: 'abc751202@gmail.com', href: 'mailto:abc751202@gmail.com' },
+      { text: '+886 983-526-503', href: 'tel:+886983526503' },
+      { text: 'linkedin.com/in/hsuante-lin', href: 'https://www.linkedin.com/in/hsuante-lin' },
+      { text: 'github.com/rk0026', href: 'https://github.com/rk0026' },
+      { text: '台灣' },
+    ],
+  },
+  footer: { creditsLabel: '圖片', rights: '林軒德' },
+};
+
+export default zh;
