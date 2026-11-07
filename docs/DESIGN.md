@@ -28,6 +28,7 @@ Name on the site: “Jimmy” (zh `Jimmy 林軒德`, en `Jimmy Lin`).
 
 | Route | View | Cards |
 |---|---|---|
+| `/wispo/` | `views/Wispo.astro` | Side project Wispo: intro + live screenshot (`public/img/wispo-home.jpg`) · features · engineering facts + architecture chips · Wispo Story with screenshot (`wispo-story.jpg`). Screenshots are captures of www.wispo.cc / story.wispo.cc; recapture when those sites change |
 | `/` | `views/Home.astro` | Profile (square portrait `public/img/me.jpg`, name, role, `.btn` Download CV + Get in touch) · Overview (`aboutPage.paragraphs`) · In numbers (`home.facts`) · Explore (`home.tiles` as 2×2 image cards like Unti's Projects, image + title + text + →) |
 | `/about/` | `views/About.astro` | Experience (`aboutPage.timeline`: monogram tile, org, role, points, period with calendar icon) · Education · Award |
 | `/stack/` | `views/Stack.astro` | One card per `stackPage.groups`, items as tool tiles (icon + name) like Unti's Tools |

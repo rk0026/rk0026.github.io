@@ -1,0 +1,84 @@
+---
+// Wispo: the side project, on its own page.
+import Base from '../layouts/Base.astro';
+import { t, type Lang } from '../i18n';
+
+const { lang } = Astro.props as { lang: Lang };
+const d = t(lang);
+const w = d.wispoPage;
+const arrow = 'M7 17 17 7M8 7h9v9';
+---
+<Base lang={lang} current="wispo" title={`${w.title} — ${d.footer.rights}`} description={w.intro}>
+  <main>
+    <section class="card" data-reveal>
+      <span class="label">{w.label}</span>
+      <h1>{w.title}</h1>
+      <p class="muted lead">{w.intro}</p>
+      <a class="btn" href="https://www.wispo.cc" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d={arrow} /></svg>
+        {w.visit}
+      </a>
+      <img class="shot" src="/img/wispo-home.jpg" alt={w.shotAlt} width="1800" height="1125" loading="eager" decoding="async" />
+    </section>
+
+    <section class="card" data-reveal>
+      <span class="label">{w.featuresLabel}</span>
+      <div class="grid">
+        {w.features.map((f) => (
+          <div class="inner">
+            <h2>{f.name}</h2>
+            <p class="muted">{f.items}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="card" data-reveal>
+      <span class="label">{w.buildLabel}</span>
+      <div class="facts">
+        {w.buildFacts.map((f) => (
+          <div class="inner"><span class="value">{f.value}</span><span class="muted small">{f.label}</span></div>
+        ))}
+      </div>
+      <ul class="points">
+        {w.buildPoints.map((p) => <li>{p}</li>)}
+      </ul>
+      <span class="label">{w.stackLabel}</span>
+      <ul class="chips">
+        {w.stack.map((s) => <li>{s}</li>)}
+      </ul>
+    </section>
+
+    <section class="card" data-reveal>
+      <span class="label">{w.storyLabel}</span>
+      <h2>{w.storyTitle}</h2>
+      <p class="muted lead">{w.storyText}</p>
+      <a class="btn" href="https://story.wispo.cc" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d={arrow} /></svg>
+        {w.storyVisit}
+      </a>
+      <img class="shot" src="/img/wispo-story.jpg" alt={w.storyAlt} width="1800" height="1125" loading="lazy" decoding="async" />
+    </section>
+  </main>
+</Base>
+
+<style>
+  .card > * + * { margin-top: 14px; }
+  h1 { font-size: var(--step-display); font-weight: 300; }
+  h2 { font-size: var(--step-head); }
+  .inner h2 { font-size: var(--step-lead); }
+  .lead { max-width: 60ch; }
+  .shot { width: 100%; border-radius: var(--radius-inner); border: 1px solid var(--line); }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+  .grid p { margin-top: 4px; font-size: var(--step-small); }
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+  .facts .inner { display: flex; flex-direction: column; }
+  .value { font-size: 2rem; font-weight: 300; line-height: 1.1; }
+  .small { font-size: var(--step-small); }
+  .points { margin: 14px 0 0; padding-left: 1.2em; display: grid; gap: 6px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 0; padding: 0; list-style: none; }
+  .chips li { padding: 4px 10px; border-radius: 8px; border: 1px solid var(--line); font-size: var(--step-small); }
+  @media (max-width: 640px) {
+    .grid, .facts { grid-template-columns: 1fr; }
+  }
+</style>

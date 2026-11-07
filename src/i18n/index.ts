@@ -9,7 +9,7 @@ export type Row = { stage: string; value: string };
 export type Dict = {
   htmlLang: string;
   meta: { title: string; description: string };
-  nav: { home: string; about: string; stack: string; projects: string; notes: string; contact: string; menu: string; switchLabel: string };
+  nav: { home: string; about: string; stack: string; projects: string; wispo: string; notes: string; contact: string; menu: string; switchLabel: string };
   top: { location: string; clockLabel: string; themeLabel: string };
   home: {
     name: string;
@@ -20,6 +20,8 @@ export type Dict = {
     overviewLabel: string;
     factsLabel: string;
     facts: Array<{ value: string; label: string }>;
+    sideLabel: string;
+    side: { title: string; text: string; shotAlt: string };
     pagesLabel: string;
     tiles: Array<{ page: 'about' | 'stack' | 'projects' | 'notes'; title: string; text: string }>;
   };
@@ -36,6 +38,25 @@ export type Dict = {
   };
   stackPage: { title: string; intro: string; groups: Array<{ name: string; items: string[] }> };
   projectsPage: { title: string; intro: string };
+  wispoPage: {
+    label: string;
+    title: string;
+    intro: string;
+    visit: string;
+    shotAlt: string;
+    featuresLabel: string;
+    features: Array<{ name: string; items: string }>;
+    buildLabel: string;
+    buildFacts: Array<{ value: string; label: string }>;
+    buildPoints: string[];
+    stackLabel: string;
+    stack: string[];
+    storyLabel: string;
+    storyTitle: string;
+    storyText: string;
+    storyVisit: string;
+    storyAlt: string;
+  };
   contactPage: { title: string; intro: string };
   hero: { word: string; cta: string; ctaHref: string };
   pipeline: {

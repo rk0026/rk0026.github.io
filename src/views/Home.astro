@@ -49,6 +49,24 @@ const shots = {
       </div>
     </section>
 
+    <section class="card side" data-reveal style="--i:2">
+      <span class="label">{d.home.sideLabel}</span>
+      <a class="inner tile" href={href(lang, '/wispo/')}>
+        <div class="thumb wide">
+          <img src="/img/wispo-home.jpg" alt={d.home.side.shotAlt} width="1800" height="1125" loading="lazy" decoding="async" />
+        </div>
+        <div class="tile-row">
+          <div class="tile-text">
+            <span class="tile-title">{d.home.side.title}</span>
+            <span class="tile-copy">{d.home.side.text}</span>
+          </div>
+          <span class="icon-btn" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
+          </span>
+        </div>
+      </a>
+    </section>
+
     <section class="card numbers" data-reveal style="--i:2">
       <span class="label">{d.home.factsLabel}</span>
       <div class="facts">
@@ -181,6 +199,8 @@ const shots = {
     overflow: hidden;
     background: var(--surface);
   }
+  .thumb.wide { aspect-ratio: 16 / 9; }
+  .thumb.wide img { object-position: top left; }
   .thumb img {
     width: 100%;
     height: 100%;
