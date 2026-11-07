@@ -29,6 +29,10 @@ const shots = {
       <div class="who">
         <h1 class="name">{d.home.name}</h1>
         <p class="role muted">{d.home.role}</p>
+        <p class="now muted">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" /></svg>
+          {d.home.now}
+        </p>
         <div class="actions">
           <a class="btn" href={d.hero.ctaHref} download>
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14" /></svg>
@@ -132,6 +136,13 @@ const shots = {
     object-position: 50% 25%;
   }
   .who { min-width: 0; }
+  .now {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: var(--step-small);
+  }
   .name {
     font-size: var(--step-display);
     font-weight: 300;

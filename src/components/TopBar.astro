@@ -14,8 +14,8 @@ const items: Array<{ id: Page; path: string }> = [
   { id: 'notes', path: '/notes/' },
   { id: 'contact', path: '/contact/' },
 ];
-const bare = Astro.url.pathname.replace(/^\/en(?=\/)/, '') || '/';
-const switchHref = lang === 'zh' ? `/en${bare}` : bare;
+const bare = Astro.url.pathname.replace(/^\/zh(?=\/)/, '') || '/';
+const switchHref = lang === 'en' ? `/zh${bare}` : bare;
 ---
 <header class="card topbar">
   <div class="row">

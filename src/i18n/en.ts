@@ -10,7 +10,8 @@ const en: Dict = {
   top: { location: 'Taiwan', clockLabel: 'Current time in Taiwan', themeLabel: 'Toggle light / dark' },
   home: {
     name: 'Jimmy Lin',
-    role: 'Full-cycle engineer at Delta Electronics',
+    role: 'Full-cycle engineer',
+    now: 'Currently SRE at Delta Electronics',
     photoAlt: 'Portrait of Jimmy (Hsuan-Te) Lin',
     cv: 'Download CV',
     touch: 'Get in touch',

@@ -1,6 +1,6 @@
 # Portfolio — design spec (v3, Unti style)
 
-Site: `https://rk0026.github.io` · Astro (static) · GitHub Pages via Actions · zh-TW (default, `/`) + en (`/en/`).
+Site: `https://rk0026.github.io` · Astro (static) · GitHub Pages via Actions · en (default, `/`) + zh-TW (`/zh/`). Old `/en/*` URLs redirect to `/*` (`astro.config.mjs`).
 Direction: modelled on the Framer template Unti (`https://unti.framer.website`), chosen by the owner on 2026-11-07, replacing v2 (Cohesion). Multi-page is kept (owner preference); every page is Unti's single centred column of stacked cards. Light and dark themes.
 Name on the site: “Jimmy” (zh `Jimmy 林軒德`, en `Jimmy Lin`).
 

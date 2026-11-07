@@ -10,7 +10,8 @@ const zh: Dict = {
   top: { location: '台灣', clockLabel: '台灣現在時間', themeLabel: '切換亮色／暗色' },
   home: {
     name: 'Jimmy 林軒德',
-    role: 'Full-cycle 工程師 · 台達電子',
+    role: 'Full-cycle 工程師',
+    now: '目前在台達電子擔任 SRE',
     photoAlt: 'Jimmy 林軒德的大頭照',
     cv: '下載履歷',
     touch: '聯絡我',

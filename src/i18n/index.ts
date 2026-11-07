@@ -14,6 +14,7 @@ export type Dict = {
   home: {
     name: string;
     role: string;
+    now: string;
     photoAlt: string;
     cv: string;
     touch: string;
@@ -90,5 +91,5 @@ export type Dict = {
 
 export const dicts: Record<Lang, Dict> = { zh, en };
 export const t = (lang: Lang) => dicts[lang];
-/** Prefix a site path with the locale: `/notes/` → `/en/notes/` for en. */
-export const href = (lang: Lang, path: string) => (lang === 'en' ? `/en${path}` : path);
+/** Prefix a site path with the locale: `/notes/` → `/zh/notes/` for zh (en is the default at `/`). */
+export const href = (lang: Lang, path: string) => (lang === 'zh' ? `/zh${path}` : path);
