@@ -22,56 +22,43 @@ const zigzag = [
 const leader = '·'.repeat(180);
 ---
 
-<section id="pipeline" class="pipeline">
-  <div class="container grid">
-    <div class="intro-col">
-      <h2 class="heading" data-reveal>{d.pipeline.heading}</h2>
-      <p class="intro" data-reveal style="--i:1">{d.pipeline.intro}</p>
-      <div class="picker" role="group" aria-label={d.pipeline.pickLabel} data-reveal style="--i:2">
-        {d.pipeline.projects.map((p, i) => (
-          <button
-            type="button"
-            class="pick"
-            data-target={p.id}
-            aria-pressed={i === 0 ? 'true' : 'false'}
-          >{p.name}</button>
-        ))}
-      </div>
-    </div>
+<section id="pipeline" class="card" aria-labelledby="pipeline-label">
+  <span class="label" id="pipeline-label">{d.pipeline.heading}</span>
+  <p class="intro muted">{d.pipeline.intro}</p>
 
-    <div class="slips">
-      {d.pipeline.projects.map((p, i) => (
-        <div class="slip-frame" data-reveal style="--i:2">
-          <article
-            class="slip"
-            data-slip={p.id}
-            hidden={i !== 0}
-            style={`clip-path: polygon(${zigzag})`}
-          >
-            <h3 class="slip-title">{p.name}</h3>
-            {p.groups.map((g) => (
-              <div class="group">
-                <p class="group-name">{g.name}</p>
-                <dl class="rows">
-                  {g.rows.map((r) => (
-                    <div class="row">
-                      <dt class="stage">{r.stage}</dt>
-                      <span class="leader" aria-hidden="true">{leader}</span>
-                      <dd class="value">{r.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            ))}
-            <p class="row result">
-              <span class="stage">{p.result.stage}</span>
-              <span class="leader" aria-hidden="true">{leader}</span>
-              <span class="value">{p.result.value}</span>
-            </p>
-          </article>
-        </div>
-      ))}
-    </div>
+  <div class="picker" role="group" aria-label={d.pipeline.pickLabel}>
+    {d.pipeline.projects.map((p, i) => (
+      <button type="button" class="pick" data-target={p.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+        {p.name}
+      </button>
+    ))}
+  </div>
+
+  <div class="slips">
+    {d.pipeline.projects.map((p, i) => (
+      <article class="slip inner" data-slip={p.id} hidden={i !== 0} style={`clip-path: polygon(${zigzag})`}>
+        <h2 class="slip-title">{p.name}</h2>
+        {p.groups.map((g) => (
+          <div class="group">
+            <p class="group-name">{g.name}</p>
+            <dl class="rows">
+              {g.rows.map((r) => (
+                <div class="row">
+                  <dt class="stage">{r.stage}</dt>
+                  <span class="leader" aria-hidden="true">{leader}</span>
+                  <dd class="value">{r.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ))}
+        <p class="row result">
+          <span class="stage">{p.result.stage}</span>
+          <span class="leader" aria-hidden="true">{leader}</span>
+          <span class="value">{p.result.value}</span>
+        </p>
+      </article>
+    ))}
   </div>
 </section>
 
@@ -100,86 +87,47 @@ const leader = '·'.repeat(180);
 </script>
 
 <style>
-  .pipeline {
-    background: var(--bg);
-    padding-block: var(--section-gap);
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: clamp(24px, 3vw, 48px);
-    align-items: start;
-  }
-
-  .intro-col {
-    grid-column: 1 / span 5;
-  }
-
-  .heading {
-    font-size: var(--step-head);
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: -0.025em;
-  }
-
   .intro {
-    margin-top: clamp(20px, 2.4vw, 32px);
-    max-width: 34ch;
-    font-size: var(--step-body);
-    line-height: 1.5;
-    color: var(--muted);
+    max-width: 62ch;
   }
 
   .picker {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: clamp(28px, 3.4vw, 44px);
+    gap: 6px;
+    margin-top: 14px;
   }
 
   .pick {
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: 10px;
     background: var(--surface);
-    color: var(--ink);
-    font-size: 1rem;
+    color: var(--muted);
+    font-size: var(--step-small);
     font-weight: 500;
     line-height: 1.2;
-    padding: 0.65em 1.2em;
+    padding: 5px 12px;
     cursor: pointer;
-    transition: background-color 160ms var(--ease), color 160ms var(--ease),
-      transform 160ms var(--ease);
+    transition: background-color 160ms var(--ease), color 160ms var(--ease);
   }
 
   .pick:hover {
-    transform: translateY(-1px);
+    color: var(--ink);
   }
 
   .pick[aria-pressed='true'] {
-    background: var(--accent);
-    color: var(--accent-ink);
+    background: var(--ink);
+    color: var(--bg);
   }
 
   .slips {
-    grid-column: 7 / span 5;
-    justify-self: start;
+    margin-top: 14px;
   }
 
-  /* The shadow lives on the frame: the slip clips its own box, so a box-shadow
-     would be cut off; drop-shadow follows the serrated edge instead. */
-  .slip-frame {
-    filter: drop-shadow(0 16px 34px rgba(70, 60, 180, 0.22))
-      drop-shadow(0 0 10px rgba(120, 110, 255, 0.12));
-  }
-
+  /* The serrated edge is a clip polygon, so the receipt has square top corners. */
   .slip {
-    --slip-pad: clamp(22px, 2.4vw, 34px);
-    width: clamp(420px, 34vw, 480px);
-    max-width: 100%;
-    background: var(--bg);
-    color: var(--ink);
-    padding: var(--slip-pad) var(--slip-pad) 24px;
+    --slip-pad: 18px;
+    padding: var(--slip-pad) var(--slip-pad) 0;
   }
 
   .slip[hidden] {
@@ -193,34 +141,34 @@ const leader = '·'.repeat(180);
   @keyframes slip-in {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(8px);
     }
   }
 
   .slip-title {
-    font-size: clamp(20px, 1.6vw, 24px);
-    font-weight: 600;
+    font-size: var(--step-head);
+    font-weight: 400;
     line-height: 1.15;
   }
 
   .group-name {
-    margin-top: 28px;
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.2;
+    margin-top: 22px;
+    font-size: var(--step-small);
+    font-weight: 500;
+    color: var(--muted);
   }
 
   .rows {
-    margin: 8px 0 0;
+    margin: 4px 0 0;
   }
 
   .row {
     display: flex;
     align-items: baseline;
     gap: 8px;
-    margin-top: 6px;
-    font-size: 1rem;
-    line-height: 1.45;
+    margin-top: 4px;
+    font-size: 0.9375rem;
+    line-height: 1.5;
   }
 
   .stage {
@@ -245,50 +193,26 @@ const leader = '·'.repeat(180);
     flex: 0 0 auto;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
-    font-weight: 600;
-  }
-
-  .result {
-    margin: 30px calc(-1 * var(--slip-pad)) 0;
-    padding: 16px var(--slip-pad);
-    background: var(--accent);
-    color: var(--accent-ink);
     font-weight: 500;
   }
 
-  .result .leader,
-  .result .value {
-    color: var(--accent-ink);
+  /* Final row: inverted, and its bottom padding carries the zigzag depth. */
+  .result {
+    margin: 22px calc(-1 * var(--slip-pad)) 0;
+    padding: 14px var(--slip-pad) 30px;
+    background: var(--ink);
+    color: var(--bg);
+    font-weight: 500;
   }
 
-  @media (max-width: 1000px) {
-    .grid {
-      grid-template-columns: minmax(0, 1fr);
-      row-gap: clamp(36px, 6vw, 56px);
-    }
-
-    .intro-col,
-    .slips {
-      grid-column: 1;
-    }
-
-    .slips {
-      justify-self: stretch;
-    }
-
-    .slip {
-      width: 100%;
-      max-width: 480px;
-    }
+  .result .leader {
+    color: inherit;
+    opacity: 0.5;
   }
 
   @media (max-width: 480px) {
     .slip {
-      --slip-pad: 20px;
-    }
-
-    .row {
-      font-size: 0.9375rem;
+      --slip-pad: 14px;
     }
   }
 </style>

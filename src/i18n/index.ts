@@ -28,7 +28,7 @@ export type Dict = {
     intro: string;
     paragraphs: string[];
     timelineHeading: string;
-    timeline: Array<{ period: string; org: string; role: string; points: string[] }>;
+    timeline: Array<{ period: string; org: string; role: string; points: string[]; place: string }>;
     awardHeading: string;
     award: string;
     educationHeading: string;

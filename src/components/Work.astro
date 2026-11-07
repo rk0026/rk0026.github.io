@@ -6,195 +6,170 @@ const d = t(lang);
 const items = d.work.items;
 const first = items[0];
 ---
-<section class="work" id="work">
-  <div class="container">
-    <header class="head">
-      <h2 data-reveal>{d.work.heading}</h2>
-      <p class="note" data-reveal style="--i:1">{d.work.note}</p>
-    </header>
 
-    <div class="shelf" role="group" aria-label={d.work.heading}>
-      {items.map((item, i) => (
-        <button
-          type="button"
-          class="spine"
-          data-name={item.name}
-          data-detail={item.detail}
-          title={item.detail}
-          aria-pressed={i === 0 ? 'true' : 'false'}
-          data-reveal
-          style={`--i:${Math.min(i + 2, 10)}`}
-        >
-          <span class="spine-name">{item.name}</span>
-          <span class={`tag tag-${item.disc}`}>{d.work.disciplines[item.disc]}</span>
-        </button>
-      ))}
-    </div>
+<section id="work" class="card" aria-labelledby="work-label">
+  <span class="label" id="work-label">{d.work.heading}</span>
+  <p class="note muted">{d.work.note}</p>
 
-    <p class="detail card" aria-live="polite" aria-atomic="true" data-reveal>
-      <span class="detail-name">{first.name}</span>{' '}<span class="detail-text">{first.detail}</span>
-    </p>
+  <div class="shelf" role="group" aria-label={d.work.heading}>
+    {items.map((item, i) => (
+      <button
+        type="button"
+        class="chip inner"
+        data-name={item.name}
+        data-detail={item.detail}
+        title={item.detail}
+        aria-pressed={i === 0 ? 'true' : 'false'}
+        data-reveal
+        style={`--i:${Math.min(i + 2, 10)}`}
+      >
+        <span class="chip-name">{item.name}</span>
+        <span class={`tag tag-${item.disc}`}>{d.work.disciplines[item.disc]}</span>
+      </button>
+    ))}
   </div>
 
-  <div class="container photo-wrap">
+  <p class="detail inner" aria-live="polite" aria-atomic="true">
+    <span class="detail-name">{first.name}</span>{' '}<span class="detail-text">{first.detail}</span>
+  </p>
+
+  <figure class="photo">
     <img
-      class="photo"
       src="/img/kate-shelley-high-bridge-construction-center-facing.jpg"
       width="1800"
       height="1215"
       alt={d.work.photoAlt}
       loading="lazy"
       decoding="async"
-      data-reveal
     />
-  </div>
+  </figure>
 </section>
 
 <script>
-  const spines = Array.from(document.querySelectorAll<HTMLButtonElement>('#work .spine'));
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('#work .chip'));
   const detailName = document.querySelector<HTMLElement>('#work .detail-name');
   const detailText = document.querySelector<HTMLElement>('#work .detail-text');
 
-  for (const spine of spines) {
-    spine.addEventListener('click', () => {
-      for (const other of spines) other.setAttribute('aria-pressed', String(other === spine));
-      if (detailName) detailName.textContent = spine.dataset.name ?? '';
-      if (detailText) detailText.textContent = spine.dataset.detail ?? '';
+  for (const chip of chips) {
+    chip.addEventListener('click', () => {
+      for (const other of chips) other.setAttribute('aria-pressed', String(other === chip));
+      if (detailName) detailName.textContent = chip.dataset.name ?? '';
+      if (detailText) detailText.textContent = chip.dataset.detail ?? '';
     });
   }
 </script>
 
 <style>
-  .work {
-    padding-block-start: var(--section-gap);
-  }
-
-  .head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 4px 18px;
-  }
-  .head h2 {
-    font-size: var(--step-head);
-    font-weight: 500;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-  }
   .note {
-    font-size: var(--step-body);
-    line-height: 1.4;
-    color: var(--muted);
+    font-size: var(--step-small);
   }
 
   .shelf {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-block-start: clamp(28px, 3.4vw, 44px);
+    gap: 6px;
+    margin-top: 14px;
   }
 
-  .spine {
+  .chip {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 8px 8px 16px;
-    border: 0;
+    max-width: 100%;
+    padding: 4px 4px 4px 12px;
     border-radius: var(--radius-pill);
-    background: var(--bg);
-    color: var(--ink);
-    box-shadow: var(--shadow-float);
-    cursor: pointer;
-    transition: transform 160ms var(--ease), box-shadow 160ms var(--ease);
-  }
-
-  .spine-name {
-    font-size: 17px;
-    font-weight: 500;
+    font-size: var(--step-small);
     line-height: 1.2;
+    cursor: pointer;
+    transition: background-color 160ms var(--ease), box-shadow 160ms var(--ease);
+  }
+
+  .chip:hover {
+    background: var(--surface);
+  }
+
+  .chip[aria-pressed='true'] {
+    box-shadow: 0 0 0 2px var(--ink);
+  }
+
+  .chip-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
-    transition: color 160ms var(--ease);
-  }
-
-  .spine:hover {
-    transform: translateY(-2px);
-  }
-
-  .spine[aria-pressed='true'] {
-    box-shadow: 0 0 0 2px var(--accent), var(--shadow-float);
-  }
-
-  .shelf:has(.spine:hover) .spine:not(:hover):not([aria-pressed='true']) .spine-name {
-    color: var(--muted);
+    font-weight: 500;
   }
 
   .tag {
     flex: 0 0 auto;
-    padding: 3px 9px;
+    padding: 2px 8px;
     border-radius: var(--radius-pill);
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: 0.01em;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.5;
     white-space: nowrap;
   }
+
+  /* Fixed tag colours (design exception, like monogram tiles): dark ink text
+     keeps every tag legible on both themes. */
   .tag-fe {
-    background: var(--accent);
-    color: var(--accent-ink);
+    background: #ff4f00;
   }
   .tag-be {
     background: #4d8dff;
-    color: var(--ink);
   }
   .tag-infra {
     background: #a98bff;
-    color: var(--ink);
   }
   .tag-ai {
     background: #c6e85a;
-    color: var(--ink);
   }
   .tag-sec {
     background: #ffc23d;
-    color: var(--ink);
+  }
+  .tag-fe,
+  .tag-be,
+  .tag-infra,
+  .tag-ai,
+  .tag-sec {
+    color: #111111;
   }
 
   .detail {
-    margin-block-start: clamp(24px, 3vw, 40px);
-    max-inline-size: 78ch;
-    font-size: var(--step-lead);
-    line-height: 1.4;
+    margin-top: 14px;
+    font-size: 0.9375rem;
+    line-height: 1.55;
     color: var(--muted);
   }
+
   .detail-name {
     margin-inline-end: 0.35em;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--ink);
   }
 
-  .photo-wrap {
-    margin-block-start: var(--section-gap);
-  }
   .photo {
-    inline-size: 100%;
-    block-size: auto;
-    aspect-ratio: 16 / 7;
-    object-fit: cover;
-    border-radius: var(--radius-card);
+    margin: 14px 0 0;
+    overflow: hidden;
+    border-radius: var(--radius-inner);
+    background: var(--surface);
   }
 
-  @media (max-width: 700px) {
-    .head {
-      display: block;
+  .photo img {
+    inline-size: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  /* On narrow screens the pills rarely pair up; let each one fill its row
+     instead of leaving ragged space to the right. */
+  @media (max-width: 560px) {
+    .chip {
+      flex: 1 1 auto;
     }
-    .note {
-      margin-block-start: 8px;
-    }
-    .detail {
-      margin-block-start: 24px;
-    }
-    .photo {
-      aspect-ratio: 4 / 3;
+
+    .chip-name {
+      flex: 1 1 auto;
     }
   }
 </style>

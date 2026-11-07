@@ -4,94 +4,144 @@ import { t, type Lang } from '../i18n';
 
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
+const s = d.stackPage;
 
-// Same palette as the hero shapes, cycled per group.
-const dots = ['#ff4f00', '#5fd4e0', '#a98bff', '#c6e85a', '#4d8dff', '#ffc23d'];
+/* Item name → Simple Icons slug (files in public/icons). Items absent here get a monogram tile. */
+const icons: Record<string, string> = {
+  Python: 'python',
+  'JavaScript / TypeScript': 'typescript',
+  Java: 'openjdk',
+  'Bash / Shell': 'gnubash',
+  React: 'react',
+  'React Native': 'react',
+  'Next.js': 'nextdotjs',
+  Redux: 'redux',
+  MUI: 'mui',
+  'React Query': 'reactquery',
+  ECharts: 'apacheecharts',
+  i18n: 'i18next',
+  PostgreSQL: 'postgresql',
+  MongoDB: 'mongodb',
+  'Redis / Valkey': 'redis',
+  'RabbitMQ / AMQP': 'rabbitmq',
+  OpenSearch: 'opensearch',
+  MinIO: 'minio',
+  'GitLab CI/CD': 'gitlab',
+  'ArgoCD / GitOps': 'argo',
+  Harbor: 'harbor',
+  Docker: 'docker',
+  Terraform: 'terraform',
+  Kubernetes: 'kubernetes',
+  Helm: 'helm',
+  Rancher: 'rancher',
+  Cloudflare: 'cloudflare',
+  'Cloudflare API Security': 'cloudflare',
+  Vercel: 'vercel',
+  Nginx: 'nginx',
+  Traefik: 'traefikproxy',
+  Prometheus: 'prometheus',
+  Grafana: 'grafana',
+  ELK: 'elastic',
+  Sentry: 'sentry',
+  OWASP: 'owasp',
+  SonarQube: 'sonar',
+};
+
+/* Monogram for items without a brand mark: a CJK name gives its first character,
+   a short Latin word (SQL, AWS, RAG) stays whole, anything longer gives two letters. */
+const monogram = (name: string) => {
+  const word = name.split(/[\s/]+/)[0] ?? name;
+  if (/[\u3400-\u9fff]/.test(word)) return word.slice(0, 1);
+  return word.length <= 3 ? word.toUpperCase() : word.slice(0, 2).toUpperCase();
+};
 ---
-<Base lang={lang} current="stack">
-  <main class="container">
-    <header class="page-head">
-      <h1>{d.stackPage.title}</h1>
-      <p>{d.stackPage.intro}</p>
-    </header>
 
-    <section class="stack" aria-label={d.stackPage.title}>
-      {d.stackPage.groups.map((group, i) => (
-        <div class="reveal" data-reveal style={`--i:${i}`}>
-          <article class="card group" style={`--dot:${dots[i % dots.length]}`}>
-            <h2><span class="dot" aria-hidden="true"></span>{group.name}</h2>
-            <ul class="chips">
-              {group.items.map((item) => <li>{item}</li>)}
-            </ul>
-          </article>
-        </div>
-      ))}
+<Base lang={lang} current="stack" title={`${s.title} — ${d.footer.rights}`}>
+  <main>
+    <section class="card" data-reveal>
+      <h1>{s.title}</h1>
+      <p class="muted intro">{s.intro}</p>
     </section>
+
+    {s.groups.map((group, gi) => (
+      <section class="card" data-reveal style={`--i:${gi + 1}`}>
+        <span class="label">{group.name}</span>
+        <ul class="tools">
+          {group.items.map((item) => {
+            const slug = icons[item];
+            const tag = slug ? null : monogram(item);
+            return (
+              <li class="tool inner">
+                {slug ? (
+                  <span class="icon" aria-hidden="true">
+                    <img src={`/icons/${slug}.svg`} alt="" width="22" height="22" loading="lazy" decoding="async" />
+                  </span>
+                ) : (
+                  <span class="icon mono" data-len={tag!.length} aria-hidden="true">{tag}</span>
+                )}
+                <span class="name">{item}</span>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    ))}
   </main>
 </Base>
 
 <style>
-  .stack {
-    columns: 1;
-    column-gap: clamp(16px, 2vw, 28px);
-    padding-bottom: clamp(24px, 5vw, 56px);
-  }
+  main { display: flex; flex-direction: column; gap: var(--gap); }
 
-  /* Keep each card whole inside a column. */
-  .reveal {
-    break-inside: avoid;
-    margin-bottom: clamp(16px, 2vw, 28px);
-  }
+  h1 { font-size: var(--step-head); }
+  .intro { margin-top: 6px; font-size: var(--step-lead); }
 
-  .group {
-    padding: clamp(22px, 2.6vw, 32px);
-    transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
-  }
-
-  .group:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 26px 60px -22px rgba(70, 60, 180, 0.3), 0 0 0 8px rgba(120, 110, 255, 0.06);
-  }
-
-  .group h2 {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: var(--step-lead);
-    font-weight: 700;
-  }
-
-  .dot {
-    flex: none;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--dot);
-  }
-
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
+  .tools {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 8px;
-    margin: 18px 0 0;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .chips li {
-    padding: 8px 14px;
-    border-radius: var(--radius-pill);
-    background: var(--surface);
-    color: var(--ink);
-    font-size: 15px;
-    line-height: 1.4;
+  .tool {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
   }
 
-  @media (min-width: 700px) {
-    .stack { columns: 2; }
+  /* Light tile in both themes so brand colours and dark marks stay legible. */
+  .icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #f2f2f2;
+    color: #111111;
   }
 
-  @media (min-width: 1100px) {
-    .stack { columns: 3; }
+  .icon img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mono {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .mono[data-len='1'] { font-size: 17px; }
+
+  .name {
+    font-size: 16px;
+    line-height: 1.35;
+  }
+
+  @media (max-width: 480px) {
+    .tools { grid-template-columns: 1fr; }
   }
 </style>

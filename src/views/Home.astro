@@ -1,10 +1,220 @@
 ---
-// Placeholder owned by a subagent; replaced by the real page.
+// Home: profile, overview, numbers, explore. Unti-style card stack.
 import Base from '../layouts/Base.astro';
-import { t, type Lang } from '../i18n';
+import { t, href, type Lang } from '../i18n';
+
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
+
+// Archival photographs, already credited in the footer.
+const shots = {
+  about: { src: '/img/marine-field-telephone-switchboard-operator-guadalcanal-circ.jpg', alt: d.notes.photoAlt, w: 1920, h: 1453 },
+  stack: { src: '/img/1940s-n935-telephone-exchange.jpg', alt: d.stats.photoAlt, w: 1920, h: 1801 },
+  projects: { src: '/img/kate-shelley-high-bridge-construction-center-facing.jpg', alt: d.work.photoAlt, w: 1800, h: 1215 },
+  notes: { src: '/img/wac-telephone-switchboard-operators.jpg', alt: d.knowledge.photoAlt, w: 1920, h: 1476 },
+} as const;
 ---
 <Base lang={lang} current="home">
-  <main class="card"><h1>{d.home.name}</h1></main>
+  <main class="cards">
+    <section class="card profile" data-reveal style="--i:0">
+      <img
+        class="portrait"
+        src="/img/me.jpg"
+        alt={d.home.photoAlt}
+        width="800"
+        height="1000"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="who">
+        <h1 class="name">{d.home.name}</h1>
+        <p class="role muted">{d.home.role}</p>
+        <div class="actions">
+          <a class="btn" href={d.hero.ctaHref} download>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14" /></svg>
+            {d.home.cv}
+          </a>
+          <a class="btn" href={href(lang, '/contact/')}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3.5 7.5 8.5 6 8.5-6" /></svg>
+            {d.home.touch}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card overview" data-reveal style="--i:1">
+      <span class="label">{d.home.overviewLabel}</span>
+      <div class="body">
+        {d.aboutPage.paragraphs.map((text) => <p>{text}</p>)}
+      </div>
+    </section>
+
+    <section class="card numbers" data-reveal style="--i:2">
+      <span class="label">{d.home.factsLabel}</span>
+      <div class="facts">
+        {d.home.facts.map((fact) => (
+          <div class="inner fact">
+            <div class="fact-value">{fact.value}</div>
+            <div class="fact-label">{fact.label}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="card explore" data-reveal style="--i:3">
+      <span class="label">{d.home.pagesLabel}</span>
+      <div class="tiles">
+        {d.home.tiles.map((tile) => (
+          <a class="inner tile" href={href(lang, `/${tile.page}/`)}>
+            <div class="thumb">
+              <img
+                src={shots[tile.page].src}
+                alt={shots[tile.page].alt}
+                width={shots[tile.page].w}
+                height={shots[tile.page].h}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="tile-row">
+              <div class="tile-text">
+                <span class="tile-title">{tile.title}</span>
+                <span class="tile-copy">{tile.text}</span>
+              </div>
+              <span class="icon-btn" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
 </Base>
+
+<style>
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+  }
+
+  /* 1. Profile */
+  .profile {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 20px;
+    align-items: center;
+  }
+  .portrait {
+    width: 150px;
+    height: 150px;
+    border-radius: 16px;
+    object-fit: cover;
+    object-position: 50% 25%;
+  }
+  .who { min-width: 0; }
+  .name {
+    font-size: var(--step-display);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  .role {
+    margin-top: 6px;
+    font-size: var(--step-lead);
+    line-height: 1.35;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  /* 2. Overview */
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .body p {
+    font-size: var(--step-body);
+    color: var(--muted);
+  }
+
+  /* 3. Numbers */
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+  .fact-value {
+    font-size: 2rem;
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .fact-label {
+    margin-top: 4px;
+    font-size: var(--step-small);
+    color: var(--muted);
+  }
+
+  /* 4. Explore */
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+  .tile {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-decoration: none;
+    transition: background-color 160ms var(--ease);
+  }
+  .tile:hover { background: var(--surface); }
+  .thumb {
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .tile-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .tile-text { flex: 1; min-width: 0; }
+  .tile-title {
+    display: block;
+    font-size: var(--step-head);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .tile-copy {
+    display: block;
+    margin-top: 6px;
+    font-size: var(--step-small);
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .tile .icon-btn { flex: none; margin-top: 2px; }
+
+  @media (max-width: 640px) {
+    .profile {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .facts,
+    .tiles { grid-template-columns: 1fr; }
+  }
+</style>

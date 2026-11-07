@@ -25,157 +25,137 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
   title={`${label} — ${d.notes.title}`}
   description={d.notes.descriptions[category]}
 >
-  <main class="category">
-    <div class="container page-head">
-      <h1 data-reveal>{label}</h1>
-      <p data-reveal style="--i:1">{d.notes.descriptions[category]}</p>
-    </div>
+  <main class="page">
+    <section class="card head" data-reveal>
+      <h1>{label}</h1>
+      <p class="muted">{d.notes.descriptions[category]}</p>
+    </section>
 
-    <div class="container">
-      {entries.length > 0 ? (
-        <section class="list" aria-labelledby="list-heading">
-          <h2 id="list-heading" class="visually-hidden">{label}</h2>
-          {entries.map((entry, i) => (
-            <a
-              class="card entry"
-              href={href(lang, `/notes/${entry.id}/`)}
-              data-reveal
-              style={`--i:${i + 2}`}
-            >
-              <span class="entry-title">{entry.data.title}</span>
-              <span class="entry-summary">{entry.data.summary}</span>
-              <span class="entry-meta">
-                <time datetime={entry.data.date.toISOString()}>
-                  {dateFormat.format(entry.data.date)}
-                </time>
-                {entry.data.tags.length > 0 && (
-                  <span class="entry-tags">{entry.data.tags.join(' · ')}</span>
-                )}
-                <span class="entry-arrow" aria-hidden="true">↗</span>
-              </span>
-            </a>
+    {entries.length > 0 ? (
+      <section class="card" aria-label={label} data-reveal style="--i:1">
+        <ul class="rows">
+          {entries.map((entry) => (
+            <li>
+              <a class="inner row" href={href(lang, `/notes/${entry.id}/`)}>
+                <span class="row-main">
+                  <span class="row-title">{entry.data.title}</span>
+                  <span class="row-summary">{entry.data.summary}</span>
+                  <span class="row-meta">
+                    <span class="date">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6" /><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M8 3v4m8-4v4M3.5 10h17" /></svg>
+                      <time datetime={entry.data.date.toISOString()}>{dateFormat.format(entry.data.date)}</time>
+                    </span>
+                    {entry.data.tags.length > 0 && <span class="tags">{entry.data.tags.join(' · ')}</span>}
+                  </span>
+                </span>
+                <span class="icon-btn" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" /></svg>
+                </span>
+              </a>
+            </li>
           ))}
-          <a class="back" href={href(lang, '/notes/')}>{d.notes.back}</a>
-        </section>
-      ) : (
-        <section class="card empty" aria-labelledby="empty-heading">
-          <h2 id="empty-heading" class="visually-hidden">{label}</h2>
-          <p class="empty-line" data-reveal style="--i:2">{d.notes.empty}</p>
-          <a class="btn btn--ghost" href={href(lang, '/notes/')} data-reveal style="--i:3">
-            {d.notes.back}
-          </a>
-        </section>
-      )}
-    </div>
+        </ul>
+      </section>
+    ) : (
+      <section class="card" data-reveal style="--i:1">
+        <div class="inner empty">
+          <p>{d.notes.empty}</p>
+          <a class="btn" href={href(lang, '/notes/')}>{d.notes.back}</a>
+        </div>
+      </section>
+    )}
   </main>
 </Base>
 
 <style>
-  .category {
-    padding-bottom: clamp(48px, 8vw, 120px);
-  }
-
-  .list {
+  .page {
     display: flex;
     flex-direction: column;
-    gap: clamp(16px, 2vw, 24px);
+    gap: var(--gap);
   }
 
-  .entry {
+  h1 {
+    font-size: var(--step-head);
+  }
+
+  .head .muted {
+    margin-top: 6px;
+    max-width: 60ch;
+  }
+
+  .rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 8px clamp(20px, 3vw, 40px);
-    align-items: start;
-    text-decoration: none;
-    transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
+    gap: var(--gap);
   }
 
-  .entry:hover,
-  .entry:focus-visible {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-float);
-  }
-
-  .entry-title {
-    font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
-    font-weight: 600;
-    line-height: 1.15;
-    letter-spacing: -0.015em;
-  }
-
-  .entry-summary {
-    grid-column: 1;
-    color: var(--muted);
-    font-size: var(--step-body);
-    line-height: 1.55;
-    max-width: 62ch;
-  }
-
-  .entry-meta {
-    grid-column: 2;
-    grid-row: 1 / span 2;
+  .row {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-    text-align: right;
+    align-items: flex-start;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  .row-main {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: 4px;
+  }
+
+  .row-title {
+    font-size: var(--step-lead);
+  }
+
+  .row-summary {
+    color: var(--muted);
+    font-size: var(--step-small);
+    line-height: 1.55;
+  }
+
+  .row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
     font-size: var(--step-small);
     color: var(--muted);
     font-variant-numeric: tabular-nums;
   }
 
-  .entry-arrow {
-    transition: transform 200ms var(--ease), color 200ms var(--ease);
+  .date {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
 
-  .entry:hover .entry-arrow {
-    color: var(--accent);
-    transform: translate(2px, -2px);
+  .date svg {
+    width: 14px;
+    height: 14px;
   }
 
-  .back {
-    align-self: flex-start;
-    margin-top: clamp(16px, 2vw, 24px);
-    font-size: var(--step-small);
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 180ms var(--ease);
+  .tags {
+    overflow-wrap: anywhere;
   }
-  .back:hover {
-    color: var(--ink);
+
+  .row .icon-btn {
+    margin-top: 2px;
+    flex: none;
+  }
+
+  .row svg {
+    width: 16px;
+    height: 16px;
   }
 
   .empty {
     display: flex;
-    flex-direction: column;
-    max-width: 720px;
-    margin-inline: auto;
+    flex-wrap: wrap;
     align-items: center;
-    gap: clamp(20px, 3vw, 32px);
-    padding-block: clamp(48px, 7vw, 96px);
-    text-align: center;
-  }
-
-  .empty-line {
+    justify-content: space-between;
+    gap: 14px;
     font-size: var(--step-lead);
-    font-weight: 500;
-    max-width: 28ch;
-  }
-
-  @media (max-width: 760px) {
-    .entry {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .entry-meta {
-      grid-column: 1;
-      grid-row: auto;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      text-align: left;
-    }
-    .back {
-      align-self: center;
-    }
   }
 </style>

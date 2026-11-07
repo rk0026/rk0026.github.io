@@ -15,14 +15,11 @@ const countIn = (slug: Category) => entries.filter((e) => e.id.startsWith(`${slu
   title={`${d.notes.title} — ${d.footer.rights}`}
   description={d.notes.intro}
 >
-  <main class="notes">
-    <div class="container page-head">
-      <h1 data-reveal>{d.notes.title}</h1>
-      <p data-reveal style="--i:1">{d.notes.intro}</p>
-    </div>
-
-    <div class="container">
-      <figure class="shot" data-reveal style="--i:2">
+  <main class="page">
+    <section class="card" data-reveal>
+      <h1>{d.notes.title}</h1>
+      <p class="muted intro">{d.notes.intro}</p>
+      <figure class="shot">
         <img
           src="/img/marine-field-telephone-switchboard-operator-guadalcanal-circ.jpg"
           width="1920"
@@ -31,119 +28,112 @@ const countIn = (slug: Category) => entries.filter((e) => e.id.startsWith(`${slu
           decoding="async"
         />
       </figure>
+    </section>
 
-      <section class="cats" aria-labelledby="cats-heading">
-        <h2 id="cats-heading" class="visually-hidden">{d.notes.title}</h2>
-        {d.knowledge.items.map((item, i) => {
+    <section class="card" aria-label={d.knowledge.heading} data-reveal style="--i:1">
+      <span class="label">{d.knowledge.heading}</span>
+      <ul class="rows">
+        {d.knowledge.items.map((item) => {
           const n = countIn(item.slug);
           return (
-            <a
-              class="card cat"
-              href={href(lang, `/notes/${item.slug}/`)}
-              data-reveal
-              style={`--i:${i + 3}`}
-            >
-              <span class="cat-label">
-                {item.label}
-                <span class="cat-arrow" aria-hidden="true">↗</span>
-              </span>
-              <span class="cat-desc">{d.notes.descriptions[item.slug]}</span>
-              <span class="cat-count">{n ? d.knowledge.count(n) : d.knowledge.empty}</span>
-            </a>
+            <li>
+              <a class="inner row" href={href(lang, `/notes/${item.slug}/`)}>
+                <span class="row-main">
+                  <span class="row-title">{item.label}</span>
+                  <span class="row-desc">{d.notes.descriptions[item.slug]}</span>
+                </span>
+                <span class="row-side">
+                  <span class="count">{n ? d.knowledge.count(n) : d.knowledge.empty}</span>
+                  <span class="icon-btn" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" /></svg>
+                  </span>
+                </span>
+              </a>
+            </li>
           );
         })}
-      </section>
-    </div>
+      </ul>
+    </section>
   </main>
 </Base>
 
 <style>
-  .notes {
-    padding-bottom: clamp(48px, 8vw, 120px);
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+  }
+
+  h1 {
+    font-size: var(--step-head);
+  }
+
+  .intro {
+    margin-top: 6px;
+    max-width: 60ch;
   }
 
   .shot {
-    margin: 0;
-    padding: 10px;
-    border-radius: var(--radius-card);
-    background: var(--bg);
-    box-shadow: var(--shadow-card);
-    overflow: hidden;
+    margin: 18px 0 0;
   }
 
   .shot img {
     width: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
-    border-radius: calc(var(--radius-card) - 10px);
+    border-radius: 12px;
   }
 
-  .cats {
+  .rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(16px, 2vw, 24px);
-    margin-top: clamp(32px, 5vw, 72px);
+    gap: var(--gap);
   }
 
-  .cat {
+  .row {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    gap: 14px;
     text-decoration: none;
-    transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
   }
 
-  .cat:hover,
-  .cat:focus-visible {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-float);
-  }
-
-  .cat-label {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-    font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
-    font-weight: 600;
-    line-height: 1.1;
-  }
-
-  .cat-arrow {
-    font-size: 0.6em;
-    color: var(--muted);
-    transition: transform 200ms var(--ease), color 200ms var(--ease);
-  }
-
-  .cat:hover .cat-arrow {
-    color: var(--accent);
-    transform: translate(2px, -2px);
-  }
-
-  .cat-desc {
+  .row-main {
     flex: 1;
-    color: var(--muted);
-    font-size: clamp(1rem, 0.95rem + 0.15vw, 1.0625rem);
-    line-height: 1.5;
+    min-width: 0;
+    display: grid;
+    gap: 2px;
   }
 
-  .cat-count {
-    align-self: flex-start;
-    margin-top: 6px;
-    padding: 5px 14px;
-    border-radius: var(--radius-pill);
-    background: var(--surface);
-    color: var(--muted);
+  .row-title {
+    font-size: var(--step-lead);
+  }
+
+  .row-desc {
     font-size: var(--step-small);
-    font-variant-numeric: tabular-nums;
+    color: var(--muted);
   }
 
-  @media (max-width: 860px) {
-    .cats {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .shot img {
-      aspect-ratio: 4 / 3;
-    }
+  .row-side {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .count {
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: var(--surface);
+    font-size: var(--step-small);
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .row svg {
+    width: 16px;
+    height: 16px;
   }
 </style>

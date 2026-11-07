@@ -21,11 +21,11 @@
   color-scheme: light;
 }
 [data-theme='dark'] {
-  --bg: #0e0e10;
-  --card: #18181b;
-  --inner: #1e1e22;
-  --surface: #2a2a2f;
-  --line: #2a2a2f;
+  --bg: #141414;
+  --card: #1e1e1e;
+  --inner: #1e1e1e;
+  --surface: #2c2c2c;
+  --line: #2a2a2a;
   --ink: #f2f2f2;
   --muted: #9b9ba3;
   --accent: #f2f2f2;
@@ -88,6 +88,8 @@ button { font: inherit; color: inherit; }
   flex-direction: column;
   gap: var(--gap);
 }
+/* Pages wrap their cards in <main>; keep the same stacking rhythm inside it. */
+.stack-col > main { display: flex; flex-direction: column; gap: var(--gap); }
 /* Section card. */
 .card {
   background: var(--card);

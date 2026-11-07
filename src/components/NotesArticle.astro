@@ -25,94 +25,85 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
   title={`${entry.data.title} — ${d.footer.rights}`}
   description={entry.data.summary}
 >
-  <main class="article-page">
-    <div class="container">
-      <div class="article-col">
-        <a class="back" href={href(lang, `/notes/${category}/`)}>{d.notes.back}</a>
+  <main>
+    <article class="card" data-reveal>
+      <div class="article">
+        <header class="head">
+          <h1>{entry.data.title}</h1>
+          <p class="meta">
+            <span class="date">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6" /><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M8 3v4m8-4v4M3.5 10h17" /></svg>
+              <span>{d.notes.published} <time datetime={entry.data.date.toISOString()}>{dateFormat.format(entry.data.date)}</time></span>
+            </span>
+            {entry.data.tags.length > 0 && <span class="tags">{entry.data.tags.join(' · ')}</span>}
+          </p>
+        </header>
 
-        <article>
-          <header class="head">
-            <h1 data-reveal>{entry.data.title}</h1>
-            <p class="meta" data-reveal style="--i:1">
-              <span>
-                {d.notes.published}{' '}
-                <time datetime={entry.data.date.toISOString()}>
-                  {dateFormat.format(entry.data.date)}
-                </time>
-              </span>
-              {entry.data.tags.length > 0 && <span class="tags">{entry.data.tags.join(' · ')}</span>}
-            </p>
-          </header>
+        <div class="prose">
+          <Content />
+        </div>
 
-          <div class="prose" data-reveal style="--i:2">
-            <Content />
-          </div>
-        </article>
+        <a class="btn back" href={href(lang, `/notes/${category}/`)}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6 6-6-6 6-6" /></svg>
+          {d.notes.back}
+        </a>
       </div>
-    </div>
+    </article>
   </main>
 </Base>
 
 <style>
-  .article-page {
-    padding-block: clamp(120px, 14vw, 180px) clamp(48px, 8vw, 120px);
-  }
-
-  .article-col {
+  .article {
     max-width: 68ch;
     margin-inline: auto;
   }
 
-  .back {
-    display: inline-block;
-    font-size: var(--step-small);
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 180ms var(--ease);
-  }
-  .back:hover {
-    color: var(--ink);
-  }
-
-  .head {
-    margin-top: clamp(20px, 3vw, 32px);
-  }
-
   h1 {
-    font-size: clamp(2.25rem, 1.5rem + 3.4vw, 4.25rem);
-    line-height: 1.02;
+    font-size: var(--step-head);
   }
 
   .meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px 20px;
-    margin-top: clamp(16px, 2vw, 24px);
+    gap: 4px 12px;
+    margin-top: 10px;
     font-size: var(--step-small);
     color: var(--muted);
     font-variant-numeric: tabular-nums;
   }
 
+  .date {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .date svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .tags {
+    overflow-wrap: anywhere;
+  }
+
   .prose {
-    margin-top: clamp(32px, 4vw, 56px);
-    font-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+    margin-top: 24px;
     line-height: 1.7;
   }
 
   .prose :global(p) {
-    margin: 1.1em 0;
+    margin: 1em 0;
   }
 
   .prose :global(h2) {
-    font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.25rem);
-    margin: 2.2em 0 0.6em;
-    line-height: 1.1;
+    font-size: 1.375rem;
+    margin: 2em 0 0.5em;
   }
 
   .prose :global(h3) {
-    font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
-    margin: 1.8em 0 0.5em;
-    line-height: 1.15;
+    font-size: 1.125rem;
+    margin: 1.6em 0 0.4em;
   }
 
   .prose :global(h2:first-child),
@@ -122,12 +113,12 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
 
   .prose :global(ul),
   .prose :global(ol) {
-    margin: 1.1em 0;
+    margin: 1em 0;
     padding-left: 1.3em;
   }
 
   .prose :global(li) {
-    margin: 0.45em 0;
+    margin: 0.35em 0;
   }
 
   .prose :global(li)::marker {
@@ -140,22 +131,17 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
 
   .prose :global(a) {
     text-underline-offset: 0.18em;
-    transition: color 180ms var(--ease);
-  }
-
-  .prose :global(a:hover) {
-    color: var(--accent);
   }
 
   .prose :global(blockquote) {
-    margin: 1.6em 0;
-    padding: 1.1em 1.4em;
-    border-radius: 20px;
+    margin: 1.4em 0;
+    padding: 1em 1.3em;
+    border-radius: 18px;
     background: var(--surface);
   }
 
   .prose :global(blockquote p) {
-    margin: 0.4em 0;
+    margin: 0.35em 0;
   }
 
   .prose :global(blockquote p:first-child) {
@@ -168,31 +154,30 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
 
   .prose :global(table) {
     width: 100%;
-    table-layout: fixed;
     border-collapse: collapse;
-    margin: 1.6em 0;
-    font-size: 0.95em;
+    margin: 1.4em 0;
+    font-size: 0.9375rem;
   }
 
   .prose :global(th),
   .prose :global(td) {
     text-align: left;
     vertical-align: top;
-    padding: 0.55em 0.8em;
+    padding: 0.5em 0.75em;
     border-bottom: 1px solid var(--line);
     overflow-wrap: anywhere;
   }
 
   .prose :global(th) {
-    font-weight: 600;
+    font-weight: 500;
+    color: var(--muted);
   }
 
   /* Shiki (github-dark) paints its own dark background inline; only the shape is ours. */
   .prose :global(pre) {
-    margin: 1.6em 0;
-    padding: 1.1em 1.25em;
-    border-radius: 20px;
-    background: #24292e;
+    margin: 1.4em 0;
+    padding: 1em 1.15em;
+    border-radius: 18px;
     overflow-x: auto;
     font-size: 0.875rem;
     line-height: 1.65;
@@ -215,13 +200,17 @@ const dateFormat = new Intl.DateTimeFormat(d.htmlLang, {
   .prose :global(img) {
     width: 100%;
     height: auto;
-    margin: 1.8em 0;
-    border-radius: 20px;
+    margin: 1.6em 0;
+    border-radius: 12px;
   }
 
   .prose :global(hr) {
     border: 0;
     height: 0;
-    margin: 2.4em 0;
+    margin: 2em 0;
+  }
+
+  .back {
+    margin-top: 28px;
   }
 </style>

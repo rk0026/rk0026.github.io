@@ -8,15 +8,23 @@ import { t, type Lang } from '../i18n';
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
 ---
-<Base lang={lang} current="projects">
-  <main>
-    <header class="container page-head">
-      <h1 data-reveal>{d.projectsPage.title}</h1>
-      <p data-reveal style="--i:1">{d.projectsPage.intro}</p>
-    </header>
+<Base lang={lang} current="projects" title={`${d.projectsPage.title} — ${d.footer.rights}`}>
+  <main class="page">
+    <section class="card">
+      <h1 class="label">{d.projectsPage.title}</h1>
+      <p class="intro muted">{d.projectsPage.intro}</p>
+    </section>
 
     <Pipeline lang={lang} />
     <Stats lang={lang} />
     <Work lang={lang} />
   </main>
 </Base>
+
+<style>
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+  }
+</style>

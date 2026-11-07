@@ -4,189 +4,87 @@ import { t, type Lang } from '../i18n';
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
 const a = d.aboutPage;
+// Monogram tiles follow the fixed timeline order: Delta, Aurora, NTU.
+const orgs = [
+  { letter: 'D', colour: '#0b5fff' },
+  { letter: 'A', colour: '#7c3aed' },
+  { letter: lang === 'zh' ? '台' : 'N', colour: '#b91c1c' },
+];
 ---
 <Base lang={lang} current="about" title={`${a.title} — ${d.footer.rights}`}>
   <main>
-    <header class="container page-head">
+    <section class="card" data-reveal>
       <h1>{a.title}</h1>
-      <p>{a.intro}</p>
-    </header>
-
-    <section class="container" aria-label={a.title}>
-      <ul class="stack">
-        {a.paragraphs.map((text, i) => (
-          <li class="sheet" data-reveal style={`--i:${i};--tilt:${i % 2 ? '1deg' : '-1.2deg'}`}>
-            <p class="card paper">{text}</p>
-          </li>
-        ))}
-      </ul>
+      <p class="muted intro">{a.intro}</p>
     </section>
 
-    <section class="container block">
-      <h2 class="heading">{a.timelineHeading}</h2>
-      <ol class="timeline">
-        {a.timeline.map((job) => (
-          <li class="stop" data-reveal>
-            <p class="period">{job.period}</p>
-            <h3 class="org">{job.org}</h3>
-            <p class="role">{job.role}</p>
-            <ul class="points">
-              {job.points.map((point) => <li>{point}</li>)}
-            </ul>
+    <section class="card" data-reveal style="--i:1">
+      <span class="label">{a.timelineHeading}</span>
+      <ol class="jobs">
+        {a.timeline.map((job, i) => (
+          <li class="inner job">
+            <span class="mono" style={`--tile:${orgs[i].colour}`} aria-hidden="true">{orgs[i].letter}</span>
+            <div class="job-body">
+              <p class="org">{job.org}</p>
+              <h2 class="role">{job.role}</h2>
+              <ul class="points">
+                {job.points.map((point) => <li>{point}</li>)}
+              </ul>
+              <p class="meta">
+                <span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 3v4M16 3v4M3.5 10h17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  {job.period}
+                </span>
+                <span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+                  {job.place}
+                </span>
+              </p>
+            </div>
           </li>
         ))}
       </ol>
     </section>
 
-    <section class="container block">
-      <div class="halves">
-        <article class="card half" data-reveal>
-          <h2 class="heading heading--small">{a.awardHeading}</h2>
-          <p>{a.award}</p>
-        </article>
-        <article class="card half" data-reveal style="--i:1">
-          <h2 class="heading heading--small">{a.educationHeading}</h2>
-          <p>{a.education}</p>
-        </article>
-      </div>
+    <section class="card" data-reveal style="--i:2">
+      <span class="label">{a.educationHeading}</span>
+      <div class="inner"><p class="muted prose">{a.education}</p></div>
+    </section>
+
+    <section class="card" data-reveal style="--i:3">
+      <span class="label">{a.awardHeading}</span>
+      <div class="inner"><p class="muted prose">{a.award}</p></div>
     </section>
   </main>
 </Base>
 
 <style>
-  .stack {
-    width: min(100%, 760px);
-    margin: 0 auto;
-    padding: 0;
-    list-style: none;
+  main { display: flex; flex-direction: column; gap: var(--gap); }
+
+  h1 { font-size: var(--step-head); }
+  .intro { margin-top: 6px; font-size: var(--step-lead); }
+
+  .jobs { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+
+  .job { display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; }
+
+  .mono {
+    display: grid; place-items: center;
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--tile); color: #fff;
+    font-size: 18px; font-weight: 500; line-height: 1;
   }
 
-  .sheet + .sheet {
-    margin-top: -24px;
-  }
+  .org { font-size: var(--step-small); color: var(--muted); }
+  .role { font-size: var(--step-head); }
 
-  .sheet {
-    position: relative;
-  }
+  .points { margin: 10px 0 0; padding-left: 18px; font-size: var(--step-body); line-height: 1.5; }
+  .points li + li { margin-top: 4px; }
+  .points li::marker { color: var(--muted); }
 
-  .sheet:hover,
-  .sheet:focus-within {
-    z-index: 3;
-  }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; font-size: var(--step-small); color: var(--muted); }
+  .meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .meta svg { width: 14px; height: 14px; flex: none; }
 
-  .paper {
-    text-align: center;
-    font-size: var(--step-lead);
-    line-height: 1.5;
-    transform: rotate(var(--tilt, 0deg));
-    transition: transform 260ms var(--ease), box-shadow 260ms var(--ease);
-  }
-
-  .sheet:hover .paper {
-    transform: rotate(0deg) translateY(-6px);
-    box-shadow: var(--shadow-card), var(--shadow-float);
-  }
-
-  .block {
-    margin-top: calc(var(--section-gap) * 0.5);
-  }
-
-  .heading {
-    font-size: var(--step-head);
-    margin-bottom: clamp(28px, 4vw, 48px);
-  }
-
-  .heading--small {
-    font-size: clamp(1.25rem, 1.1rem + 0.8vw, 1.75rem);
-    margin-bottom: 12px;
-  }
-
-  .timeline {
-    --rail: clamp(20px, 3vw, 40px);
-    margin: 0;
-    padding: 0 0 0 var(--rail);
-    list-style: none;
-    border-left: 1.5px solid var(--line);
-  }
-
-  .stop {
-    position: relative;
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 12px 40px;
-  }
-
-  .stop + .stop {
-    margin-top: clamp(28px, 4vw, 48px);
-  }
-
-  .stop::before {
-    content: '';
-    position: absolute;
-    top: 0.5em;
-    left: calc(var(--rail) * -1 - 5.5px);
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--accent);
-  }
-
-  .period {
-    color: var(--accent);
-    font-weight: 700;
-    font-size: var(--step-small);
-    letter-spacing: 0.02em;
-  }
-
-  .org {
-    font-weight: 700;
-    font-size: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
-    line-height: 1.25;
-  }
-
-  .role {
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  .points {
-    margin: 10px 0 0;
-    padding-left: 1.1em;
-  }
-
-  .points li + li {
-    margin-top: 4px;
-  }
-
-  .points li::marker {
-    color: var(--accent);
-  }
-
-  .halves {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(16px, 2.5vw, 28px);
-  }
-
-  .half p {
-    color: var(--muted);
-    line-height: 1.55;
-  }
-
-  @media (max-width: 760px) {
-    .stop {
-      grid-template-columns: 1fr;
-      gap: 4px;
-    }
-
-    .halves {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .paper {
-      transform: rotate(var(--tilt, 0deg));
-    }
-  }
+  .prose { line-height: 1.55; }
 </style>

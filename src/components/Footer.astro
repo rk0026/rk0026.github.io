@@ -5,101 +5,92 @@ import { t, type Lang } from '../i18n';
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
 const year = new Date().getFullYear();
-const links = d.contact.rows.filter((row) => row.href && /^(mailto:|https?:)/.test(row.href));
-// 24×24 single-path icons (mail outline; LinkedIn and GitHub marks), drawn in currentColor.
-const icon = (href: string) =>
-  href.startsWith('mailto:')
-    ? 'M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1 2.4V17h16V7.4l-8 5.6-8-5.6ZM5.6 7 12 11.5 18.4 7H5.6Z'
-    : href.includes('linkedin')
-      ? 'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5c0-1.2-.02-2.73-1.66-2.73-1.67 0-1.92 1.3-1.92 2.64V21h-4V9.75Z'
-      : 'M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z';
 ---
-<footer class="footer">
-  <h2 class="visually-hidden">{d.footer.rights}</h2>
+<footer class="card" data-reveal>
+  <ul class="rows" aria-label={d.contact.heading}>
+    {d.contact.rows.map((row) => {
+      const external = !!row.href && /^https?:/.test(row.href);
+      return (
+        <li>
+          {row.href ? (
+            <a
+              class="inner row"
+              href={row.href}
+              target={external ? '_blank' : undefined}
+              rel={external ? 'noopener' : undefined}
+            >
+              <span class="row-label">{row.label}</span>
+              <span class="row-value">{row.text}</span>
+              <span class="icon-btn" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </span>
+            </a>
+          ) : (
+            <div class="inner row">
+              <span class="row-label">{row.label}</span>
+              <span class="row-value">{row.text}</span>
+            </div>
+          )}
+        </li>
+      );
+    })}
+  </ul>
 
-  <div class="footer-word" aria-hidden="true">{d.hero.word}</div>
-
-  <nav class="links" aria-label={d.contact.heading}>
-    {links.map((row) => (
-      <a href={row.href}>
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d={icon(row.href!)} /></svg>
-        {row.text}
-      </a>
+  <p class="credits">
+    <span class="credits-label">{d.footer.creditsLabel}</span>
+    {credits.map((c, i) => (
+      <span>
+        “<a href={c.page}>{c.title}</a>” by {c.creator},{' '}
+        <a href={c.licenseUrl}>{c.license}</a>, via {c.via}
+        {i < credits.length - 1 ? '; ' : ''}
+      </span>
     ))}
-  </nav>
+  </p>
 
-  <div class="wrap">
-    <p class="credits">
-      <span class="credits-label">{d.footer.creditsLabel}</span>
-      {credits.map((c, i) => (
-        <span class="credit">
-          “<a href={c.page}>{c.title}</a>” by {c.creator},{' '}
-          <a href={c.licenseUrl}>{c.license}</a>, via {c.via}{i < credits.length - 1 ? '; ' : ''}
-        </span>
-      ))}
-    </p>
-    <p class="rights">© {year} {d.footer.rights}</p>
-  </div>
+  <p class="rights">{year} © {d.footer.rights}</p>
 </footer>
 
 <style>
-  .footer {
-    padding-block: calc(var(--section-gap) * 0.5) var(--margin);
-    overflow: clip;
-    text-align: center;
+  .rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--gap);
   }
 
-  .footer-word {
-    font-size: clamp(2rem, 3.5vw, 3.5rem);
-    font-weight: 900;
-    line-height: 0.85;
-    letter-spacing: -0.04em;
-    white-space: nowrap;
-    margin-bottom: clamp(24px, 3vw, 40px);
-    animation: word-in 700ms var(--ease) both;
-  }
-
-  @keyframes word-in {
-    from {
-      opacity: 0;
-      transform: scale(0.92);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-  .links {
+  .row {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: clamp(40px, 5vw, 64px);
-  }
-
-  .links a {
-    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 9px 20px 9px 16px;
-    border-radius: var(--radius-pill);
-    background: var(--surface);
-    color: var(--ink);
-    font-size: var(--step-small);
-    font-weight: 500;
+    gap: 12px;
     text-decoration: none;
-    transition: background-color 160ms var(--ease), color 160ms var(--ease);
   }
 
-  .links a:hover {
-    background: var(--accent);
-    color: var(--accent-ink);
+  .row-label {
+    flex: none;
+    font-size: var(--step-small);
+    color: var(--muted);
+  }
+
+  .row-value {
+    margin-left: auto;
+    min-width: 0;
+    text-align: right;
+    font-size: var(--step-lead);
+    overflow-wrap: anywhere;
+  }
+
+  .row .icon-btn {
+    flex: none;
+  }
+
+  .row svg {
+    width: 16px;
+    height: 16px;
   }
 
   .credits {
-    max-width: 78ch;
-    margin-inline: auto;
+    margin-top: 18px;
     font-size: 0.75rem;
     line-height: 1.6;
     color: var(--muted);
@@ -108,33 +99,25 @@ const icon = (href: string) =>
   .credits-label {
     display: block;
     margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
     font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
-  .credit a {
+  .credits a {
     text-decoration: underline;
     text-underline-offset: 0.2em;
     text-decoration-thickness: 1px;
   }
 
-  .credit a:hover {
+  .credits a:hover {
     color: var(--ink);
   }
 
   .rights {
-    margin-top: 16px;
-    font-size: 0.75rem;
+    margin-top: 18px;
+    text-align: center;
+    font-size: var(--step-small);
     color: var(--muted);
-  }
-
-  @media (max-width: 760px) {
-    .footer {
-      padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
-    }
-    .footer-word {
-      font-size: 9vw;
-    }
   }
 </style>
