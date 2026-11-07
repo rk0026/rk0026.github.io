@@ -3,22 +3,25 @@ import type { Dict } from './index';
 const zh: Dict = {
   htmlLang: 'zh-Hant-TW',
   meta: {
-    title: '林軒德 — Full-cycle 工程師',
+    title: 'Jimmy 林軒德 — Full-cycle 工程師',
     description: '八年經驗的 full-cycle 工程師：寫 Web 與 App、把它們上架，再維運它們所在的 15 座 Kubernetes 叢集。',
   },
   nav: { home: '首頁', about: '關於', stack: '技術', projects: '作品', notes: '知識庫', contact: '聯絡', menu: '主選單', switchLabel: 'EN' },
+  top: { location: '台灣', clockLabel: '台灣現在時間', themeLabel: '切換亮色／暗色' },
   home: {
-    greeting: '你好，我是',
-    name: '軒德',
-    role: 'Full-cycle 工程師',
-    marquee: 'HSUAN-TE LIN',
-    photoAlt: '林軒德的大頭照',
-    cta: '一起合作吧',
+    name: 'Jimmy 林軒德',
+    role: 'Full-cycle 工程師 · 台達電子',
+    photoAlt: 'Jimmy 林軒德的大頭照',
+    cv: '下載履歷',
+    touch: '聯絡我',
+    overviewLabel: '概覽',
+    factsLabel: '數字',
     facts: [
       { value: '8 年', label: '軟體經驗' },
       { value: '15 座', label: 'Kubernetes 叢集' },
       { value: '25 萬+', label: '註冊帳號' },
     ],
+    pagesLabel: '更多',
     tiles: [
       { page: 'about', title: '關於我', text: '從台大的乾旱預警系統，到台達電子的企業學習平台。' },
       { page: 'stack', title: '技術', text: '前端、後端、雲端維運、AI 與資安，一整條路的工具。' },
@@ -30,7 +33,7 @@ const zh: Dict = {
     title: '關於我',
     intro: '八年，從畫面一路做到叢集。',
     paragraphs: [
-      '我是林軒德，台灣的 full-cycle 工程師。寫 Web 和 App、把它們上架，再維運它們所在的 Kubernetes 叢集，整條路我都自己負責過。',
+      '我是 Jimmy 林軒德，台灣的 full-cycle 工程師。寫 Web 和 App、把它們上架，再維運它們所在的 Kubernetes 叢集，整條路我都自己負責過。',
       '2020 年進入台達電子後，我在同一套企業學習平台上從 React Native App 做到 Next.js 後台、後端服務，再接下 15 座叢集的維運，服務超過 25 萬個註冊帳號。',
       '研究所在台大做乾旱預警系統，後來把同樣的好奇心帶進 AI：用 SHAP 和 LLM 找出資料中心異常的根因。我在意的不是哪一層，而是整條路有沒有人負責。',
     ],
@@ -82,7 +85,7 @@ const zh: Dict = {
   projectsPage: { title: '作品', intro: '每個專案都從寫程式開始，到有人在用、出事有人接住才算結束。' },
   contactPage: { title: '聯絡', intro: '想聊工作、專案或技術，都歡迎寫信給我。' },
   hero: {
-    word: 'Hsuan-Te',
+    word: 'Jimmy',
     cta: '下載履歷',
     ctaHref: '/cv.pdf',
   },
@@ -224,16 +227,16 @@ const zh: Dict = {
   contact: {
     heading: '聯絡方式',
     greeting: '你好',
-    mailSubject: '你好，林軒德',
+    mailSubject: '你好，Jimmy',
     rows: [
-      { text: 'abc751202@gmail.com', href: 'mailto:abc751202@gmail.com' },
-      { text: '+886 983-526-503', href: 'tel:+886983526503' },
-      { text: 'linkedin.com/in/hsuante-lin', href: 'https://www.linkedin.com/in/hsuante-lin' },
-      { text: 'github.com/rk0026', href: 'https://github.com/rk0026' },
-      { text: '台灣' },
+      { label: 'E-mail', text: 'abc751202@gmail.com', href: 'mailto:abc751202@gmail.com' },
+      { label: '電話', text: '+886 983-526-503', href: 'tel:+886983526503' },
+      { label: 'LinkedIn', text: '/in/hsuante-lin', href: 'https://www.linkedin.com/in/hsuante-lin' },
+      { label: 'GitHub', text: 'rk0026', href: 'https://github.com/rk0026' },
+      { label: '所在地', text: '台灣' },
     ],
   },
-  footer: { creditsLabel: '圖片', rights: '林軒德' },
+  footer: { creditsLabel: '圖片', rights: 'Jimmy 林軒德' },
 };
 
 export default zh;

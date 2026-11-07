@@ -3,22 +3,25 @@ import type { Dict } from './index';
 const en: Dict = {
   htmlLang: 'en',
   meta: {
-    title: 'Hsuan-Te Lin — Full-cycle engineer',
+    title: 'Jimmy Lin — Full-cycle engineer',
     description: 'Full-cycle engineer with eight years of experience: builds web and mobile apps, ships them, and runs the 15 Kubernetes clusters they live on.',
   },
   nav: { home: 'Home', about: 'About', stack: 'Stack', projects: 'Projects', notes: 'Notes', contact: 'Contact', menu: 'Main menu', switchLabel: '中' },
+  top: { location: 'Taiwan', clockLabel: 'Current time in Taiwan', themeLabel: 'Toggle light / dark' },
   home: {
-    greeting: 'Hi, I’m',
-    name: 'Hsuan-Te',
-    role: 'Full-cycle engineer',
-    marquee: 'HSUAN-TE LIN',
-    photoAlt: 'Portrait of Hsuan-Te Lin',
-    cta: 'Let’s work together',
+    name: 'Jimmy Lin',
+    role: 'Full-cycle engineer at Delta Electronics',
+    photoAlt: 'Portrait of Jimmy (Hsuan-Te) Lin',
+    cv: 'Download CV',
+    touch: 'Get in touch',
+    overviewLabel: 'Overview',
+    factsLabel: 'In numbers',
     facts: [
       { value: '8 yrs', label: 'in software' },
       { value: '15', label: 'Kubernetes clusters' },
       { value: '250k+', label: 'registered accounts' },
     ],
+    pagesLabel: 'Explore',
     tiles: [
       { page: 'about', title: 'About', text: 'From drought early-warning research to an enterprise learning platform.' },
       { page: 'stack', title: 'Stack', text: 'Front end, back end, cloud operations, AI and security: tools for the whole path.' },
@@ -30,7 +33,7 @@ const en: Dict = {
     title: 'About me',
     intro: 'Eight years, from the screen to the cluster.',
     paragraphs: [
-      'I’m Hsuan-Te Lin, a full-cycle engineer from Taiwan. I build web and mobile apps, ship them, and run the Kubernetes clusters they live on, and I have owned every step of that path.',
+      'I’m Jimmy (Hsuan-Te) Lin, a full-cycle engineer from Taiwan. I build web and mobile apps, ship them, and run the Kubernetes clusters they live on, and I have owned every step of that path.',
       'Since joining Delta Electronics in 2020 I have grown with one enterprise learning platform: its React Native app, its Next.js admin, its back-end services, and now the 15 clusters that serve its 250,000+ registered accounts.',
       'My master’s at National Taiwan University built drought early-warning systems; the same curiosity now goes into AI, using SHAP and LLMs to find the root cause of data-centre anomalies. The layer matters less to me than whether someone owns the whole path.',
     ],
@@ -82,7 +85,7 @@ const en: Dict = {
   projectsPage: { title: 'Projects', intro: 'A project starts with code and ends only when people use it and someone is there when it breaks.' },
   contactPage: { title: 'Contact', intro: 'Work, projects or just a technical question: write to me.' },
   hero: {
-    word: 'Hsuan-Te',
+    word: 'Jimmy',
     cta: 'Download résumé',
     ctaHref: '/cv.pdf',
   },
@@ -224,16 +227,16 @@ const en: Dict = {
   contact: {
     heading: 'Contact',
     greeting: 'Hello',
-    mailSubject: 'Hello Hsuan-Te',
+    mailSubject: 'Hello Jimmy',
     rows: [
-      { text: 'abc751202@gmail.com', href: 'mailto:abc751202@gmail.com' },
-      { text: '+886 983-526-503', href: 'tel:+886983526503' },
-      { text: 'linkedin.com/in/hsuante-lin', href: 'https://www.linkedin.com/in/hsuante-lin' },
-      { text: 'github.com/rk0026', href: 'https://github.com/rk0026' },
-      { text: 'Taiwan' },
+      { label: 'E-mail', text: 'abc751202@gmail.com', href: 'mailto:abc751202@gmail.com' },
+      { label: 'Phone', text: '+886 983-526-503', href: 'tel:+886983526503' },
+      { label: 'LinkedIn', text: '/in/hsuante-lin', href: 'https://www.linkedin.com/in/hsuante-lin' },
+      { label: 'GitHub', text: 'rk0026', href: 'https://github.com/rk0026' },
+      { label: 'Location', text: 'Taiwan' },
     ],
   },
-  footer: { creditsLabel: 'Pictures', rights: 'Hsuan-Te Lin' },
+  footer: { creditsLabel: 'Pictures', rights: 'Jimmy Lin' },
 };
 
 export default en;

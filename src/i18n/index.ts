@@ -10,14 +10,17 @@ export type Dict = {
   htmlLang: string;
   meta: { title: string; description: string };
   nav: { home: string; about: string; stack: string; projects: string; notes: string; contact: string; menu: string; switchLabel: string };
+  top: { location: string; clockLabel: string; themeLabel: string };
   home: {
-    greeting: string;
     name: string;
     role: string;
-    marquee: string;
     photoAlt: string;
-    cta: string;
+    cv: string;
+    touch: string;
+    overviewLabel: string;
+    factsLabel: string;
     facts: Array<{ value: string; label: string }>;
+    pagesLabel: string;
     tiles: Array<{ page: 'about' | 'stack' | 'projects' | 'notes'; title: string; text: string }>;
   };
   aboutPage: {
@@ -60,7 +63,7 @@ export type Dict = {
     published: string;
     photoAlt: string;
   };
-  contact: { heading: string; greeting: string; mailSubject: string; rows: Array<{ text: string; href?: string }> };
+  contact: { heading: string; greeting: string; mailSubject: string; rows: Array<{ label: string; text: string; href?: string }> };
   footer: { creditsLabel: string; rights: string };
 };
 

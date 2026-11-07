@@ -1,0 +1,81 @@
+---
+import { t, href, type Lang } from '../i18n';
+
+export type Page = 'home' | 'about' | 'stack' | 'projects' | 'notes' | 'contact';
+interface Props { lang: Lang; current?: Page }
+const { lang, current } = Astro.props;
+const d = t(lang);
+const items: Array<{ id: Page; path: string }> = [
+  { id: 'home', path: '/' },
+  { id: 'about', path: '/about/' },
+  { id: 'stack', path: '/stack/' },
+  { id: 'projects', path: '/projects/' },
+  { id: 'notes', path: '/notes/' },
+  { id: 'contact', path: '/contact/' },
+];
+const bare = Astro.url.pathname.replace(/^\/en(?=\/)/, '') || '/';
+const switchHref = lang === 'zh' ? `/en${bare}` : bare;
+---
+<header class="card topbar">
+  <div class="row">
+    <span class="place">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+      {d.top.location}
+    </span>
+    <span class="right">
+      <time class="clock" data-tz="Asia/Taipei" data-locale={d.htmlLang} aria-label={d.top.clockLabel}>--:--</time>
+      <a class="lang" href={switchHref} hreflang={lang === 'zh' ? 'en' : 'zh-Hant-TW'}>{d.nav.switchLabel}</a>
+      <button class="theme" type="button" aria-label={d.top.themeLabel}>
+        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/></svg>
+      </button>
+    </span>
+  </div>
+  <nav aria-label={d.nav.menu}>
+    <ul>
+      {items.map((it) => (
+        <li><a href={href(lang, it.path)} aria-current={it.id === current ? 'page' : undefined}>{d.nav[it.id]}</a></li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const clock = document.querySelector<HTMLTimeElement>('.topbar .clock');
+  if (clock) {
+    const fmt = new Intl.DateTimeFormat(clock.dataset.locale, { timeZone: clock.dataset.tz, hour: 'numeric', minute: '2-digit', second: '2-digit' });
+    const tick = () => { clock.textContent = fmt.format(new Date()); };
+    tick();
+    setInterval(tick, 1000);
+  }
+  document.querySelector('.topbar .theme')?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('theme', next);
+  });
+</script>
+
+<style>
+  .topbar { padding: 10px 14px; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: var(--step-small); }
+  .place, .right { display: inline-flex; align-items: center; gap: 10px; }
+  .place svg { width: 16px; height: 16px; }
+  .clock { font-variant-numeric: tabular-nums; }
+  .lang { padding: 2px 8px; border-radius: 8px; background: var(--surface); text-decoration: none; font-weight: 500; }
+  .theme { display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: 8px; background: transparent; cursor: pointer; }
+  .theme:hover { background: var(--surface); }
+  .theme svg { width: 18px; height: 18px; }
+  .moon { display: none; }
+  :global([data-theme='dark']) .sun { display: none; }
+  :global([data-theme='dark']) .moon { display: block; }
+
+  nav { margin-top: 10px; }
+  ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  nav a {
+    display: block; padding: 5px 12px; border-radius: 10px;
+    font-size: var(--step-small); text-decoration: none; color: var(--muted);
+    transition: background-color 160ms var(--ease), color 160ms var(--ease);
+  }
+  nav a:hover { background: var(--surface); color: var(--ink); }
+  nav a[aria-current='page'] { background: var(--ink); color: var(--bg); }
+</style>
