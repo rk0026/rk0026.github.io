@@ -6,7 +6,7 @@ const zh: Dict = {
     title: 'Jimmy 林軒德 — Full-cycle 工程師',
     description: '八年經驗的 full-cycle 工程師：寫 Web 與 App、把它們上架，再維運它們所在的 15 座 Kubernetes 叢集。',
   },
-  nav: { home: '首頁', about: '關於', stack: '技術', projects: '作品', wispo: 'Wispo', notes: '知識庫', contact: '聯絡', menu: '主選單', switchLabel: 'EN' },
+  nav: { home: '首頁', overview: '概覽', about: '關於', stack: '技術', projects: '作品', wispo: 'Wispo', notes: '知識庫', contact: '聯絡', menu: '主選單', switchLabel: 'EN' },
   top: { location: '台灣', clockLabel: '台灣現在時間', themeLabel: '切換亮色／暗色' },
   home: {
     name: 'Jimmy 林軒德',

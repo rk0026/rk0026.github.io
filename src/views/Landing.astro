@@ -8,7 +8,7 @@ const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
 const l = d.landing;
 ---
-<Base lang={lang} wide title={`${d.home.name} — ${d.home.role}`} description={l.lead}>
+<Base lang={lang} wide current="home" title={`${d.home.name} — ${d.home.role}`} description={l.lead}>
   <main class="landing">
     <div class="intro">
       <p class="who"><img src="/img/me.jpg" width="800" height="1000" alt="" />{d.home.name} · <span class="muted">{d.home.now}</span></p>

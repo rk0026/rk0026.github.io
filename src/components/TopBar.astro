@@ -1,12 +1,13 @@
 ---
 import { t, href, type Lang } from '../i18n';
 
-export type Page = 'home' | 'about' | 'stack' | 'projects' | 'wispo' | 'notes' | 'contact';
+export type Page = 'home' | 'overview' | 'about' | 'stack' | 'projects' | 'wispo' | 'notes' | 'contact';
 interface Props { lang: Lang; current?: Page }
 const { lang, current } = Astro.props;
 const d = t(lang);
 const items: Array<{ id: Page; path: string }> = [
   { id: 'home', path: '/' },
+  { id: 'overview', path: '/overview/' },
   { id: 'about', path: '/about/' },
   { id: 'stack', path: '/stack/' },
   { id: 'projects', path: '/projects/' },

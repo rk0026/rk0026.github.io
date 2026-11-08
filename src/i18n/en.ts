@@ -6,7 +6,7 @@ const en: Dict = {
     title: 'Jimmy Lin — Full-cycle engineer',
     description: 'Full-cycle engineer with eight years of experience: builds web and mobile apps, ships them, and runs the 15 Kubernetes clusters they live on.',
   },
-  nav: { home: 'Home', about: 'About', stack: 'Stack', projects: 'Projects', wispo: 'Wispo', notes: 'Notes', contact: 'Contact', menu: 'Main menu', switchLabel: '中' },
+  nav: { home: 'Home', overview: 'Overview', about: 'About', stack: 'Stack', projects: 'Projects', wispo: 'Wispo', notes: 'Notes', contact: 'Contact', menu: 'Main menu', switchLabel: '中' },
   top: { location: 'Taiwan', clockLabel: 'Current time in Taiwan', themeLabel: 'Toggle light / dark' },
   home: {
     name: 'Jimmy Lin',

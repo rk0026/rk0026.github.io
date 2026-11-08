@@ -9,7 +9,7 @@ export type Row = { stage: string; value: string };
 export type Dict = {
   htmlLang: string;
   meta: { title: string; description: string };
-  nav: { home: string; about: string; stack: string; projects: string; wispo: string; notes: string; contact: string; menu: string; switchLabel: string };
+  nav: { home: string; overview: string; about: string; stack: string; projects: string; wispo: string; notes: string; contact: string; menu: string; switchLabel: string };
   top: { location: string; clockLabel: string; themeLabel: string };
   home: {
     name: string;
