@@ -1,6 +1,6 @@
 # Portfolio layout
 
-English at `/`, Traditional Chinese at `/zh/`; Astro static site on GitHub Pages. Existing colours, Geist typography and saved light/dark themes remain unchanged.
+English at `/`, Traditional Chinese at `/zh/`; Astro static site on GitHub Pages. Geist typography; saved light/dark themes. Colour is palette A "deep navy" (owner choice, 2026-11-08), all in `src/styles/global.css` tokens: light = pale blue-grey ground `#eef3fb`, white cards, navy ink `#0b1a33`, accent `#2f6bff`; dark = navy ground `#0b1a33`, cards `#12264a`, ink `#e8eefb`, accent `#7fb2ff`. Selected states (nav, pickers, 3D module) use `--accent`/`--accent-ink`. The five discipline colours (orange, blue, lime, yellow, purple) stay as accents.
 
 Layout follows the structure of codewithsadee/vcard-personal-portfolio, not its colours or assets. Desktop: 1200px maximum shell with a sticky 275px profile sidebar and a right content panel. Below 1000px the profile moves above the content; contact details collapse into a native details element. Below 640px navigation sits at the bottom with safe-area padding.
 

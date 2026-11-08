@@ -86,11 +86,11 @@ const { labels } = Astro.props;
     });
     const pickable = modules.flatMap((m) => [m.body, m.face]);
 
-    let theme = { card: '#fff', ink: '#111', surface: '#ececec', line: '#e9e9e9', muted: '#6b6b6b', ok: '#22c55e', bg: '#f0f0f0' };
+    let theme = { card: '', ink: '', surface: '', line: '', muted: '', ok: '', bg: '', accent: '', accentInk: '' };
     const readTheme = () => {
       const s = getComputedStyle(document.documentElement);
       const v = (n: string) => s.getPropertyValue(n).trim();
-      theme = { card: v('--card'), ink: v('--ink'), surface: v('--surface'), line: v('--line'), muted: v('--muted'), ok: v('--ok') || '#22c55e', bg: v('--bg') };
+      theme = { card: v('--card'), ink: v('--ink'), surface: v('--surface'), line: v('--line'), muted: v('--muted'), ok: v('--ok'), bg: v('--bg'), accent: v('--accent'), accentInk: v('--accent-ink') };
     };
     const labelTexture = (text: string, fg: string) => {
       const c = document.createElement('canvas');
@@ -115,10 +115,10 @@ const { labels } = Astro.props;
       (core.material as THREE.MeshStandardMaterial).color.set(theme.ink);
       modules.forEach((m, i) => {
         const on = i === selected;
-        (m.body.material as THREE.MeshStandardMaterial).color.set(on ? theme.ink : theme.card);
+        (m.body.material as THREE.MeshStandardMaterial).color.set(on ? theme.accent : theme.card);
         const fm = m.face.material as THREE.MeshBasicMaterial;
         fm.map?.dispose();
-        fm.map = labelTexture(m.label, on ? theme.card : theme.ink);
+        fm.map = labelTexture(m.label, on ? theme.accentInk : theme.ink);
         fm.needsUpdate = true;
         (m.pulse.material as THREE.MeshBasicMaterial).color.set(theme.ok);
       });

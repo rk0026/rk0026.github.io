@@ -1,40 +1,40 @@
-/* v3: Unti-style card stack with light and dark themes.
+/* v4 colour: palette A "deep navy" (light + dark). Layout tokens below are unchanged.
    Theme is set on <html data-theme="light|dark"> by the inline script in Base.astro. */
 :root,
 [data-theme='light'] {
-  --bg: #f0f0f0;          /* page ground */
+  --bg: #eef3fb;          /* page ground: pale blue-grey */
   --card: #ffffff;        /* section card */
   --inner: #ffffff;       /* item card inside a section card */
-  --surface: #ececec;     /* chips, icon buttons, label pills */
-  --line: #e9e9e9;        /* 1px borders of inner cards */
-  --ink: #111111;
-  --muted: #6b6b6b;
-  --accent: #111111;      /* monochrome: actions use ink */
+  --surface: #e3ebf8;     /* chips, icon buttons, label pills */
+  --line: #dbe4f3;        /* 1px borders of inner cards */
+  --ink: #0b1a33;         /* text: deep navy */
+  --muted: #4f5f7a;
+  --accent: #2f6bff;      /* buttons, selected states */
   --accent-ink: #ffffff;
-  --ok: #22c55e;          /* the small status dot */
-  --field-1: #111111;
+  --ok: #22c55e;          /* status lights */
+  --field-1: #0b1a33;
   --field-1-ink: #ffffff;
   --field-2: #ffffff;
-  --field-2-ink: #111111;
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-float: 0 4px 14px -6px rgba(0, 0, 0, 0.18);
+  --field-2-ink: #0b1a33;
+  --shadow-card: 0 1px 2px rgba(11, 26, 51, 0.06);
+  --shadow-float: 0 4px 14px -6px rgba(11, 26, 51, 0.22);
   color-scheme: light;
 }
 [data-theme='dark'] {
-  --bg: #141414;
-  --card: #1e1e1e;
-  --inner: #1e1e1e;
-  --surface: #2c2c2c;
-  --line: #2a2a2a;
-  --ink: #f2f2f2;
-  --muted: #9b9ba3;
-  --accent: #f2f2f2;
-  --accent-ink: #111111;
-  --field-1: #f2f2f2;
-  --field-1-ink: #111111;
-  --field-2: #1e1e22;
-  --field-2-ink: #f2f2f2;
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --bg: #0b1a33;
+  --card: #12264a;
+  --inner: #163058;
+  --surface: #1d3a66;
+  --line: #22406e;
+  --ink: #e8eefb;
+  --muted: #9fb0cc;
+  --accent: #7fb2ff;
+  --accent-ink: #0b1a33;
+  --field-1: #e8eefb;
+  --field-1-ink: #0b1a33;
+  --field-2: #163058;
+  --field-2-ink: #e8eefb;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35);
   --shadow-float: 0 4px 14px -6px rgba(0, 0, 0, 0.6);
   color-scheme: dark;
 }
