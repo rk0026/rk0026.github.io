@@ -29,7 +29,7 @@ const l = d.landing;
     </div>
 
     <div class="stage">
-      <SystemCore labels={l.modules.map((m) => m.label)} />
+      <SystemCore modules={l.modules.map(({ id, label }) => ({ id, label }))} />
       <p class="hint muted">{l.hint}</p>
       <div class="chips" role="group" aria-label={l.modulesLabel}>
         {l.modules.map((m, i) => (
