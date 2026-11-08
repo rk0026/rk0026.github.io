@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import TopBar, { type Page } from '../components/TopBar.astro';
 import Footer from '../components/Footer.astro';
+import Sidebar from '../components/Sidebar.astro';
 import { t, type Lang } from '../i18n';
 
 interface Props { lang: Lang; current?: Page; title?: string; description?: string }
@@ -35,10 +36,13 @@ const bare = Astro.url.pathname.replace(/^\/zh(?=\/)/, '');
     </script>
   </head>
   <body>
-    <div class="stack-col">
-      <TopBar lang={lang} current={current} />
-      <slot />
-      <Footer lang={lang} />
+    <div class="portfolio-shell">
+      <Sidebar lang={lang} />
+      <div class="content-panel">
+        <TopBar lang={lang} current={current} />
+        <slot />
+        <Footer lang={lang} />
+      </div>
     </div>
     <script>
       const io = new IntersectionObserver((entries) => {
@@ -48,3 +52,18 @@ const bare = Astro.url.pathname.replace(/^\/zh(?=\/)/, '');
     </script>
   </body>
 </html>
+<style is:global>
+  .portfolio-shell { width: min(1200px, calc(100% - 40px)); margin: 48px auto; display: grid; grid-template-columns: 275px minmax(0, 1fr); gap: 24px; align-items: start; }
+  .content-panel { min-width: 0; background: var(--card); border-radius: var(--radius-card); padding: 24px; }
+  .content-panel > main { display: flex; flex-direction: column; gap: 28px; }
+  .content-panel > main > .card { box-shadow: none; padding: 0; border-radius: 0; }
+  .topbar nav { display: flex; justify-content: flex-end; }
+  @media(max-width: 999px) { .portfolio-shell { grid-template-columns: 1fr; margin-block: 24px 90px; } }
+  @media(max-width: 640px) {
+    .portfolio-shell { width: calc(100% - 24px); gap: 16px; }
+    .content-panel { padding: 20px 16px; }
+    .topbar nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 10; background: var(--card); border-top: 1px solid var(--line); padding: 10px 6px max(10px, env(safe-area-inset-bottom)); margin: 0; justify-content: center; }
+    .topbar nav ul { gap: 0; justify-content: center; }
+    .topbar nav a { padding: 8px 7px; font-size: .72rem; }
+  }
+</style>

@@ -16,38 +16,9 @@ const shots = {
 ---
 <Base lang={lang} current="home">
   <main class="cards">
-    <section class="card profile" data-reveal style="--i:0">
-      <img
-        class="portrait"
-        src="/img/me.jpg"
-        alt={d.home.photoAlt}
-        width="800"
-        height="1000"
-        loading="eager"
-        decoding="async"
-      />
-      <div class="who">
-        <h1 class="name">{d.home.name}</h1>
-        <p class="role muted">{d.home.role}</p>
-        <p class="now muted">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" /></svg>
-          {d.home.now}
-        </p>
-        <div class="actions">
-          <a class="btn" href={d.hero.ctaHref} download>
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14" /></svg>
-            {d.home.cv}
-          </a>
-          <a class="btn" href={href(lang, '/contact/')}>
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3.5 7.5 8.5 6 8.5-6" /></svg>
-            {d.home.touch}
-          </a>
-        </div>
-      </div>
-    </section>
+    <h1>{d.home.overviewLabel}</h1>
 
     <section class="card overview" data-reveal style="--i:1">
-      <span class="label">{d.home.overviewLabel}</span>
       <div class="body">
         {d.aboutPage.paragraphs.map((text) => <p>{text}</p>)}
       </div>
@@ -119,46 +90,6 @@ const shots = {
     display: flex;
     flex-direction: column;
     gap: var(--gap);
-  }
-
-  /* 1. Profile */
-  .profile {
-    display: grid;
-    grid-template-columns: 150px minmax(0, 1fr);
-    gap: 20px;
-    align-items: center;
-  }
-  .portrait {
-    width: 150px;
-    height: 150px;
-    border-radius: 16px;
-    object-fit: cover;
-    object-position: 50% 25%;
-  }
-  .who { min-width: 0; }
-  .now {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 6px;
-    font-size: var(--step-small);
-  }
-  .name {
-    font-size: var(--step-display);
-    font-weight: 300;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-  }
-  .role {
-    margin-top: 6px;
-    font-size: var(--step-lead);
-    line-height: 1.35;
-  }
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 16px;
   }
 
   /* 2. Overview */
