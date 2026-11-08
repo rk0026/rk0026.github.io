@@ -193,7 +193,6 @@ const en: Dict = {
     heading: 'Production clusters I run',
     figure: '15',
     caption: 'Across AWS EKS, Azure AKS, Alibaba Cloud and on-premises, five environments, serving 250,000+ registered accounts. Since 2022, zero-downtime upgrades spanning 10 Kubernetes versions.',
-    photoAlt: 'A 1940s telephone exchange cabinet, rows of relays and wiring',
   },
   work: {
     heading: 'Things I built',
@@ -228,7 +227,6 @@ const en: Dict = {
       { name: 'CIS Benchmark', disc: 'sec', detail: 'Hardened IIS against the CIS Benchmark and ran Nessus scans.' },
       { name: 'Cloudflare API security', disc: 'sec', detail: 'Strengthened Cloudflare API Security controls.' },
     ],
-    photoAlt: 'A steel railway high bridge under construction, towers and girders receding into the distance',
   },
   knowledge: {
     heading: 'Notes',
@@ -239,7 +237,6 @@ const en: Dict = {
       { slug: 'troubleshooting', label: 'troubleshooting' },
       { slug: 'patterns', label: 'patterns' },
     ],
-    photoAlt: 'Second World War telephone switchboard operators',
   },
   notes: {
     title: 'Notes',
@@ -253,7 +250,6 @@ const en: Dict = {
     back: 'Back to notes',
     backHome: 'Back home',
     published: 'Published',
-    photoAlt: 'A field telephone switchboard operator, 1942',
   },
   contact: {
     heading: 'Contact',
@@ -267,7 +263,15 @@ const en: Dict = {
       { label: 'Location', text: 'Taiwan' },
     ],
   },
-  footer: { creditsLabel: 'Pictures', rights: 'Jimmy Lin' },
+  footer: { rights: 'Jimmy Lin' },
+  images: {
+    about: 'Hands typing on a keyboard in front of computer screens',
+    stack: 'Hand tools laid out on a wooden surface',
+    projects: 'An architectural blueprint drawn in white on blue',
+    notes: 'An open notebook with a pen and pencils on a desk',
+    clusters: 'A long data-centre aisle lit in blue',
+    built: 'Electronic circuit boards next to a test meter on a workbench',
+  },
 };
 
 export default en;

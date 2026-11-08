@@ -1,11 +1,9 @@
 ---
-import credits from '../data/credits.json';
 import { t, type Lang } from '../i18n';
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
 ---
 <footer>
-  <p>{d.footer.creditsLabel}: {credits.map((c, i) => <span>“<a href={c.page}>{c.title}</a>” by {c.creator}, <a href={c.licenseUrl}>{c.license}</a>, via {c.via}{i < credits.length - 1 ? '; ' : ''}</span>)}</p>
   <p class="rights">{new Date().getFullYear()} © {d.footer.rights}</p>
 </footer>
-<style>footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .7rem; color: var(--muted); } .rights { margin-top: 16px; text-align: center; }</style>
+<style>footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .7rem; color: var(--muted); } .rights { text-align: center; }</style>

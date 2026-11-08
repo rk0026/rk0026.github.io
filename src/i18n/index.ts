@@ -73,15 +73,14 @@ export type Dict = {
     pickLabel: string;
     projects: Array<{ id: string; name: string; groups: Array<{ name: string; rows: Row[] }>; result: Row }>;
   };
-  stats: { heading: string; figure: string; caption: string; photoAlt: string };
+  stats: { heading: string; figure: string; caption: string };
   work: {
     heading: string;
     note: string;
     disciplines: Record<Discipline, string>;
     items: Array<{ name: string; disc: Discipline; detail: string }>;
-    photoAlt: string;
   };
-  knowledge: { heading: string; empty: string; count: (n: number) => string; items: Array<{ slug: Category; label: string }>; photoAlt: string };
+  knowledge: { heading: string; empty: string; count: (n: number) => string; items: Array<{ slug: Category; label: string }> };
   notes: {
     title: string;
     intro: string;
@@ -90,10 +89,11 @@ export type Dict = {
     back: string;
     backHome: string;
     published: string;
-    photoAlt: string;
   };
   contact: { heading: string; greeting: string; mailSubject: string; rows: Array<{ label: string; text: string; href?: string }> };
-  footer: { creditsLabel: string; rights: string };
+  footer: { rights: string };
+  /** Alt text for the illustrative Unsplash photos in public/img/{key}.jpg. */
+  images: { about: string; stack: string; projects: string; notes: string; clusters: string; built: string };
 };
 
 export const dicts: Record<Lang, Dict> = { zh, en };

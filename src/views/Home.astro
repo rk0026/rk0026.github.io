@@ -6,12 +6,12 @@ import { t, href, type Lang } from '../i18n';
 const { lang } = Astro.props as { lang: Lang };
 const d = t(lang);
 
-// Archival photographs, already credited in the footer.
+// Illustrative Unsplash photos (free licence, no credit required).
 const shots = {
-  about: { src: '/img/marine-field-telephone-switchboard-operator-guadalcanal-circ.jpg', alt: d.notes.photoAlt, w: 1920, h: 1453 },
-  stack: { src: '/img/1940s-n935-telephone-exchange.jpg', alt: d.stats.photoAlt, w: 1920, h: 1801 },
-  projects: { src: '/img/kate-shelley-high-bridge-construction-center-facing.jpg', alt: d.work.photoAlt, w: 1800, h: 1215 },
-  notes: { src: '/img/wac-telephone-switchboard-operators.jpg', alt: d.knowledge.photoAlt, w: 1920, h: 1476 },
+  about: { src: '/img/about.jpg', alt: d.images.about, w: 1400, h: 788 },
+  stack: { src: '/img/stack.jpg', alt: d.images.stack, w: 1400, h: 930 },
+  projects: { src: '/img/projects.jpg', alt: d.images.projects, w: 1400, h: 882 },
+  notes: { src: '/img/notes.jpg', alt: d.images.notes, w: 1400, h: 934 },
 } as const;
 ---
 <Base lang={lang} current="overview" title={`${d.nav.overview} — ${d.footer.rights}`}>

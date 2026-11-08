@@ -193,7 +193,6 @@ const zh: Dict = {
     heading: '我維運的生產叢集',
     figure: '15',
     caption: '橫跨 AWS EKS、Azure AKS、阿里雲與地端機房，五個環境，承載 25 萬以上註冊帳號。2022 年至今，零停機升級跨越 10 個 Kubernetes 版本。',
-    photoAlt: '1940 年代的電話交換機機櫃，成排的繼電器與線路',
   },
   work: {
     heading: '做過的事',
@@ -228,7 +227,6 @@ const zh: Dict = {
       { name: 'CIS Benchmark', disc: 'sec', detail: '依 CIS Benchmark 強化 IIS，並執行 Nessus 掃描。' },
       { name: 'Cloudflare API 防護', disc: 'sec', detail: '加強 Cloudflare API Security 控管。' },
     ],
-    photoAlt: '施工中的鋼構鐵路高架橋，橋墩與鋼樑一路延伸',
   },
   knowledge: {
     heading: '知識庫',
@@ -239,7 +237,6 @@ const zh: Dict = {
       { slug: 'troubleshooting', label: '除錯實錄' },
       { slug: 'patterns', label: '設計模式' },
     ],
-    photoAlt: '二戰時期的電話總機接線員',
   },
   notes: {
     title: '知識庫',
@@ -253,7 +250,6 @@ const zh: Dict = {
     back: '回知識庫',
     backHome: '回首頁',
     published: '發佈於',
-    photoAlt: '1942 年野戰電話總機前的接線員',
   },
   contact: {
     heading: '聯絡方式',
@@ -267,7 +263,15 @@ const zh: Dict = {
       { label: '所在地', text: '台灣' },
     ],
   },
-  footer: { creditsLabel: '圖片', rights: 'Jimmy 林軒德' },
+  footer: { rights: 'Jimmy 林軒德' },
+  images: {
+    about: '在電腦螢幕前打字的雙手',
+    stack: '排列在木桌上的手工具',
+    projects: '藍底白線的建築藍圖',
+    notes: '桌上攤開的筆記本、筆和鉛筆',
+    clusters: '藍色燈光下的資料中心長走道',
+    built: '工作台上的電路板與測試儀',
+  },
 };
 
 export default zh;
