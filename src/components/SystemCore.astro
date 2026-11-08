@@ -92,14 +92,10 @@ const { labels } = Astro.props;
       const v = (n: string) => s.getPropertyValue(n).trim();
       theme = { card: v('--card'), ink: v('--ink'), surface: v('--surface'), line: v('--line'), muted: v('--muted'), ok: v('--ok') || '#22c55e', bg: v('--bg') };
     };
-    const labelTexture = (text: string, fg: string, bg: string) => {
+    const labelTexture = (text: string, fg: string) => {
       const c = document.createElement('canvas');
       c.width = c.height = 256;
       const x = c.getContext('2d')!;
-      x.fillStyle = bg;
-      x.beginPath();
-      x.roundRect(8, 8, 240, 240, 28);
-      x.fill();
       x.fillStyle = fg;
       x.textAlign = 'center';
       x.textBaseline = 'middle';
@@ -122,7 +118,7 @@ const { labels } = Astro.props;
         (m.body.material as THREE.MeshStandardMaterial).color.set(on ? theme.ink : theme.card);
         const fm = m.face.material as THREE.MeshBasicMaterial;
         fm.map?.dispose();
-        fm.map = labelTexture(m.label, on ? theme.card : theme.ink, on ? theme.ink : theme.card);
+        fm.map = labelTexture(m.label, on ? theme.card : theme.ink);
         fm.needsUpdate = true;
         (m.pulse.material as THREE.MeshBasicMaterial).color.set(theme.ok);
       });
