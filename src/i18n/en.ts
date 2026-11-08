@@ -122,6 +122,19 @@ const en: Dict = {
     storyVisit: 'Visit story.wispo.cc',
     storyAlt: 'Wispo Story page: Duoduo the hippo and Pipi the penguin stacking blocks, with Zhuyin text and a narration player',
   },
+  landing: {
+    title: 'One engineer, from the interface to the cluster.',
+    lead: 'Eight years of building web and mobile products, shipping them, and running the infrastructure they live on. Pick a module to see the work behind it.',
+    hint: 'Hover or tap a module',
+    modulesLabel: 'System modules',
+    modules: [
+      { id: 'interface', label: 'Interface', title: 'Interface', scope: 'Web and mobile front ends people use every day.', points: ['One of two lead contributors to a multi-tenant React Native LMS app: 1,650+ commits over four years', 'Core contributor to the Next.js 14 platform and admin console: 900+ commits'], link: { text: 'See projects', path: '/projects/' } },
+      { id: 'services', label: 'Services', title: 'Services & API', scope: 'Back ends designed and built end to end.', points: ['Wispo, built solo: 193 API routes, a 67-module service layer, 87 PostgreSQL tables', 'Zod validation at every request boundary, OAuth + JWT, transactional writes, rate limiting'], link: { text: 'See Wispo', path: '/wispo/' } },
+      { id: 'data', label: 'Data & AI', title: 'Data & AI', scope: 'Turning telemetry into explanations.', points: ['ACES: anomaly detection on data-centre telemetry with per-row SHAP attribution', 'LLM root-cause analysis written back to the monitoring platform', 'MOEA AI Smart Innovation Award, honourable mention'], link: { text: 'See projects', path: '/projects/' } },
+      { id: 'delivery', label: 'Delivery', title: 'Delivery', scope: 'Getting code from a commit to a store or a cluster.', points: ['macOS GitLab runners building iOS and Android releases for the App Store and Google Play', 'CodePush OTA updates, SonarQube and Fortify scans, ArgoCD GitOps deploys'], link: { text: 'See the stack', path: '/stack/' } },
+      { id: 'operations', label: 'Operations', title: 'Operations', scope: 'Keeping it running after launch.', points: ['15 Kubernetes clusters across EKS, AKS, Alibaba Cloud and on-prem', '250,000+ registered accounts, 3,000 peak concurrent users', 'Moved compute to AWS Spot and cut its cost by about 40%'], link: { text: 'About me', path: '/about/' } },
+    ],
+  },
   contactPage: { title: 'Contact', intro: 'Work, projects or just a technical question: write to me.' },
   hero: {
     word: 'Jimmy',

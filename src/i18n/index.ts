@@ -58,6 +58,13 @@ export type Dict = {
     storyVisit: string;
     storyAlt: string;
   };
+  landing: {
+    title: string;
+    lead: string;
+    hint: string;
+    modulesLabel: string;
+    modules: Array<{ id: string; label: string; title: string; scope: string; points: string[]; link: { text: string; path: string } }>;
+  };
   contactPage: { title: string; intro: string };
   hero: { word: string; cta: string; ctaHref: string };
   pipeline: {

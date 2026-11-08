@@ -1,0 +1,67 @@
+---
+// Landing: wide layout (no sidebar) with the interactive modular system core.
+import Base from '../layouts/Base.astro';
+import SystemCore from '../components/SystemCore.astro';
+import { t, href, type Lang } from '../i18n';
+
+const { lang } = Astro.props as { lang: Lang };
+const d = t(lang);
+const l = d.landing;
+---
+<Base lang={lang} wide title={`${d.home.name} — ${d.home.role}`} description={l.lead}>
+  <main class="landing">
+    <div class="intro">
+      <p class="who"><img src="/img/me.jpg" width="800" height="1000" alt="" />{d.home.name} · <span class="muted">{d.home.now}</span></p>
+      <h1>{l.title}</h1>
+      <p class="lead muted">{l.lead}</p>
+      <div class="actions">
+        <a class="btn" href={d.hero.ctaHref} download>{d.home.cv}</a>
+        <a class="btn" href={href(lang, '/contact/')}>{d.home.touch}</a>
+      </div>
+      {l.modules.map((m, i) => (
+        <article class="inner detail" data-panel={m.id} hidden={i !== 0} aria-live="polite">
+          <h2>{m.title}</h2>
+          <p class="muted">{m.scope}</p>
+          <ul>{m.points.map((p) => <li>{p}</li>)}</ul>
+          <a href={href(lang, m.link.path)}>{m.link.text} →</a>
+        </article>
+      ))}
+    </div>
+
+    <div class="stage">
+      <SystemCore labels={l.modules.map((m) => m.label)} />
+      <p class="hint muted">{l.hint}</p>
+      <div class="chips" role="group" aria-label={l.modulesLabel}>
+        {l.modules.map((m, i) => (
+          <button type="button" data-module={m.id} aria-pressed={i === 0 ? 'true' : 'false'}>{m.label}</button>
+        ))}
+      </div>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .landing { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 40px; align-items: center; padding-block: 24px 8px; }
+  .intro { display: flex; flex-direction: column; gap: 18px; }
+  .who { display: flex; align-items: center; gap: 10px; font-size: var(--step-small); }
+  .who img { width: 32px; height: 32px; border-radius: 10px; object-fit: cover; object-position: 50% 25%; }
+  h1 { font-size: clamp(2rem, 1.4rem + 2.2vw, 3rem); font-weight: 300; letter-spacing: -0.03em; line-height: 1.1; }
+  .lead { max-width: 52ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .detail { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+  .detail[hidden] { display: none; }
+  .detail h2 { font-size: var(--step-head); }
+  .detail ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; font-size: 0.9375rem; }
+  .detail a { align-self: flex-start; font-size: var(--step-small); text-underline-offset: 0.2em; }
+  .stage { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .hint { font-size: 0.75rem; }
+  .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+  .chips button { padding: 6px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--inner); font-size: var(--step-small); cursor: pointer; transition: background-color 160ms var(--ease), color 160ms var(--ease); }
+  .chips button:hover { background: var(--surface); }
+  .chips button[aria-pressed='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  @media (max-width: 900px) {
+    .landing { grid-template-columns: 1fr; gap: 16px; }
+    .stage { order: -1; }
+    .intro .detail { order: 1; }
+  }
+</style>

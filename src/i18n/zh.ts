@@ -122,6 +122,19 @@ const zh: Dict = {
     storyVisit: '前往 story.wispo.cc',
     storyAlt: 'Wispo Story 繪本頁：小河馬朵朵和企鵝皮皮在疊積木，右邊是附注音的文字和旁白播放器',
   },
+  landing: {
+    title: '一個工程師，從介面一路負責到叢集。',
+    lead: '八年來寫 Web 與 App、把它們上架，再維運它們所在的基礎設施。點一個模組，看背後實際做過的事。',
+    hint: '移到模組上或點一下',
+    modulesLabel: '系統模組',
+    modules: [
+      { id: 'interface', label: '介面', title: '介面', scope: '每天有人在用的 Web 與 App 前端。', points: ['多租戶 React Native 企業學習 App 兩位主要開發者之一：四年 1,650+ 次提交', 'Next.js 14 平台與管理後台核心貢獻者：900+ 次提交'], link: { text: '看作品', path: '/projects/' } },
+      { id: 'services', label: '服務', title: '服務與 API', scope: '從頭設計、一路做完的後端。', points: ['Wispo 一人完成：193 支 API、67 個 service 模組、87 張 PostgreSQL 資料表', '每個請求邊界都用 Zod 驗證；OAuth + JWT、交易寫入、限流'], link: { text: '看 Wispo', path: '/wispo/' } },
+      { id: 'data', label: '資料與 AI', title: '資料與 AI', scope: '把遙測資料變成看得懂的解釋。', points: ['ACES：資料中心遙測異常偵測，SHAP 逐列歸因', '以 LLM 做根因分析，結果寫回監控平台', '經濟部 AI 智能創新大賞佳作'], link: { text: '看作品', path: '/projects/' } },
+      { id: 'delivery', label: '交付', title: '交付', scope: '把程式從一次提交送到商店或叢集。', points: ['macOS GitLab Runner 打包 iOS 與 Android，上架 App Store 與 Google Play', 'CodePush 熱更新、SonarQube 與 Fortify 弱點掃描、ArgoCD GitOps 部署'], link: { text: '看技術', path: '/stack/' } },
+      { id: 'operations', label: '維運', title: '維運', scope: '上線之後，讓它一直跑下去。', points: ['15 座 Kubernetes 叢集：EKS、AKS、阿里雲與地端', '25 萬+ 註冊帳號、尖峰 3,000 人同時在線', '運算移到 AWS Spot，成本降低約 40%'], link: { text: '關於我', path: '/about/' } },
+    ],
+  },
   contactPage: { title: '聯絡', intro: '想聊工作、專案或技術，都歡迎寫信給我。' },
   hero: {
     word: 'Jimmy',
