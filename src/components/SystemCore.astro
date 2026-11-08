@@ -86,6 +86,17 @@ const { modules } = Astro.props;
     const ledGeo = new THREE.BoxGeometry(0.05, 0.035, 0.012);
     const stripeGeo = new THREE.BoxGeometry(0.035, H - 0.2, 0.02);
     const channelMat = lit();
+    // Rear: vent slats, a power strip with two lights, and three cables dropping to the base.
+    const slatGeo = new THREE.BoxGeometry(W - 0.26, 0.03, 0.02);
+    const pduGeo = new THREE.BoxGeometry(0.07, H - 0.3, 0.035);
+    const rearMat = lit();
+    const pduMat = lit();
+    const cableGeos = [-0.22, -0.08, 0.06].map((cx, k) => new THREE.TubeGeometry(new THREE.CatmullRomCurve3([
+      new THREE.Vector3(cx, 0.55 + k * 0.12, -D / 2 - 0.01),
+      new THREE.Vector3(cx, 0.4 + k * 0.08, -D / 2 - 0.16),
+      new THREE.Vector3(cx * 0.6, 0.12, -D / 2 - 0.32),
+      new THREE.Vector3(cx * 0.3, 0.03, -D / 2 - 0.5),
+    ]), 24, 0.022, 8));
 
     const R = 2.2;
     const racks = defs.map((def, i) => {
@@ -118,6 +129,23 @@ const { modules } = Astro.props;
       stripe.position.set(-W / 2 + 0.07, H / 2, D / 2 + 0.03);
       group.add(stripe);
 
+      for (let s = 0; s < 9; s++) {
+        const slat = new THREE.Mesh(slatGeo, rearMat);
+        slat.position.set(-0.06, 0.62 + s * 0.065, -D / 2 - 0.01);
+        group.add(slat);
+      }
+      const pdu = new THREE.Mesh(pduGeo, pduMat);
+      pdu.position.set(W / 2 - 0.1, H / 2, -D / 2 - 0.02);
+      group.add(pdu);
+      for (let k = 0; k < 2; k++) {
+        const led = new THREE.Mesh(ledGeo, glow());
+        led.position.set(W / 2 - 0.1, H - 0.28 - k * 0.07, -D / 2 - 0.04);
+        group.add(led);
+        leds.push({ mesh: led, rack: i, phase: Math.random() * 10, speed: 0.4 + Math.random() });
+      }
+      const cableMat = lit();
+      cableGeos.forEach((g) => group.add(new THREE.Mesh(g, cableMat)));
+
       // Name tag floats above the rack and always faces the camera, from any angle.
       const tag = new THREE.Sprite(new THREE.SpriteMaterial({ transparent: true }));
       tag.position.y = H + 0.36;
@@ -133,7 +161,7 @@ const { modules } = Astro.props;
       const pulse = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 12), glow());
       pulse.position.y = 0.08;
       rig.add(pulse);
-      return { def, color: COLORS[def.id] ?? '#2f6bff', group, body, units, stripe, tag, x, z, pulse, lift: 0, phase: i / defs.length };
+      return { def, color: COLORS[def.id] ?? '#2f6bff', group, body, units, stripe, tag, cableMat, x, z, pulse, lift: 0, phase: i / defs.length };
     });
 
     let theme: Record<string, string> = {};
@@ -174,6 +202,8 @@ const { modules } = Astro.props;
       set(base, theme.surface);
       set(coreBody, theme.ink);
       channelMat.color.set(theme.line);
+      rearMat.color.set(theme.line);
+      pduMat.color.set(theme.ink);
       racks.forEach((r, i) => {
         const on = i === selected;
         set(r.body, on ? r.color : theme.card);
@@ -184,6 +214,7 @@ const { modules } = Astro.props;
         tm.map = on ? labelTexture(r.def.label, '#0b1a33', r.color, r.color) : labelTexture(r.def.label, theme.ink, theme.card, theme.line);
         tm.needsUpdate = true;
         set(r.pulse, r.color);
+        r.cableMat.color.set(r.color);
       });
       wake();
     };
