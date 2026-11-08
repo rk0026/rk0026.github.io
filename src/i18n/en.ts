@@ -125,7 +125,7 @@ const en: Dict = {
   landing: {
     title: 'One engineer, from the interface to the cluster.',
     lead: 'Eight years of building web and mobile products, shipping them, and running the infrastructure they live on. Pick a module to see the work behind it.',
-    hint: 'Hover or tap a module',
+    hint: 'Drag to rotate · tap a rack',
     modulesLabel: 'System modules',
     modules: [
       { id: 'interface', label: 'Interface', title: 'Interface', scope: 'Web and mobile front ends people use every day.', points: ['One of two lead contributors to a multi-tenant React Native LMS app: 1,650+ commits over four years', 'Core contributor to the Next.js 14 platform and admin console: 900+ commits'], link: { text: 'See projects', path: '/projects/' } },

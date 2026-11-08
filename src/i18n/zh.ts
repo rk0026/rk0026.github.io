@@ -125,7 +125,7 @@ const zh: Dict = {
   landing: {
     title: '一個工程師，從介面一路負責到叢集。',
     lead: '八年來寫 Web 與 App、把它們上架，再維運它們所在的基礎設施。點一個模組，看背後實際做過的事。',
-    hint: '移到模組上或點一下',
+    hint: '拖曳可旋轉 · 點機櫃看內容',
     modulesLabel: '系統模組',
     modules: [
       { id: 'interface', label: '介面', title: '介面', scope: '每天有人在用的 Web 與 App 前端。', points: ['多租戶 React Native 企業學習 App 兩位主要開發者之一：四年 1,650+ 次提交', 'Next.js 14 平台與管理後台核心貢獻者：900+ 次提交'], link: { text: '看作品', path: '/projects/' } },
